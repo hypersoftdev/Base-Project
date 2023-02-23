@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "417016557783",
+    "project_id": "base-project-d5207",
+    "storage_bucket": "base-project-d5207.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:417016557783:android:e65788508a41e02f9b4092",
+        "android_client_info": {
+          "package_name": "com.hypersoft.baseproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "417016557783-v2trboin1s9j3ck4ob8h7t1fta2bi4at.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUVi3ognat-U9fEx5npZysvy9KhTfC3S0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "417016557783-v2trboin1s9j3ck4ob8h7t1fta2bi4at.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
