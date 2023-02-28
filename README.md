@@ -17,7 +17,7 @@ In Base Project we cover up all the topics which are need for clean architecture
 * Tablayout
 * Double Click issue
 * Updated Activity Result
-* Updated Permisssion Utils & Permission Result
+* Updated Permission Utils & Permission Result
 * OnBackpress in activity & Fragment
 
 # LICENSE
