@@ -2,10 +2,12 @@ package com.hypersoft.baseproject.helpers.adapters.binding
 
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.util.Log
 import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
+import com.hypersoft.baseproject.helpers.firebase.FirebaseUtils.recordException
 import java.io.File
 
 /**
@@ -58,10 +60,17 @@ fun ImageView.setImageFromUri(imageUri: Uri?) {
 
 @BindingAdapter("imageFilePath")
 fun ImageView.setImageFromFilePath(imageFilePath: File) {
-    Glide
-        .with(this)
-        .load(imageFilePath.toString())
-        .into(this)
+    try {
+        if (imageFilePath.exists()) {
+            Glide
+                .with(this)
+                .load(imageFilePath.toString())
+                .into(this)
+        }
+    } catch (ex: SecurityException) {
+        Log.e("TAG_ERROR", "setImageFromFilePath: ", ex)
+        ex.recordException("setImageFromFilePath")
+    }
 }
 
 /**
