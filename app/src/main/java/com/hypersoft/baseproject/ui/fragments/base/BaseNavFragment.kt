@@ -51,44 +51,44 @@ abstract class BaseNavFragment : FragmentGeneral() {
     /**
      *     Used launchWhenCreated, bcz of screen rotation
      *     Used launchWhenResumed, bcz of screen rotation
-     * @param fragment_id : Current Fragment's Id (from Nav Graph)
+     * @param fragmentId : Current Fragment's Id (from Nav Graph)
      * @param action : Action / Id of other fragment
      * @param bundle : Pass bundle as a NavArgs to destination.
      */
 
-    protected fun navigateTo(fragment_id: Int, action: Int, bundle: Bundle) {
+    protected fun navigateTo(fragmentId: Int, action: Int, bundle: Bundle) {
         lifecycleScope.launchWhenCreated {
-            if (isAdded && isCurrentDestination(fragment_id)) {
+            if (isAdded && isCurrentDestination(fragmentId)) {
                 findNavController().navigate(action, bundle)
             }
         }
     }
 
-    protected fun navigateTo(fragment_id: Int, action: Int) {
+    protected fun navigateTo(fragmentId: Int, action: Int) {
         lifecycleScope.launchWhenCreated {
-            if (isAdded && isCurrentDestination(fragment_id)) {
+            if (isAdded && isCurrentDestination(fragmentId)) {
                 findNavController().navigate(action)
             }
         }
     }
 
-    protected fun navigateTo(fragment_id: Int, action: NavDirections) {
+    protected fun navigateTo(fragmentId: Int, action: NavDirections) {
         lifecycleScope.launchWhenCreated {
-            if (isAdded && isCurrentDestination(fragment_id)) {
+            if (isAdded && isCurrentDestination(fragmentId)) {
                 findNavController().navigate(action)
             }
         }
     }
 
-    protected fun popFrom(fragment_id: Int) {
+    protected fun popFrom(fragmentId: Int) {
         lifecycleScope.launchWhenCreated {
-            if (isAdded && isCurrentDestination(fragment_id)) {
+            if (isAdded && isCurrentDestination(fragmentId)) {
                 findNavController().popBackStack()
             }
         }
     }
 
-    private fun isCurrentDestination(fragment_id: Int): Boolean {
-        return findNavController().currentDestination?.id == fragment_id
+    private fun isCurrentDestination(fragmentId: Int): Boolean {
+        return findNavController().currentDestination?.id == fragmentId
     }
 }
