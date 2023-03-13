@@ -13,8 +13,6 @@ class FragmentHome : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         binding.mbClickHome.setDebounceClickListener { onContinueClick() }
         binding.mbGalleryHome.setDebounceClickListener { onGalleryClick() }
         binding.mbSampleHome.setDebounceClickListener { onSampleClick() }
-        binding.mbLanguageHome.setDebounceClickListener { onLanguageClick() }
-
 
         EventsProvider.HOME_SCREEN.postFirebaseEvent()
     }
@@ -33,10 +31,6 @@ class FragmentHome : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private fun onSampleClick() {
         navigateTo(R.id.fragmentHome, R.id.action_fragmentHome_to_fragmentSampleResult)
-    }
-
-    private fun onLanguageClick() {
-        navigateTo(R.id.fragmentHome, R.id.action_fragmentHome_to_fragmentLanguage)
     }
 
     override fun navIconBackPressed() {

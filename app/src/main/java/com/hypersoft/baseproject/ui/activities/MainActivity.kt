@@ -11,6 +11,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.hypersoft.baseproject.BuildConfig
+import com.hypersoft.baseproject.MainNavGraphDirections
 import com.hypersoft.baseproject.R
 import com.hypersoft.baseproject.databinding.ActivityMainBinding
 import com.hypersoft.baseproject.helpers.extensions.Extensions.sonicBackPress
@@ -79,6 +80,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     }
 
     private fun initNavDrawerListeners() {
+        binding.includeDrawer.navChangeLanguge.setOnClickListener {
+            binding.drawerLayoutMain.closeDrawer(GravityCompat.START)
+            val action = MainNavGraphDirections.actionFragmentLanguage()
+            navController.navigate(action)
+        }
+
         binding.includeDrawer.navPrivacyPolicy.setOnClickListener {
             binding.drawerLayoutMain.closeDrawer(GravityCompat.START)
             privacyPolicy()
@@ -102,6 +109,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         binding.includeDrawer.navUpdateApp.setOnClickListener {
             binding.drawerLayoutMain.closeDrawer(GravityCompat.START)
             rateUs()
+        }
+
+        binding.includeDrawer.navRemoveAds.setOnClickListener {
+            binding.drawerLayoutMain.closeDrawer(GravityCompat.START)
+            showToast("Action Remove Ads")
         }
     }
 
