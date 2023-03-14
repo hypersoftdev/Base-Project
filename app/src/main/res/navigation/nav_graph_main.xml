@@ -39,7 +39,15 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_fragmentHome_to_fragmentPermissions"
+            app:destination="@id/fragmentPermissions"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
+
     <fragment
         android:id="@+id/fragmentEnlistCountry"
         android:name="com.hypersoft.baseproject.ui.fragments.country.FragmentEnlistCountry"
@@ -105,4 +113,9 @@
         android:name="com.hypersoft.baseproject.ui.fragments.languages.FragmentLanguage"
         android:label="@string/change_language"
         tools:layout="@layout/fragment_language" />
+    <fragment
+        android:id="@+id/fragmentPermissions"
+        android:name="com.hypersoft.baseproject.ui.fragments.permissions.FragmentPermissions"
+        android:label="@string/permission_required"
+        tools:layout="@layout/fragment_permissions"/>
 </navigation>

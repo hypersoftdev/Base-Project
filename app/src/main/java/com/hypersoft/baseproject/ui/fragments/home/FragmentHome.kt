@@ -10,9 +10,10 @@ import com.hypersoft.baseproject.ui.fragments.base.BaseFragment
 class FragmentHome : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     override fun onViewCreatedOneTime() {
-        binding.mbClickHome.setDebounceClickListener { onContinueClick() }
-        binding.mbGalleryHome.setDebounceClickListener { onGalleryClick() }
-        binding.mbSampleHome.setDebounceClickListener { onSampleClick() }
+        binding.btnGalleryScreen.setDebounceClickListener { onGalleryClick() }
+        binding.btnRoomDb.setDebounceClickListener { onRoomDbClick() }
+        binding.btnResultScreen.setDebounceClickListener { onResultClick() }
+        binding.btnPermission.setDebounceClickListener { onPermissionClick() }
 
         EventsProvider.HOME_SCREEN.postFirebaseEvent()
     }
@@ -21,7 +22,7 @@ class FragmentHome : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         // For ViewModels
     }
 
-    private fun onContinueClick() {
+    private fun onRoomDbClick() {
         navigateTo(R.id.fragmentHome, R.id.action_fragmentHome_to_fragmentEnlistCountry)
     }
 
@@ -29,8 +30,12 @@ class FragmentHome : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         navigateTo(R.id.fragmentHome, R.id.action_fragmentHome_to_fragmentPictures)
     }
 
-    private fun onSampleClick() {
+    private fun onResultClick() {
         navigateTo(R.id.fragmentHome, R.id.action_fragmentHome_to_fragmentSampleResult)
+    }
+
+    private fun onPermissionClick() {
+        navigateTo(R.id.fragmentHome, R.id.action_fragmentHome_to_fragmentPermissions)
     }
 
     override fun navIconBackPressed() {
