@@ -14,11 +14,6 @@
     <!--menu_delete-->
     <string name="delete_all_items">تمام آئٹمز حذف کریں</string>
 
-    <!-- _________ UI _________ -->
-
-    <!-- StartScreen -->
-    <string name="start_screen">اسٹارٹ اسکرین</string>
-
     <!--گھر-->
     <string name="room_database">کمرے کا ڈیٹا بیس</string>
     <string name="gallery">گیلری</string>
@@ -48,9 +43,18 @@
     <string name="exit_message">کیا آپ باہر نکلنا چاہتے ہیں؟</string>
     <string name="exit">باہر نکلیں</string>
     <string name="cancel">منسوخ کریں</string>
-    <string name="todo">TODO</string>
     <string name="language_screen">زبان کی سکرین</string>
     <string name="country">ملک</string>
     <string name="_continue">جاری رکھیں</string>
+    <string name="continue_text">جاری رکھیں</string>
+    <string name="select_your_language">اپنی زبان منتخب کریں</string>
+    <string name="ask_for_permission">اجازت طلب کریں</string>
+    <string name="permission_screen">اجازت اسکرین</string>
+    <string name="no_permission_is_granted">کوئی اجازت نہیں دی گئی ہے!</string>
+    <string name="all_permission_granted">تمام اجازتیں کامیابی کے ساتھ دی گئی ہیں!، اب اپنا کام کریں۔</string>
+    <string name="please_grant_permission">براہ کرم نمونے والی چیزوں تک رسائی کی اجازت دیں…</string>
+    <string name="enable">فعال کریں</string>
+    <string name = "allow_permissoin_settings"> آگے بڑھنے کے لیے \'Setting\' سے اجازت دیں</string>
+    <string name="setting">ترتیب</string>
 
 </resources>
