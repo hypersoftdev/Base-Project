@@ -30,6 +30,8 @@
     <string name="rate_us">ہمیں درجہ بندی کریں</string>
     <string name="feedback"> تاثرات</string>
     <string name="update_app">ایپ اپ ڈیٹ کریں</string>
+    <string name="change_language">زبان تبدیل کریں</string>
+    <string name="remove_ads">اشتہارات ہٹائیں</string>
 
     <!--EnlistCountry-->
     <string name="empty_list">کوئی آئٹمز نہیں ملے \n آئٹمز شامل کرنے کے لیے \'+\' پر کلک کریں</string>

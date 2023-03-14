@@ -5,6 +5,14 @@
     android:id="@+id/main_nav_graph"
     app:startDestination="@id/fragmentHome">
 
+    <action
+        android:id="@+id/action_fragmentLanguage"
+        app:destination="@id/fragmentLanguage"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right" />
+
     <fragment
         android:id="@+id/fragmentHome"
         android:name="com.hypersoft.baseproject.ui.fragments.home.FragmentHome"
@@ -31,13 +39,6 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
-        <action
-            android:id="@+id/action_fragmentHome_to_fragmentLanguage"
-            app:destination="@id/fragmentLanguage"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/fragmentEnlistCountry"
@@ -55,6 +56,7 @@
             android:id="@+id/action_fragmentEnlistCountry_to_fragmentCountryDetail"
             app:destination="@id/fragmentCountryDetail" />
     </fragment>
+
     <fragment
         android:id="@+id/fragmentCountry"
         android:name="com.hypersoft.baseproject.ui.fragments.country.FragmentCountry"
@@ -101,6 +103,6 @@
     <fragment
         android:id="@+id/fragmentLanguage"
         android:name="com.hypersoft.baseproject.ui.fragments.languages.FragmentLanguage"
-        android:label="fragment_language"
+        android:label="@string/change_language"
         tools:layout="@layout/fragment_language" />
 </navigation>
