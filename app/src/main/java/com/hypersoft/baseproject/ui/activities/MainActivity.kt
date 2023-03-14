@@ -1,7 +1,6 @@
 package com.hypersoft.baseproject.ui.activities
 
 import android.os.Bundle
-import android.util.Log
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
@@ -16,6 +15,7 @@ import com.hypersoft.baseproject.R
 import com.hypersoft.baseproject.databinding.ActivityMainBinding
 import com.hypersoft.baseproject.helpers.extensions.Extensions.sonicBackPress
 import com.hypersoft.baseproject.helpers.utils.CleanMemory
+import com.hypersoft.baseproject.helpers.utils.CleanMemory.isActivityRecreated
 import com.hypersoft.baseproject.helpers.utils.SettingUtils.feedback
 import com.hypersoft.baseproject.helpers.utils.SettingUtils.privacyPolicy
 import com.hypersoft.baseproject.helpers.utils.SettingUtils.rateUs
@@ -64,8 +64,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     private fun initNavListener() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.fragmentHome -> lockDrawer(false)
-                else -> lockDrawer(true)
+                R.id.fragmentHome -> {
+                    lockDrawer(false)
+                    setToolbarIcon(R.drawable.ic_nav_option)
+                }
+                else -> {
+                    lockDrawer(true)
+                    setToolbarIcon(R.drawable.ic_nav_back)
+                }
             }
         }
     }
@@ -77,6 +83,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     fun openDrawer() {
         binding.drawerLayoutMain.openDrawer(GravityCompat.START)
+    }
+
+    private fun setToolbarIcon(icon:Int) {
+        binding.toolbarMain.setNavigationIcon(icon)
     }
 
     private fun initNavDrawerListeners() {
@@ -146,8 +156,18 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
      *  This destroys all the resources
      */
 
+
+    override fun onRecreate() {
+        isActivityRecreated = true
+        recreate()
+    }
+
     override fun onDestroy() {
-        CleanMemory.clean()
+        if (!isActivityRecreated){
+            CleanMemory.clean()
+        }else{
+            isActivityRecreated = false
+        }
         super.onDestroy()
     }
 }

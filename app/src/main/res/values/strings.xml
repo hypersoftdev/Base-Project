@@ -51,6 +51,8 @@
     <string name="language_screen">Language Screen</string>
     <string name="country">Country</string>
     <string name="_continue">Continue</string>
+    <string name="continue_text">Continue</string>
+    <string name="select_your_language">Select your language</string>
 
 
 </resources>

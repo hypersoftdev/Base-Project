@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import java.io.File
@@ -92,4 +93,21 @@ fun ImageView.setImageFromAssets(imageAsset: String) {
         .with(this)
         .load(Uri.parse("file:///android_asset/flags/$imageAsset.webp"))
         .into(this)
+}
+
+/**
+ * @param: tintImg -> Set attribute tint color for this
+ *  Syntax:
+ *      xml     ->    app:tintImg="@{item.isSelected}"
+ */
+@BindingAdapter("tintImg")
+fun ImageView.setImageTint(isSelected:Boolean) {
+//    if (isSelected){
+//        val typedArray = context.theme.obtainStyledAttributes(intArrayOf(R.attr.colorFromAttribute))
+//        val textColor = typedArray.getColor(0, 0)
+//        typedArray.recycle()
+//        setColorFilter(textColor)
+//    }else{
+//        setColorFilter(ContextCompat.getColor(context, R.color.normalColor))
+//    }
 }
