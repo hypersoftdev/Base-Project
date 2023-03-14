@@ -19,6 +19,7 @@ In Base Project we cover up all the topics which are need for clean architecture
 * Updated Activity Result
 * Updated Permission Utils & Permission Result
 * OnBackpress in activity & Fragment
+* Permissions
 
 # LICENSE
 
