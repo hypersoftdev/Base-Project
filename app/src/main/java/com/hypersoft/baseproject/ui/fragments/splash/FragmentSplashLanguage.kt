@@ -51,11 +51,6 @@ class FragmentSplashLanguage : BaseFragment<FragmentSplashLanguageBinding>(R.lay
         }
     }
 
-    override fun navIconBackPressed() {
-        onBackPressed()
-    }
-
-    override fun onBackPressed() {
-        popFrom(R.id.fragmentLanguage)
-    }
+    override fun navIconBackPressed() {}
+    override fun onBackPressed() {}
 }
