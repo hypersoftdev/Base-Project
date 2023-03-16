@@ -14,6 +14,7 @@ import com.hypersoft.baseproject.MainNavGraphDirections
 import com.hypersoft.baseproject.R
 import com.hypersoft.baseproject.databinding.ActivityMainBinding
 import com.hypersoft.baseproject.helpers.extensions.Extensions.sonicBackPress
+import com.hypersoft.baseproject.helpers.listeners.DebounceListener.setDebounceClickListener
 import com.hypersoft.baseproject.helpers.utils.CleanMemory
 import com.hypersoft.baseproject.helpers.utils.CleanMemory.isActivityRecreated
 import com.hypersoft.baseproject.helpers.utils.SettingUtils.feedback
@@ -90,38 +91,38 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     }
 
     private fun initNavDrawerListeners() {
-        binding.includeDrawer.navChangeLanguge.setOnClickListener {
+        binding.includeDrawer.navChangeLanguge.setDebounceClickListener {
             binding.drawerLayoutMain.closeDrawer(GravityCompat.START)
             val action = MainNavGraphDirections.actionFragmentLanguage()
             navController.navigate(action)
         }
 
-        binding.includeDrawer.navPrivacyPolicy.setOnClickListener {
+        binding.includeDrawer.navPrivacyPolicy.setDebounceClickListener {
             binding.drawerLayoutMain.closeDrawer(GravityCompat.START)
             privacyPolicy()
         }
 
-        binding.includeDrawer.navShareApp.setOnClickListener {
+        binding.includeDrawer.navShareApp.setDebounceClickListener {
             binding.drawerLayoutMain.closeDrawer(GravityCompat.START)
             shareApp()
         }
 
-        binding.includeDrawer.navRateUs.setOnClickListener {
+        binding.includeDrawer.navRateUs.setDebounceClickListener {
             binding.drawerLayoutMain.closeDrawer(GravityCompat.START)
             rateUs()
         }
 
-        binding.includeDrawer.navFeedback.setOnClickListener {
+        binding.includeDrawer.navFeedback.setDebounceClickListener {
             binding.drawerLayoutMain.closeDrawer(GravityCompat.START)
             feedback()
         }
 
-        binding.includeDrawer.navUpdateApp.setOnClickListener {
+        binding.includeDrawer.navUpdateApp.setDebounceClickListener {
             binding.drawerLayoutMain.closeDrawer(GravityCompat.START)
             rateUs()
         }
 
-        binding.includeDrawer.navRemoveAds.setOnClickListener {
+        binding.includeDrawer.navRemoveAds.setDebounceClickListener {
             binding.drawerLayoutMain.closeDrawer(GravityCompat.START)
             showToast("Action Remove Ads")
         }
