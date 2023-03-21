@@ -59,12 +59,11 @@ object Extensions {
 
     /**
      *  -> e.g. frameLayout.addCleanView(adView)
-     *
      * @param  view: Here AdView is Child
      */
 
-    fun ViewGroup.addCleanView(view: View) {
-        (view as ViewGroup?)?.removeView(view)
+    fun ViewGroup.addCleanView(view: View?) {
+        (view?.parent as? ViewGroup)?.removeView(view)
         this.removeAllViews()
         this.addView(view)
     }
