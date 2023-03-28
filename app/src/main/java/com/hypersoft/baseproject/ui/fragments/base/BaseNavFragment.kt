@@ -88,6 +88,14 @@ abstract class BaseNavFragment : FragmentGeneral() {
         }
     }
 
+    protected fun popFrom(fragmentId: Int, destinationFragmentId: Int, inclusive: Boolean = false) {
+        lifecycleScope.launchWhenCreated {
+            if (isAdded && isCurrentDestination(fragmentId)) {
+                findNavController().popBackStack(destinationFragmentId, inclusive)
+            }
+        }
+    }
+
     private fun isCurrentDestination(fragmentId: Int): Boolean {
         return findNavController().currentDestination?.id == fragmentId
     }
