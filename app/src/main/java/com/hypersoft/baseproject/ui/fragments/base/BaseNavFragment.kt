@@ -3,10 +3,15 @@ package com.hypersoft.baseproject.ui.fragments.base
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.withCreated
+import androidx.lifecycle.withResumed
+import androidx.lifecycle.withStarted
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
+import kotlinx.coroutines.launch
 
 abstract class BaseNavFragment : FragmentGeneral() {
 
@@ -57,7 +62,7 @@ abstract class BaseNavFragment : FragmentGeneral() {
      */
 
     protected fun navigateTo(fragmentId: Int, action: Int, bundle: Bundle) {
-        lifecycleScope.launchWhenCreated {
+        launchWhenCreated {
             if (isAdded && isCurrentDestination(fragmentId)) {
                 findNavController().navigate(action, bundle)
             }
@@ -65,7 +70,7 @@ abstract class BaseNavFragment : FragmentGeneral() {
     }
 
     protected fun navigateTo(fragmentId: Int, action: Int) {
-        lifecycleScope.launchWhenCreated {
+        launchWhenCreated {
             if (isAdded && isCurrentDestination(fragmentId)) {
                 findNavController().navigate(action)
             }
@@ -73,7 +78,7 @@ abstract class BaseNavFragment : FragmentGeneral() {
     }
 
     protected fun navigateTo(fragmentId: Int, action: NavDirections) {
-        lifecycleScope.launchWhenCreated {
+        launchWhenCreated {
             if (isAdded && isCurrentDestination(fragmentId)) {
                 findNavController().navigate(action)
             }
@@ -81,7 +86,7 @@ abstract class BaseNavFragment : FragmentGeneral() {
     }
 
     protected fun popFrom(fragmentId: Int) {
-        lifecycleScope.launchWhenCreated {
+        launchWhenCreated {
             if (isAdded && isCurrentDestination(fragmentId)) {
                 findNavController().popBackStack()
             }
@@ -89,7 +94,7 @@ abstract class BaseNavFragment : FragmentGeneral() {
     }
 
     protected fun popFrom(fragmentId: Int, destinationFragmentId: Int, inclusive: Boolean = false) {
-        lifecycleScope.launchWhenCreated {
+        launchWhenCreated {
             if (isAdded && isCurrentDestination(fragmentId)) {
                 findNavController().popBackStack(destinationFragmentId, inclusive)
             }
@@ -98,5 +103,17 @@ abstract class BaseNavFragment : FragmentGeneral() {
 
     private fun isCurrentDestination(fragmentId: Int): Boolean {
         return findNavController().currentDestination?.id == fragmentId
+    }
+
+    fun launchWhenCreated(callback: () -> Unit) {
+        lifecycleScope.launch { lifecycle.withCreated(callback) }
+    }
+
+    fun launchWhenStarted(callback: () -> Unit) {
+        lifecycleScope.launch { lifecycle.withStarted(callback) }
+    }
+
+    fun launchWhenResumed(callback: () -> Unit) {
+        lifecycleScope.launch { lifecycle.withResumed(callback) }
     }
 }
