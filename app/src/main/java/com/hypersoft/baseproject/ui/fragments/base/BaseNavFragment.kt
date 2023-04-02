@@ -105,15 +105,15 @@ abstract class BaseNavFragment : FragmentGeneral() {
         return findNavController().currentDestination?.id == fragmentId
     }
 
-    fun launchWhenCreated(callback: () -> Unit) {
+    protected fun launchWhenCreated(callback: () -> Unit) {
         lifecycleScope.launch { lifecycle.withCreated(callback) }
     }
 
-    fun launchWhenStarted(callback: () -> Unit) {
+    protected fun launchWhenStarted(callback: () -> Unit) {
         lifecycleScope.launch { lifecycle.withStarted(callback) }
     }
 
-    fun launchWhenResumed(callback: () -> Unit) {
+    protected fun launchWhenResumed(callback: () -> Unit) {
         lifecycleScope.launch { lifecycle.withResumed(callback) }
     }
 }
