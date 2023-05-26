@@ -16,7 +16,6 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
 
     private fun checkCaseType() {
         navigateScreen()
-
     }
 
     fun nextActivity(){

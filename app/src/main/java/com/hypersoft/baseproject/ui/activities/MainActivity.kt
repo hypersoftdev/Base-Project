@@ -1,6 +1,7 @@
 package com.hypersoft.baseproject.ui.activities
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
@@ -15,6 +16,7 @@ import com.hypersoft.baseproject.R
 import com.hypersoft.baseproject.databinding.ActivityMainBinding
 import com.hypersoft.baseproject.helpers.extensions.Extensions.sonicBackPress
 import com.hypersoft.baseproject.helpers.listeners.DebounceListener.setDebounceClickListener
+import com.hypersoft.baseproject.helpers.observer.MediaContentObserver
 import com.hypersoft.baseproject.helpers.utils.CleanMemory
 import com.hypersoft.baseproject.helpers.utils.CleanMemory.isActivityRecreated
 import com.hypersoft.baseproject.helpers.utils.SettingUtils.feedback
@@ -28,6 +30,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
+    private lateinit var mediaContentObserver: MediaContentObserver
 
     /**
      *  No need to setContentView()
@@ -41,6 +44,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         registerBackPressDispatcher()
         initNavListener()
         initNavDrawerListeners()
+        initMediaObserver()
     }
 
     private fun setUI() {
@@ -69,6 +73,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                     lockDrawer(false)
                     setToolbarIcon(R.drawable.ic_nav_option)
                 }
+
                 else -> {
                     lockDrawer(true)
                     setToolbarIcon(R.drawable.ic_nav_back)
@@ -86,7 +91,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         binding.drawerLayoutMain.openDrawer(GravityCompat.START)
     }
 
-    private fun setToolbarIcon(icon:Int) {
+    private fun setToolbarIcon(icon: Int) {
         binding.toolbarMain.setNavigationIcon(icon)
     }
 
@@ -163,12 +168,20 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         recreate()
     }
 
+    private fun initMediaObserver() {
+        mediaContentObserver = MediaContentObserver(contentResolver) {
+            Toast.makeText(this, "Data has been updated", Toast.LENGTH_SHORT).show()
+        }
+        mediaContentObserver.register()
+    }
+
     override fun onDestroy() {
-        if (!isActivityRecreated){
+        if (!isActivityRecreated) {
             CleanMemory.clean()
-        }else{
+        } else {
             isActivityRecreated = false
         }
         super.onDestroy()
+        mediaContentObserver.unregister()
     }
 }
