@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.SearchManager
 import android.content.*
 import android.net.Uri
+import androidx.fragment.app.Fragment
 import com.hypersoft.baseproject.R
 import com.hypersoft.baseproject.helpers.firebase.FirebaseUtils.recordException
 
@@ -144,6 +145,16 @@ object SettingUtils {
                 it.startActivity(intentTranslate)
             } catch (ex: Exception) {
                 ex.recordException("translateDate")
+            }
+        }
+    }
+
+    fun Fragment.openSubscriptions() {
+        context?.let {
+            try {
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/account/subscriptions?package=${it.packageName}")));
+            } catch (ex: ActivityNotFoundException) {
+                ex.recordException("openSubscriptions")
             }
         }
     }
