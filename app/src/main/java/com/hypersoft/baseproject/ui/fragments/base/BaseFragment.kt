@@ -38,7 +38,7 @@ abstract class BaseFragment<T : ViewDataBinding>(@LayoutRes private val layoutId
     private var hasInitializedRootView = false
     private var rootView: View? = null
 
-    val diComponent = DIComponent()
+    protected val diComponent by lazy { DIComponent() }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         rootView?.let {
