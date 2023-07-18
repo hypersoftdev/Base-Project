@@ -80,6 +80,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx'
     // Firebase Crashlytics (Kotlin)
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    // Firebase Performance (Kotlin)
+    implementation 'com.google.firebase:firebase-perf-ktx'
 
     // View Model
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
