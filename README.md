@@ -7,14 +7,8 @@ In Base Project we cover up all the topics which are need for clean architecture
 * Coroutines 
 * Dependency Injection (Koin)
 * Firebase (Analytics, Crashlytics, RemoteConfig)
-* Custom DarkMode Theme
-* Billing
 * App Language 
 * DiffUtils
-* Room Database
-* Media Access
-* Bottom Navigation
-* Tablayout
 * Double Click issue
 * Updated Activity Result
 * Updated Permission Utils & Permission Result
