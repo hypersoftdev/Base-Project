@@ -1,7 +1,6 @@
 package com.hypersoft.baseproject.ui.activities
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
@@ -15,8 +14,7 @@ import com.hypersoft.baseproject.MainNavGraphDirections
 import com.hypersoft.baseproject.R
 import com.hypersoft.baseproject.databinding.ActivityMainBinding
 import com.hypersoft.baseproject.helpers.extensions.Extensions.sonicBackPress
-import com.hypersoft.baseproject.helpers.listeners.DebounceListener.setDebounceClickListener
-import com.hypersoft.baseproject.helpers.observer.MediaContentObserver
+import com.hypersoft.baseproject.commons.listeners.DebounceListener.setDebounceClickListener
 import com.hypersoft.baseproject.helpers.utils.CleanMemory
 import com.hypersoft.baseproject.helpers.utils.CleanMemory.isActivityRecreated
 import com.hypersoft.baseproject.helpers.utils.SettingUtils.feedback
@@ -30,7 +28,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var mediaContentObserver: MediaContentObserver
 
     /**
      *  No need to setContentView()
@@ -44,7 +41,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         registerBackPressDispatcher()
         initNavListener()
         initNavDrawerListeners()
-        initMediaObserver()
     }
 
     private fun setUI() {
@@ -168,13 +164,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         recreate()
     }
 
-    private fun initMediaObserver() {
-        mediaContentObserver = MediaContentObserver(contentResolver) {
-            Toast.makeText(this, "Data has been updated", Toast.LENGTH_SHORT).show()
-        }
-        mediaContentObserver.register()
-    }
-
     override fun onDestroy() {
         if (!isActivityRecreated) {
             CleanMemory.clean()
@@ -182,6 +171,5 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             isActivityRecreated = false
         }
         super.onDestroy()
-        mediaContentObserver.unregister()
     }
 }

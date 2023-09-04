@@ -22,9 +22,21 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    bundle {
+        language {
+            enableSplit = false
+        }
+    }
+
     buildTypes {
-        release {
+        debug {
             minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        release {
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -36,8 +48,8 @@ android {
         jvmTarget = '17'
     }
     buildFeatures {
-        dataBinding true
         viewBinding true
+        dataBinding true
         buildConfig true
     }
 }
@@ -66,12 +78,6 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
 
-    // Room components
-    implementation "androidx.room:room-runtime:2.5.1"
-    implementation "androidx.room:room-ktx:2.5.1"
-    kapt "androidx.room:room-compiler:2.5.1"
-    androidTestImplementation "androidx.room:room-testing:2.5.1"
-
     // firebase configuration
     implementation platform('com.google.firebase:firebase-bom:32.1.0')
     // Firebase Remote Config (Kotlin)
@@ -94,6 +100,6 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.15.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
 
-    // required to avoid crash on Android 12 API 31
+    // Work
     implementation 'androidx.work:work-runtime-ktx:2.8.1'
 }

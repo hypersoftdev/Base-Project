@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_entrance">
+
+    <fragment
+        android:id="@+id/fragmentEntrance"
+        android:name="com.hypersoft.baseproject.ui.fragments.entrance.FragmentEntrance"
+        android:label="fragment_splash"
+        tools:layout="@layout/fragment_entrance">
+        <action
+            android:id="@+id/action_fragmentEntrance_to_fragmentEntranceLanguage"
+            app:destination="@id/fragmentEntranceLanguage"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/fragmentEntrance"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentEntranceStart"
+        android:name="com.hypersoft.baseproject.ui.fragments.entrance.FragmentEntranceStart"
+        android:label="fragment_entrance_start"
+        tools:layout="@layout/fragment_entrance_start">
+        <action
+            android:id="@+id/action_fragmentEntranceStart_to_fragmentEntranceLanguage"
+            app:destination="@id/fragmentEntranceLanguage"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/fragmentEntranceStart"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentEntranceLanguage"
+        android:name="com.hypersoft.baseproject.ui.fragments.entrance.FragmentEntranceLanguage"
+        android:label="@string/change_language"
+        tools:layout="@layout/fragment_entrance_language" />
+</navigation>

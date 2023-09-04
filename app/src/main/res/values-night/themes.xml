@@ -12,7 +12,6 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-        <item name="android:fontFamily">@font/poppins</item>
         <item name="android:listDivider">@color/colorPrimary</item>
         <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
     </style>
@@ -34,7 +33,6 @@
     </style>
 
     <style name="ToolbarTextAppearance">
-        <item name="android:fontFamily">@font/poppins</item>
         <item name="titleTextColor">@color/white</item>
         <item name="android:textSize">@dimen/_14ssp</item>
     </style>

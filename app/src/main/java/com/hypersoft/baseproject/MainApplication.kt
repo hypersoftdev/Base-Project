@@ -2,7 +2,7 @@ package com.hypersoft.baseproject
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
-import com.hypersoft.baseproject.helpers.koin.modulesList
+import com.hypersoft.baseproject.commons.koin.modulesList
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 

@@ -13,7 +13,7 @@ import androidx.core.content.ContextCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.hypersoft.baseproject.R
 import com.hypersoft.baseproject.databinding.FragmentPermissionsBinding
-import com.hypersoft.baseproject.helpers.listeners.DebounceListener.setDebounceClickListener
+import com.hypersoft.baseproject.commons.listeners.DebounceListener.setDebounceClickListener
 import com.hypersoft.baseproject.ui.fragments.base.BaseFragment
 
 class FragmentPermissions : BaseFragment<FragmentPermissionsBinding>(R.layout.fragment_permissions) {
@@ -149,7 +149,7 @@ class FragmentPermissions : BaseFragment<FragmentPermissionsBinding>(R.layout.fr
         val builder = context?.let {
             MaterialAlertDialogBuilder(it)
                 .setTitle(getResString(R.string.permission_required))
-                .setMessage(getResString(R.string.allow_permissoin_settings))
+                .setMessage(getResString(R.string.allow_permission_settings))
                 .setCancelable(false)
                 .setPositiveButton(getResString(R.string.setting)) { dialogInterface, _ ->
                     dialogInterface.dismiss()

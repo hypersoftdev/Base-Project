@@ -8,15 +8,7 @@
 
     <string name="header_image">Header Image</string>
 
-    <!-- _________ Menu _________ -->
-
-    <!--menu_delete-->
-    <string name="delete_all_items">Delete All Items</string>
-
-
     <!--Home-->
-    <string name="room_database">Room Database</string>
-    <string name="gallery">Gallery</string>
     <string name="activity_result">Activity Results</string>
 
     <!-- nav_drawer_content -->
@@ -28,8 +20,6 @@
     <string name="change_language">Change Language</string>
     <string name="remove_ads">Remove Ads</string>
 
-    <!--EnlistCountry-->
-    <string name="empty_list">No Items Found \n Click \'+\' to add items</string>
 
     <!-- FragmentSampleResult -->
     <string name="counter_activity">Counter Activity</string>
@@ -45,8 +35,6 @@
     <string name="exit">Exit</string>
     <string name="cancel">Cancel</string>
     <string name="language_screen">Language Screen</string>
-    <string name="country">Country</string>
-    <string name="_continue">Continue</string>
     <string name="continue_text">Continue</string>
     <string name="select_your_language">Select your language</string>
     <string name="ask_for_permission">Ask For Permission</string>
@@ -55,7 +43,7 @@
     <string name="all_permission_granted">All Permissions are successfully granted!, Now do your work.</string>
     <string name="please_grant_permission">Please grant permission to access sample things…</string>
     <string name="enable">Enable</string>
-    <string name="allow_permissoin_settings">Allow permission from \'Setting\' to proceed</string>
+    <string name="allow_permission_settings">Allow permission from \'Setting\' to proceed</string>
     <string name="setting">Setting</string>
 
 

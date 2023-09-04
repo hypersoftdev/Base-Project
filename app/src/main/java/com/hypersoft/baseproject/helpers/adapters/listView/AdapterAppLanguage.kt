@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import com.hypersoft.baseproject.R
-import com.hypersoft.baseproject.databinding.ItemSplashLanguageBinding
-import com.hypersoft.baseproject.helpers.dataModels.LanguageItem
+import com.hypersoft.baseproject.commons.models.LanguageItem
+import com.hypersoft.baseproject.databinding.ItemSpinnerLanguageBinding
 
 class AdapterLanguage(context: Context, languages: List<LanguageItem>) : ArrayAdapter<LanguageItem>(context, 0, languages) {
 
@@ -22,7 +22,7 @@ class AdapterLanguage(context: Context, languages: List<LanguageItem>) : ArrayAd
 
     private fun createItemView(position: Int, parent: ViewGroup): View {
         val item = getItem(position)
-        val binding = DataBindingUtil.inflate<ItemSplashLanguageBinding>(LayoutInflater.from(context), R.layout.item_splash_language, parent, false)
+        val binding = DataBindingUtil.inflate<ItemSpinnerLanguageBinding>(LayoutInflater.from(context), R.layout.item_spinner_language, parent, false)
         binding.item = item
         return binding.root
     }

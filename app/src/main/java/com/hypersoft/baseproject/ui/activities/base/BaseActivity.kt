@@ -15,7 +15,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.hypersoft.baseproject.BuildConfig
 import com.hypersoft.baseproject.helpers.firebase.FirebaseUtils.recordException
-import com.hypersoft.baseproject.helpers.koin.DIComponent
+import com.hypersoft.baseproject.commons.koin.DIComponent
 import com.hypersoft.baseproject.helpers.utils.LocaleHelper
 
 abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes layoutId: Int) : AppCompatActivity() {

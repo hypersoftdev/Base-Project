@@ -41,7 +41,7 @@
                 android:id="@+id/act_drop_down_language"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/country"
+                android:hint="@string/change_language"
                 android:inputType="none" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -51,7 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:text="@string/_continue"
+            android:text="@string/continue_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tl_drop_down_language" />

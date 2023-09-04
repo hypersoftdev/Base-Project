@@ -20,9 +20,7 @@
 # hide the original source file name.
 -renamesourcefileattribute SourceFile
 
--keep public class com.hypersoft.baseproject.helpers.datamodel.**
--keep public class com.hypersoft.baseproject.roomdb.tables.**
--keep public class com.hypersoft.baseproject.gallery.helper.models.**
+-keep public class com.hypersoft.baseproject.commons.models.**
 
 -keepnames class * extends android.os.Parcelable
 -keepnames class * extends java.io.Serializable

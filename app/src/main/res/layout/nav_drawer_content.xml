@@ -84,7 +84,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_drawer_item"
-                    android:fontFamily="@font/poppins"
                     android:text="@string/feedback"
                     app:drawableStartCompat="@drawable/ic_nav_feedback_30" />
                 <TextView

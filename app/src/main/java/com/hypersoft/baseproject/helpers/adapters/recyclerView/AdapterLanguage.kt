@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.hypersoft.baseproject.R
 import com.hypersoft.baseproject.databinding.ItemLanguageBinding
-import com.hypersoft.baseproject.helpers.dataModels.LanguageItem
-import com.hypersoft.baseproject.helpers.interfaces.OnLanguageItemClickListener
+import com.hypersoft.baseproject.commons.models.LanguageItem
+import com.hypersoft.baseproject.commons.interfaces.OnLanguageItemClickListener
 
 class AdapterLanguage(private val onLanguageItemClickListener: OnLanguageItemClickListener) : ListAdapter<LanguageItem, AdapterLanguage.CustomViewHolder>(diffUtilLanguageItem) {
 
