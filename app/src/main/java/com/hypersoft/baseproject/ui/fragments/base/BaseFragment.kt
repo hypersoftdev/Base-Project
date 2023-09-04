@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import com.hypersoft.baseproject.helpers.koin.DIComponent
+import com.hypersoft.baseproject.commons.koin.DIComponent
 import com.hypersoft.baseproject.ui.activities.MainActivity
 
 abstract class BaseFragment<T : ViewDataBinding>(@LayoutRes private val layoutId: Int) : BaseNavFragment() {

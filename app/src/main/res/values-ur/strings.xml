@@ -11,12 +11,9 @@
 
     <!-- _________ مینو _________ -->
 
-    <!--menu_delete-->
-    <string name="delete_all_items">تمام آئٹمز حذف کریں</string>
+
 
     <!--گھر-->
-    <string name="room_database">کمرے کا ڈیٹا بیس</string>
-    <string name="gallery">گیلری</string>
     <string name="activity_result"><![CDATA[سرگرمی کے نتائج]]></string>
 
     <!-- nav_drawer_content -->
@@ -27,9 +24,6 @@
     <string name="update_app">ایپ اپ ڈیٹ کریں</string>
     <string name="change_language">زبان تبدیل کریں</string>
     <string name="remove_ads">اشتہارات ہٹائیں</string>
-
-    <!--EnlistCountry-->
-    <string name="empty_list">کوئی آئٹمز نہیں ملے \n آئٹمز شامل کرنے کے لیے \'+\' پر کلک کریں</string>
 
     <!-- FragmentSampleResult -->
     <string name="counter_activity"> انسداد سرگرمی</string>
@@ -44,8 +38,6 @@
     <string name="exit">باہر نکلیں</string>
     <string name="cancel">منسوخ کریں</string>
     <string name="language_screen">زبان کی سکرین</string>
-    <string name="country">ملک</string>
-    <string name="_continue">جاری رکھیں</string>
     <string name="continue_text">جاری رکھیں</string>
     <string name="select_your_language">اپنی زبان منتخب کریں</string>
     <string name="ask_for_permission">اجازت طلب کریں</string>
@@ -54,7 +46,7 @@
     <string name="all_permission_granted">تمام اجازتیں کامیابی کے ساتھ دی گئی ہیں!، اب اپنا کام کریں۔</string>
     <string name="please_grant_permission">براہ کرم نمونے والی چیزوں تک رسائی کی اجازت دیں…</string>
     <string name="enable">فعال کریں</string>
-    <string name = "allow_permissoin_settings"> آگے بڑھنے کے لیے \'Setting\' سے اجازت دیں</string>
+    <string name = "allow_permission_settings"> آگے بڑھنے کے لیے \'Setting\' سے اجازت دیں</string>
     <string name="setting">ترتیب</string>
 
 </resources>
