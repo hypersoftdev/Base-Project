@@ -30,6 +30,3 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-
-
-https://www.figma.com/file/HWyxNRvW7EI73tlQFTh59J/GPS-Navigation?type=design&node-id=0-1&mode=design&t=cKojrZflDDPwifQJ-0
