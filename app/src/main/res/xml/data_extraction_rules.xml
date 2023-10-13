@@ -4,16 +4,31 @@
    for details.
 -->
 <data-extraction-rules>
-    <cloud-backup>
+    <cloud-backup disableIfNoEncryptionCapabilities="true">
+
         <!-- TODO: Use <include> and <exclude> to control what is backed up.
-        <include .../>
-        <exclude .../>
-        -->
+        * By default, we exclude all five available domains from backup.
+        * But, since the app backup is the most important part of the app.
+        * So, just use <include> tag in the place of exclude, so that domain be backed up in the google drive.
+        * disableIfNoEncryptionCapabilities="true">: Only allow cloud backups if e2e encryption is available.
+        means the user has secured has phone by using any pin, pattern,or password etc.
+     -->
+
+        <exclude domain="sharedpref" path="."/> // the directory where SharedPreferences are stored
+        <exclude domain="database" path="."/> // directories returned by getDatabasePath(). Databases created with SQLiteOpenHelper are stored here
+        <exclude domain="file" path="."/> // directories returned by getFilesDir().
+        <exclude domain="root" path="."/> // the directory on the filesystem where all private files belonging to this app are stored.
+        <exclude domain="external" path="."/> // the directory returned by getExternalFilesDir().
+
     </cloud-backup>
-    <!--
+
     <device-transfer>
-        <include .../>
-        <exclude .../>
+        <!-- For D2D transfer, rules are the same -->
+        <exclude domain="sharedpref" path="."/> // the directory where SharedPreferences are stored
+        <exclude domain="database" path="."/> // directories returned by getDatabasePath(). Databases created with SQLiteOpenHelper are stored here
+        <exclude domain="file" path="."/> // directories returned by getFilesDir().
+        <exclude domain="root" path="."/> // the directory on the filesystem where all private files belonging to this app are stored.
+        <exclude domain="external" path="."/> // the directory returned by getExternalFilesDir().
     </device-transfer>
-    -->
+
 </data-extraction-rules>
