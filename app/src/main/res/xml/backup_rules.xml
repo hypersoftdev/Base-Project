@@ -15,10 +15,19 @@
         i.e <include domain="sharedpref" path="." requireFlags="clientSideEncryption"/>
      -->
 
-   <exclude domain="sharedpref" path="."/> // the directory where SharedPreferences are stored
-   <exclude domain="database" path="."/> // directories returned by getDatabasePath(). Databases created with SQLiteOpenHelper are stored here
-   <exclude domain="file" path="."/> // directories returned by getFilesDir().
-   <exclude domain="root" path="."/> // the directory on the filesystem where all private files belonging to this app are stored.
-   <exclude domain="external" path="."/> // the directory returned by getExternalFilesDir().
+<!--   the directory where SharedPreferences are stored-->
+   <exclude domain="sharedpref" path="."/>
+
+<!--   directories returned by getDatabasePath(). Databases created with SQLiteOpenHelper are stored here-->
+   <exclude domain="database" path="."/>
+
+<!--   directories returned by getFilesDir().-->
+   <exclude domain="file" path="."/>
+
+<!--   the directory on the filesystem where all private files belonging to this app are stored.-->
+   <exclude domain="root" path="."/>
+
+<!--   the directory returned by getExternalFilesDir().-->
+   <exclude domain="external" path="."/>
 
 </full-backup-content>
