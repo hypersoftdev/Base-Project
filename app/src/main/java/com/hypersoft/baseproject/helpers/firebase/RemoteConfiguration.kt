@@ -1,7 +1,9 @@
 package com.hypersoft.baseproject.helpers.firebase
 
+import android.content.SharedPreferences
 import android.util.Log
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.get
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
@@ -11,7 +13,8 @@ import com.hypersoft.baseproject.helpers.firebase.RemoteConstants.INTER_SPLASH_K
 import com.hypersoft.baseproject.helpers.firebase.RemoteConstants.NATIVE_SPLASH_KEY
 import com.hypersoft.baseproject.helpers.managers.InternetManager
 
-class RemoteConfiguration(private val internetManager: InternetManager) {
+class RemoteConfiguration(private val internetManager: InternetManager,
+                          private val sharedPreferences: SharedPreferences) {
 
     private val configTag = "TAG_REMOTE_CONFIG"
 
@@ -53,10 +56,27 @@ class RemoteConfiguration(private val internetManager: InternetManager) {
     private fun updateRemoteValues(callback: (fetchSuccessfully: Boolean) -> Unit) {
         val remoteConfig = Firebase.remoteConfig
 
-        RemoteConstants.rcvInterSplash = remoteConfig[INTER_SPLASH_KEY].asLong().toInt()
-        RemoteConstants.rcvNativeSplash = remoteConfig[NATIVE_SPLASH_KEY].asLong().toInt()
-
+        setPrefRemoteValues(remoteConfig)
+        getPrefRemoteValues()
         Log.d(configTag, "checkRemoteConfig: Fetched Successfully")
         callback.invoke(true)
+    }
+
+    fun getPrefRemoteValues() {
+        RemoteConstants.rcvInterSplash = sharedPreferences.getInt(INTER_SPLASH_KEY, 0)
+        RemoteConstants.rcvNativeSplash = sharedPreferences.getInt(NATIVE_SPLASH_KEY, 0)
+    }
+
+    @Throws(Exception::class)
+    private fun setPrefRemoteValues(remoteConfig: FirebaseRemoteConfig) {
+        sharedPreferences.edit().apply {
+            putInt(INTER_SPLASH_KEY, remoteConfig[INTER_SPLASH_KEY].asLong().toInt())
+            apply()
+        }
+
+        sharedPreferences.edit().apply {
+            putInt(NATIVE_SPLASH_KEY, remoteConfig[NATIVE_SPLASH_KEY].asLong().toInt())
+            apply()
+        }
     }
 }

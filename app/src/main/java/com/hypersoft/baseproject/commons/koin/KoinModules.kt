@@ -19,7 +19,7 @@ private val utilsModules = module {
 }
 
 private val firebaseModule = module {
-    single { RemoteConfiguration(get()) }
+    single { RemoteConfiguration(get(),get()) }
 }
 
 val modulesList = listOf(utilsModules, managerModules, firebaseModule)

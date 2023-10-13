@@ -22,7 +22,7 @@ import kotlin.math.abs
 
 object Extensions {
 
-    fun AppCompatActivity.sonicBackPress(callback: () -> Unit) {
+    fun AppCompatActivity.goBackPressed(callback: () -> Unit) {
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 callback()
@@ -30,7 +30,7 @@ object Extensions {
         })
     }
 
-    fun FragmentActivity.sonicBackPress(callback: () -> Unit) {
+    fun FragmentActivity.goBackPressed(callback: () -> Unit) {
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 callback()

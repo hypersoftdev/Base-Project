@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import com.hypersoft.baseproject.R
+import com.hypersoft.baseproject.commons.listeners.RapidSafeListener.setOnRapidClickSafeListener
 import com.hypersoft.baseproject.databinding.ActivitySampleResultBinding
 import com.hypersoft.baseproject.ui.activities.base.BaseActivity
 
@@ -12,7 +13,7 @@ class SampleResult : BaseActivity<ActivitySampleResultBinding>(R.layout.activity
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding.mbSubmitSampleResult.setOnClickListener { onSubmitClick() }
+        binding.mbSubmitSampleResult.setOnRapidClickSafeListener { onSubmitClick() }
     }
 
     private fun onSubmitClick() {
