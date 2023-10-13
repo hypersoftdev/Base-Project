@@ -1,6 +1,5 @@
 package com.hypersoft.baseproject.ui.fragments.entrance
 
-import androidx.lifecycle.lifecycleScope
 import com.hypersoft.baseproject.R
 import com.hypersoft.baseproject.databinding.FragmentEntranceBinding
 import com.hypersoft.baseproject.ui.activities.ActivityEntrance

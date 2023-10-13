@@ -12,8 +12,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.hypersoft.baseproject.R
+import com.hypersoft.baseproject.commons.listeners.RapidSafeListener.setOnRapidClickSafeListener
 import com.hypersoft.baseproject.databinding.FragmentPermissionsBinding
-import com.hypersoft.baseproject.commons.listeners.DebounceListener.setDebounceClickListener
 import com.hypersoft.baseproject.ui.fragments.base.BaseFragment
 
 class FragmentPermissions : BaseFragment<FragmentPermissionsBinding>(R.layout.fragment_permissions) {
@@ -61,7 +61,7 @@ class FragmentPermissions : BaseFragment<FragmentPermissionsBinding>(R.layout.fr
             binding.tvMessage.text =getString(R.string.no_permission_is_granted)
         }
 
-        binding.btnPermission.setDebounceClickListener{
+        binding.btnPermission.setOnRapidClickSafeListener{
             if (isPermissionGranted()){
                 performOperations()
             }else{

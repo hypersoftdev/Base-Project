@@ -25,20 +25,6 @@
             app:imageDrawable="@{@drawable/ic_header_icon}"
             />
 
-        <TextView
-            android:id="@+id/tv_header_title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/_16sdp"
-            android:layout_marginTop="@dimen/_8sdp"
-            android:gravity="center"
-            android:text="@string/app_name"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_header_image" />
-
         <View
             android:id="@+id/line_divider"
             android:layout_width="match_parent"
@@ -49,7 +35,7 @@
             android:background="@color/colorPrimary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_header_title" />
+            app:layout_constraintTop_toBottomOf="@+id/iv_header_image" />
 
         <ScrollView
             android:layout_width="match_parent"

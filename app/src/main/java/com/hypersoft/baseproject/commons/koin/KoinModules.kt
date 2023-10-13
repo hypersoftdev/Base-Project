@@ -19,7 +19,7 @@ private val utilsModules = module {
 }
 
 private val firebaseModule = module {
-    single { RemoteConfiguration(get()) }
+    single { RemoteConfiguration(get(),androidContext().getSharedPreferences("firebase_preferences", Application.MODE_PRIVATE)) }
 }
 
 val modulesList = listOf(utilsModules, managerModules, firebaseModule)

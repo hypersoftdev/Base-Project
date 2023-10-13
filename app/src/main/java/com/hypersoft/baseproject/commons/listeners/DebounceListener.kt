@@ -6,35 +6,35 @@ import android.view.View
 import androidx.appcompat.widget.Toolbar
 import com.google.android.material.appbar.MaterialToolbar
 
-object DebounceListener {
+object RapidSafeListener {
 
-    private const val DEBOUNCE_DEFAULT_TIME = 500L
+    private const val RAPID_DEFAULT_TIME = 500L
     private var lastClickTime: Long = 0
 
-    fun View.setDebounceClickListener(debounceTime: Long = DEBOUNCE_DEFAULT_TIME, action: () -> Unit) {
+    fun View.setOnRapidClickSafeListener(rapidTime: Long = RAPID_DEFAULT_TIME, action: () -> Unit) {
         this.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View) {
-                if (SystemClock.elapsedRealtime() - lastClickTime < debounceTime) return
+                if (SystemClock.elapsedRealtime() - lastClickTime < rapidTime) return
                 else action()
                 lastClickTime = SystemClock.elapsedRealtime()
             }
         })
     }
 
-    fun MaterialToolbar.setDebounceNavigationClickListener(debounceTime: Long = DEBOUNCE_DEFAULT_TIME, action: () -> Unit) {
+    fun MaterialToolbar.setOnRapidSafeNavClickListener(rapidTime: Long = RAPID_DEFAULT_TIME, action: () -> Unit) {
         this.setNavigationOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View) {
-                if (SystemClock.elapsedRealtime() - lastClickTime < debounceTime) return
+                if (SystemClock.elapsedRealtime() - lastClickTime < rapidTime) return
                 else action()
                 lastClickTime = SystemClock.elapsedRealtime()
             }
         })
     }
 
-    fun MaterialToolbar.setDebounceMenuItemClickListener(debounceTime: Long = DEBOUNCE_DEFAULT_TIME, action: (item: MenuItem?) -> Unit) {
+    fun MaterialToolbar.setOnRapidSafeMenuItemClickListener(rapidTime: Long = RAPID_DEFAULT_TIME, action: (item: MenuItem?) -> Unit) {
         this.setOnMenuItemClickListener(object : Toolbar.OnMenuItemClickListener {
             override fun onMenuItemClick(item: MenuItem?): Boolean {
-                if (SystemClock.elapsedRealtime() - lastClickTime < debounceTime) return false
+                if (SystemClock.elapsedRealtime() - lastClickTime < rapidTime) return false
                 else action(item)
                 lastClickTime = SystemClock.elapsedRealtime()
                 return true

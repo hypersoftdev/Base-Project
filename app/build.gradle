@@ -15,10 +15,10 @@ android {
 
     defaultConfig {
         applicationId "com.hypersoft.baseproject"
-        minSdk 23
+        minSdk 24
         targetSdk 33
-        versionCode 15
-        versionName "1.3.5"
+        versionCode 16
+        versionName "1.3.6"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

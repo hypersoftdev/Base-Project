@@ -7,17 +7,17 @@ import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
 import com.hypersoft.baseproject.R
+import com.hypersoft.baseproject.commons.listeners.RapidSafeListener.setOnRapidClickSafeListener
 import com.hypersoft.baseproject.databinding.FragmentHomeBinding
 import com.hypersoft.baseproject.helpers.firebase.EventsProvider
 import com.hypersoft.baseproject.helpers.firebase.FirebaseUtils.postFirebaseEvent
-import com.hypersoft.baseproject.commons.listeners.DebounceListener.setDebounceClickListener
 import com.hypersoft.baseproject.ui.fragments.base.BaseFragment
 
 class FragmentHome : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     override fun onViewCreatedOneTime() {
-        binding.btnResultScreen.setDebounceClickListener { onResultClick() }
-        binding.btnPermission.setDebounceClickListener { onPermissionClick() }
+        binding.btnResultScreen.setOnRapidClickSafeListener { onResultClick() }
+        binding.btnPermission.setOnRapidClickSafeListener { onPermissionClick() }
 
         EventsProvider.HOME_SCREEN.postFirebaseEvent()
     }

@@ -22,7 +22,7 @@
         android:layout_marginVertical="4dp"
         android:layout_marginHorizontal="10dp"
         tools:background="@drawable/bg_lang_unselected"
-        app:debounceClick="@{() -> itemClick.onItemClick(item)}">
+        app:rapidSafeClick="@{() -> itemClick.onItemClick(item)}">
 
         <ImageView
             android:id="@+id/ifv_icon_item_language"
