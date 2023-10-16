@@ -11,17 +11,17 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.hypersoft.baseproject.BuildConfig
-import com.hypersoft.baseproject.helpers.firebase.FirebaseUtils.recordException
 import com.hypersoft.baseproject.commons.koin.DIComponent
+import com.hypersoft.baseproject.helpers.extensions.Extensions.goBackPressed
+import com.hypersoft.baseproject.helpers.firebase.FirebaseUtils.recordException
 import com.hypersoft.baseproject.helpers.utils.LocaleHelper
 
-abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes layoutId: Int) : AppCompatActivity() {
+abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes layoutId: Int,private val shouldActivityBackPress: Boolean = false) : AppCompatActivity() {
 
-    private val generalTAG = "GeneralTAG"
+    private val baseTAG = "BaseTAG"
 
     protected val binding by lazy {
         DataBindingUtil.inflate<T>(
@@ -36,6 +36,10 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes layoutId: Int) : App
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+        if (!shouldActivityBackPress) {
+            registerBackPressDispatcher()
+        }
     }
 
     protected fun withDelay(delay: Long = 300, block: () -> Unit) {
@@ -96,5 +100,13 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes layoutId: Int) : App
         )
     }
 
-    abstract fun onRecreate()
+    open fun onRecreate() {}
+
+    private fun registerBackPressDispatcher() {
+        goBackPressed {
+            onBack()
+        }
+    }
+
+    open fun onBack() {}
 }

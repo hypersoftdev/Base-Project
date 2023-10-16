@@ -23,7 +23,7 @@ class FragmentLanguage : BaseFragment<FragmentLanguageBinding>(R.layout.fragment
     }
 
     private fun initLanguages() = binding.actDropDownLanguage.apply {
-        adapterLanguage = AdapterLanguage(globalContext,langList)
+        adapterLanguage = AdapterLanguage(requireContext(),langList)
         val indexOf = langList.indexOfFirst{ it.languageCode == diComponent.sharedPreferenceUtils.selectedLanguageCode }
         languageItem = langList[indexOf].also {
             setText(it.languageName, false)
@@ -47,13 +47,5 @@ class FragmentLanguage : BaseFragment<FragmentLanguageBinding>(R.layout.fragment
         }?: kotlin.run {
             popFrom(R.id.fragmentLanguage)
         }
-    }
-
-    override fun navIconBackPressed() {
-        onBackPressed()
-    }
-
-    override fun onBackPressed() {
-        popFrom(R.id.fragmentLanguage)
     }
 }

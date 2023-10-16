@@ -14,23 +14,12 @@ class FragmentSampleResult : BaseFragment<FragmentSampleResultBinding>(R.layout.
         binding.mbCounterSampleResult.setOnClickListener { askForCounter() }
     }
 
-    override fun onViewCreatedEverytime() {
-
-    }
+    override fun onViewCreatedEverytime() {}
 
     private fun askForCounter() {
-        val intent = Intent(globalActivity, SampleResult::class.java)
+        val intent = Intent(requireActivity(), SampleResult::class.java)
         requestActivityResult.launch(intent)
     }
-
-    override fun navIconBackPressed() {
-        popFrom(R.id.fragmentSampleResult)
-    }
-
-    override fun onBackPressed() {
-        popFrom(R.id.fragmentSampleResult)
-    }
-
     /* ----------- Apis ----------- */
 
     private val requestActivityResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {

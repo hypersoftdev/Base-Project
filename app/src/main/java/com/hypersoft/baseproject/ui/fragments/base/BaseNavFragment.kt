@@ -49,8 +49,13 @@ abstract class BaseNavFragment : FragmentGeneral() {
         }
     }
 
-    abstract fun navIconBackPressed()
-    abstract fun onBackPressed()
+    open fun navIconBackPressed() {
+        onBackPressed()
+    }
+
+    open fun onBackPressed() {
+        findNavController().currentDestination?.let { popFrom(it.id) }
+    }
 
     /**
      *     Used launchWhenCreated, bcz of screen rotation

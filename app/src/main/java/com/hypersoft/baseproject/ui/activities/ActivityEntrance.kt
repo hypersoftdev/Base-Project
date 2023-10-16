@@ -44,4 +44,6 @@ class ActivityEntrance : AppCompatActivity()  {
         }
         navController.graph = navGraph
     }
+
+    override fun onBackPressed() {}
 }
