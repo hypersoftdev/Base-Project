@@ -14,7 +14,6 @@ import com.hypersoft.baseproject.MainNavGraphDirections
 import com.hypersoft.baseproject.R
 import com.hypersoft.baseproject.commons.listeners.RapidSafeListener.setOnRapidClickSafeListener
 import com.hypersoft.baseproject.databinding.ActivityMainBinding
-import com.hypersoft.baseproject.helpers.extensions.Extensions.goBackPressed
 import com.hypersoft.baseproject.helpers.utils.CleanMemory
 import com.hypersoft.baseproject.helpers.utils.CleanMemory.isActivityRecreated
 import com.hypersoft.baseproject.helpers.utils.SettingUtils.feedback
@@ -38,7 +37,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         setSupportActionBar(binding.toolbarMain)
         setUI()
         initNavController()
-        registerBackPressDispatcher()
         initNavListener()
         initNavDrawerListeners()
     }
@@ -133,13 +131,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         onBack()
     }
 
-    private fun registerBackPressDispatcher() {
-        goBackPressed {
-            onBack()
-        }
-    }
-
-    private fun onBack() {
+    override fun onBack() {
+        super.onBack()
         if (binding.drawerLayoutMain.isDrawerOpen(GravityCompat.START)) {
             binding.drawerLayoutMain.closeDrawer(GravityCompat.START)
         } else {

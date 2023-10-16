@@ -82,7 +82,7 @@ class FragmentPermissions : BaseFragment<FragmentPermissionsBinding>(R.layout.fr
         var isGranted = true
         REQUIRED_PERMISSIONS.forEach {
             if (ContextCompat.checkSelfPermission(
-                    globalActivity,
+                    requireActivity(),
                     it
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
@@ -97,7 +97,7 @@ class FragmentPermissions : BaseFragment<FragmentPermissionsBinding>(R.layout.fr
     private fun askForPermission() {
         var isRationale = false
         REQUIRED_PERMISSIONS.forEach {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(globalActivity,it)) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(),it)) {
                 isRationale = true
                 return@forEach
             }
@@ -171,14 +171,5 @@ class FragmentPermissions : BaseFragment<FragmentPermissionsBinding>(R.layout.fr
             intent.data = uri
             settingLauncher.launch(intent)
         }
-    }
-
-
-    override fun navIconBackPressed() {
-        onBackPressed()
-    }
-
-    override fun onBackPressed() {
-        popFrom(R.id.fragmentPermissions)
     }
 }

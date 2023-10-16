@@ -1,6 +1,5 @@
 package com.hypersoft.baseproject.ui.fragments.base
 
-import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +8,6 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.hypersoft.baseproject.commons.koin.DIComponent
-import com.hypersoft.baseproject.ui.activities.MainActivity
 
 abstract class BaseFragment<T : ViewDataBinding>(@LayoutRes private val layoutId: Int) : BaseNavFragment() {
 
@@ -21,19 +19,6 @@ abstract class BaseFragment<T : ViewDataBinding>(@LayoutRes private val layoutId
      */
     private var _binding: T? = null
     val binding get() = _binding!!
-
-    /**
-     * These properties are only valid between onCreateView and onDestroyView
-     * @property globalContext
-     * @property globalActivity
-     * @property mainActivity
-     *          -> after onCreateView
-     *          -> before onDestroyView
-     */
-
-    val globalContext by lazy { binding.root.context }
-    val globalActivity by lazy { globalContext as Activity }
-    val mainActivity by lazy { globalActivity as MainActivity }
 
     private var hasInitializedRootView = false
     private var rootView: View? = null

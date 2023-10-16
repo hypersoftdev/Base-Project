@@ -15,7 +15,7 @@ import com.hypersoft.baseproject.helpers.firebase.FirebaseUtils.recordException
 
 open class FragmentGeneral : Fragment() {
 
-    private val generalTAG = "GeneralTAG"
+    private val baseTAG = "BaseTAG"
 
     protected fun withDelay(delay: Long = 300, block: () -> Unit) {
         Handler(Looper.getMainLooper()).postDelayed(block, delay)

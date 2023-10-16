@@ -11,6 +11,7 @@ import com.hypersoft.baseproject.commons.listeners.RapidSafeListener.setOnRapidC
 import com.hypersoft.baseproject.databinding.FragmentHomeBinding
 import com.hypersoft.baseproject.helpers.firebase.EventsProvider
 import com.hypersoft.baseproject.helpers.firebase.FirebaseUtils.postFirebaseEvent
+import com.hypersoft.baseproject.ui.activities.MainActivity
 import com.hypersoft.baseproject.ui.fragments.base.BaseFragment
 
 class FragmentHome : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
@@ -27,7 +28,7 @@ class FragmentHome : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     }
 
     private fun initToolbarMenu() {
-        val menuHost = globalActivity as MenuHost
+        val menuHost = requireActivity() as MenuHost
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.menu_premium, menu)
@@ -51,10 +52,10 @@ class FragmentHome : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     }
 
     override fun navIconBackPressed() {
-        mainActivity.openDrawer()
+        (activity as MainActivity).openDrawer()
     }
 
     override fun onBackPressed() {
-        mainActivity.homeBackPressed()
+        (activity as MainActivity).homeBackPressed()
     }
 }

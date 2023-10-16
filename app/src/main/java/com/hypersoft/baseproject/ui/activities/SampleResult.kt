@@ -29,6 +29,4 @@ class SampleResult : BaseActivity<ActivitySampleResultBinding>(R.layout.activity
         }
         finish()
     }
-
-    override fun onRecreate() {}
 }
