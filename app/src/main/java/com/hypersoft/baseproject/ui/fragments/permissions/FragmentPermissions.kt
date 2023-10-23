@@ -20,7 +20,6 @@ class FragmentPermissions : BaseFragment<FragmentPermissionsBinding>(R.layout.fr
 
     private val REQUIRED_PERMISSIONS =
         mutableListOf(
-            Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.CAMERA
         ).apply {
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {

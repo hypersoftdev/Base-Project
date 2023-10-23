@@ -2,11 +2,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+
+
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -37,6 +44,7 @@
 
         <activity
             android:name=".ui.activities.SampleResult"
+            android:theme="@style/Theme.BaseProject"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
