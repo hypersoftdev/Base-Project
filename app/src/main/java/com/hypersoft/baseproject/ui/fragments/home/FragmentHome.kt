@@ -9,8 +9,8 @@ import androidx.lifecycle.Lifecycle
 import com.hypersoft.baseproject.R
 import com.hypersoft.baseproject.commons.listeners.RapidSafeListener.setOnRapidClickSafeListener
 import com.hypersoft.baseproject.databinding.FragmentHomeBinding
-import com.hypersoft.baseproject.helpers.firebase.EventsProvider
-import com.hypersoft.baseproject.helpers.firebase.FirebaseUtils.postFirebaseEvent
+import com.hypersoft.baseproject.commons.firebase.EventsProvider
+import com.hypersoft.baseproject.commons.firebase.FirebaseUtils.postFirebaseEvent
 import com.hypersoft.baseproject.ui.activities.MainActivity
 import com.hypersoft.baseproject.ui.fragments.base.BaseFragment
 

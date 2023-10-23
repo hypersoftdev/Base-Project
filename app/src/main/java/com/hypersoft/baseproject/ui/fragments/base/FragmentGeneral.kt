@@ -11,7 +11,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import com.hypersoft.baseproject.BuildConfig
-import com.hypersoft.baseproject.helpers.firebase.FirebaseUtils.recordException
+import com.hypersoft.baseproject.commons.firebase.FirebaseUtils.recordException
 
 open class FragmentGeneral : Fragment() {
 

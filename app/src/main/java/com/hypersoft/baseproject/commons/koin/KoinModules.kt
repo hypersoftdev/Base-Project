@@ -3,9 +3,9 @@ package com.hypersoft.baseproject.commons.koin
 import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
-import com.hypersoft.baseproject.helpers.firebase.RemoteConfiguration
-import com.hypersoft.baseproject.helpers.managers.InternetManager
-import com.hypersoft.baseproject.helpers.preferences.SharedPreferenceUtils
+import com.hypersoft.baseproject.commons.firebase.RemoteConfiguration
+import com.hypersoft.baseproject.commons.managers.InternetManager
+import com.hypersoft.baseproject.commons.preferences.SharedPreferenceUtils
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 

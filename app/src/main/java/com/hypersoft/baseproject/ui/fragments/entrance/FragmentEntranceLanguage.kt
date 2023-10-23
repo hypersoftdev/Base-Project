@@ -1,10 +1,10 @@
 package com.hypersoft.baseproject.ui.fragments.entrance
 
 import com.hypersoft.baseproject.R
-import com.hypersoft.baseproject.commons.dataProvider.DpLanguages
-import com.hypersoft.baseproject.commons.interfaces.OnLanguageItemClickListener
+import com.hypersoft.baseproject.helpers.dataProvider.DpLanguages
+import com.hypersoft.baseproject.helpers.interfaces.OnLanguageItemClickListener
 import com.hypersoft.baseproject.commons.listeners.RapidSafeListener.setOnRapidClickSafeListener
-import com.hypersoft.baseproject.commons.models.LanguageItem
+import com.hypersoft.baseproject.helpers.models.LanguageItem
 import com.hypersoft.baseproject.databinding.FragmentEntranceLanguageBinding
 import com.hypersoft.baseproject.helpers.adapters.recyclerView.AdapterLanguage
 import com.hypersoft.baseproject.ui.activities.ActivityEntrance

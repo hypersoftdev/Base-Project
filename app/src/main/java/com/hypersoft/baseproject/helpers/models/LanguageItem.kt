@@ -1,4 +1,4 @@
-package com.hypersoft.baseproject.commons.models
+package com.hypersoft.baseproject.helpers.models
 
 import androidx.annotation.DrawableRes
 import com.google.errorprone.annotations.Keep

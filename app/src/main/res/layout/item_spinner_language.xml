@@ -6,7 +6,7 @@
     <data>
         <variable
             name="item"
-            type="com.hypersoft.baseproject.commons.models.LanguageItem" />
+            type="com.hypersoft.baseproject.helpers.models.LanguageItem" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

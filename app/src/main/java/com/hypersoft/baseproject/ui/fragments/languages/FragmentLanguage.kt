@@ -1,8 +1,8 @@
 package com.hypersoft.baseproject.ui.fragments.languages
 
 import com.hypersoft.baseproject.R
-import com.hypersoft.baseproject.commons.dataProvider.DpLanguages
-import com.hypersoft.baseproject.commons.models.LanguageItem
+import com.hypersoft.baseproject.helpers.dataProvider.DpLanguages
+import com.hypersoft.baseproject.helpers.models.LanguageItem
 import com.hypersoft.baseproject.databinding.FragmentLanguageBinding
 import com.hypersoft.baseproject.helpers.adapters.listView.AdapterLanguage
 import com.hypersoft.baseproject.ui.activities.MainActivity

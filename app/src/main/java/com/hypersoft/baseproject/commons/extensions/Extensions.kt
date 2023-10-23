@@ -1,4 +1,4 @@
-package com.hypersoft.baseproject.helpers.extensions
+package com.hypersoft.baseproject.commons.extensions
 
 import android.app.Activity
 import android.content.res.Resources

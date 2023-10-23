@@ -1,8 +1,8 @@
-package com.hypersoft.baseproject.helpers.managers
+package com.hypersoft.baseproject.commons.managers
 
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import com.hypersoft.baseproject.helpers.firebase.FirebaseUtils.recordException
+import com.hypersoft.baseproject.commons.firebase.FirebaseUtils.recordException
 
 class InternetManager(private val connectivityManager: ConnectivityManager) {
 

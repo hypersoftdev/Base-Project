@@ -1,4 +1,4 @@
-package com.hypersoft.baseproject.helpers.utils
+package com.hypersoft.baseproject.commons.utils
 
 import android.annotation.TargetApi
 import android.content.Context

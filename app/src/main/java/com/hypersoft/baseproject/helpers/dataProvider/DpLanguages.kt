@@ -1,8 +1,8 @@
-package com.hypersoft.baseproject.commons.dataProvider
+package com.hypersoft.baseproject.helpers.dataProvider
 
 import com.hypersoft.baseproject.R
-import com.hypersoft.baseproject.commons.models.LanguageItem
-import com.hypersoft.baseproject.helpers.extensions.Extensions.isValidPosition
+import com.hypersoft.baseproject.helpers.models.LanguageItem
+import com.hypersoft.baseproject.commons.extensions.Extensions.isValidPosition
 
 class DpLanguages {
 

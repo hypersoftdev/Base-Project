@@ -1,11 +1,11 @@
-package com.hypersoft.baseproject.helpers.utils
+package com.hypersoft.baseproject.commons.utils
 
 import android.app.Activity
 import android.app.SearchManager
 import android.content.*
 import android.net.Uri
 import com.hypersoft.baseproject.R
-import com.hypersoft.baseproject.helpers.firebase.FirebaseUtils.recordException
+import com.hypersoft.baseproject.commons.firebase.FirebaseUtils.recordException
 
 object SettingUtils {
 

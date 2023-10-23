@@ -6,7 +6,7 @@ import android.util.Log
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
-import com.hypersoft.baseproject.helpers.firebase.FirebaseUtils.recordException
+import com.hypersoft.baseproject.commons.firebase.FirebaseUtils.recordException
 import java.io.File
 
 /**
