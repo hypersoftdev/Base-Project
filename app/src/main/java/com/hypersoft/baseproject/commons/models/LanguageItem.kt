@@ -1,11 +1,12 @@
 package com.hypersoft.baseproject.commons.models
 
+import androidx.annotation.DrawableRes
 import com.google.errorprone.annotations.Keep
 
 @Keep
 data class LanguageItem(
     var languageCode: String,
     var languageName: String,
-    var countryFlag: Int,
-    var isSelected: Boolean
+    @DrawableRes var countryFlag: Int,
+    var selected: Boolean
 )

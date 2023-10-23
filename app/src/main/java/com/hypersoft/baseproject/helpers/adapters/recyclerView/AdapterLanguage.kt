@@ -31,7 +31,7 @@ class AdapterLanguage(private val onLanguageItemClickListener: OnLanguageItemCli
              *         android:background="@{item.isSelected ? @drawable/bg_lang_selected : @drawable/bg_lang_unselected}"
              */
 
-            langItemLayout.background = if (currentItem.isSelected) {
+            langItemLayout.background = if (currentItem.selected) {
                 ContextCompat.getDrawable(root.context, R.drawable.bg_lang_selected)
             } else {
                 ContextCompat.getDrawable(root.context, R.drawable.bg_lang_unselected)
