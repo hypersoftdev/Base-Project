@@ -47,7 +47,7 @@
             tools:textColor="@color/black"
             android:maxLines="1"
             android:ellipsize="end"
-            android:textColor="@{item.isSelected ? @color/colorPrimary : @color/black}"
+            android:textColor="@{item.selected ? @color/colorPrimary : @color/black}"
             app:layout_constraintBottom_toBottomOf="@+id/ifv_icon_item_language"
             app:layout_constraintEnd_toStartOf="@+id/siv_done_item_language"
             app:layout_constraintStart_toEndOf="@+id/ifv_icon_item_language"

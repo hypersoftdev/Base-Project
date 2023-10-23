@@ -64,9 +64,9 @@ class DpLanguages {
         val indexOf = arrayList.indexOfFirst { it.languageCode == languageCode }
 
         if (indexOf.isValidPosition(arrayList))
-            arrayList[indexOf].isSelected = true
+            arrayList[indexOf].selected = true
         else
-            arrayList[0].isSelected = true
+            arrayList[0].selected = true
 
         return arrayList.toList()
     }
