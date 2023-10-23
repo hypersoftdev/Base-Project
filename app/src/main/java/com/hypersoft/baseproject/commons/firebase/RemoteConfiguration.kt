@@ -1,4 +1,4 @@
-package com.hypersoft.baseproject.helpers.firebase
+package com.hypersoft.baseproject.commons.firebase
 
 import android.content.SharedPreferences
 import android.util.Log
@@ -8,10 +8,10 @@ import com.google.firebase.remoteconfig.ktx.get
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.hypersoft.baseproject.R
-import com.hypersoft.baseproject.helpers.firebase.FirebaseUtils.recordException
-import com.hypersoft.baseproject.helpers.firebase.RemoteConstants.INTER_SPLASH_KEY
-import com.hypersoft.baseproject.helpers.firebase.RemoteConstants.NATIVE_SPLASH_KEY
-import com.hypersoft.baseproject.helpers.managers.InternetManager
+import com.hypersoft.baseproject.commons.firebase.FirebaseUtils.recordException
+import com.hypersoft.baseproject.commons.firebase.RemoteConstants.INTER_SPLASH_KEY
+import com.hypersoft.baseproject.commons.firebase.RemoteConstants.NATIVE_SPLASH_KEY
+import com.hypersoft.baseproject.commons.managers.InternetManager
 
 class RemoteConfiguration(private val internetManager: InternetManager,
                           private val sharedPreferences: SharedPreferences) {

@@ -8,11 +8,11 @@
 
         <variable
             name="item"
-            type="com.hypersoft.baseproject.commons.models.LanguageItem" />
+            type="com.hypersoft.baseproject.helpers.models.LanguageItem" />
 
         <variable
             name="itemClick"
-            type="com.hypersoft.baseproject.commons.interfaces.OnLanguageItemClickListener" />
+            type="com.hypersoft.baseproject.helpers.interfaces.OnLanguageItemClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

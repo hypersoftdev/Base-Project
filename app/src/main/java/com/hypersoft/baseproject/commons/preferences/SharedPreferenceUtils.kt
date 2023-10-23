@@ -1,4 +1,4 @@
-package com.hypersoft.baseproject.helpers.preferences
+package com.hypersoft.baseproject.commons.preferences
 
 import android.content.SharedPreferences
 

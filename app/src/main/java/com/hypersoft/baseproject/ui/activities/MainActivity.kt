@@ -14,12 +14,12 @@ import com.hypersoft.baseproject.MainNavGraphDirections
 import com.hypersoft.baseproject.R
 import com.hypersoft.baseproject.commons.listeners.RapidSafeListener.setOnRapidClickSafeListener
 import com.hypersoft.baseproject.databinding.ActivityMainBinding
-import com.hypersoft.baseproject.helpers.utils.CleanMemory
-import com.hypersoft.baseproject.helpers.utils.CleanMemory.isActivityRecreated
-import com.hypersoft.baseproject.helpers.utils.SettingUtils.feedback
-import com.hypersoft.baseproject.helpers.utils.SettingUtils.privacyPolicy
-import com.hypersoft.baseproject.helpers.utils.SettingUtils.rateUs
-import com.hypersoft.baseproject.helpers.utils.SettingUtils.shareApp
+import com.hypersoft.baseproject.commons.utils.CleanMemory
+import com.hypersoft.baseproject.commons.utils.CleanMemory.isActivityRecreated
+import com.hypersoft.baseproject.commons.utils.SettingUtils.feedback
+import com.hypersoft.baseproject.commons.utils.SettingUtils.privacyPolicy
+import com.hypersoft.baseproject.commons.utils.SettingUtils.rateUs
+import com.hypersoft.baseproject.commons.utils.SettingUtils.shareApp
 import com.hypersoft.baseproject.ui.activities.base.BaseActivity
 import java.util.Locale
 

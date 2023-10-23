@@ -1,4 +1,4 @@
-package com.hypersoft.baseproject.helpers.firebase
+package com.hypersoft.baseproject.commons.firebase
 
 object RemoteConstants {
 

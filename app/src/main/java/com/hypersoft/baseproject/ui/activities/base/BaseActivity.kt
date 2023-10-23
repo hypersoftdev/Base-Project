@@ -15,9 +15,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.hypersoft.baseproject.BuildConfig
 import com.hypersoft.baseproject.commons.koin.DIComponent
-import com.hypersoft.baseproject.helpers.extensions.Extensions.goBackPressed
-import com.hypersoft.baseproject.helpers.firebase.FirebaseUtils.recordException
-import com.hypersoft.baseproject.helpers.utils.LocaleHelper
+import com.hypersoft.baseproject.commons.extensions.Extensions.goBackPressed
+import com.hypersoft.baseproject.commons.firebase.FirebaseUtils.recordException
+import com.hypersoft.baseproject.commons.utils.LocaleHelper
 
 abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes layoutId: Int,private val shouldActivityBackPress: Boolean = false) : AppCompatActivity() {
 

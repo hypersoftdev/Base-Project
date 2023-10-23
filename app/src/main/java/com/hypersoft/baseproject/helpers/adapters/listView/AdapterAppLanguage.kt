@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import com.hypersoft.baseproject.R
-import com.hypersoft.baseproject.commons.models.LanguageItem
+import com.hypersoft.baseproject.helpers.models.LanguageItem
 import com.hypersoft.baseproject.databinding.ItemSpinnerLanguageBinding
 
 class AdapterLanguage(context: Context, languages: List<LanguageItem>) : ArrayAdapter<LanguageItem>(context, 0, languages) {

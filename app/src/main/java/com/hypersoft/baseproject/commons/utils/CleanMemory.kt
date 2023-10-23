@@ -1,6 +1,6 @@
-package com.hypersoft.baseproject.helpers.utils
+package com.hypersoft.baseproject.commons.utils
 
-import com.hypersoft.baseproject.helpers.firebase.RemoteConstants
+import com.hypersoft.baseproject.commons.firebase.RemoteConstants
 
 object CleanMemory {
     var isActivityRecreated = false

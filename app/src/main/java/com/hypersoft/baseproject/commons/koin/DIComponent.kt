@@ -1,8 +1,8 @@
 package com.hypersoft.baseproject.commons.koin
 
-import com.hypersoft.baseproject.helpers.firebase.RemoteConfiguration
-import com.hypersoft.baseproject.helpers.managers.InternetManager
-import com.hypersoft.baseproject.helpers.preferences.SharedPreferenceUtils
+import com.hypersoft.baseproject.commons.firebase.RemoteConfiguration
+import com.hypersoft.baseproject.commons.managers.InternetManager
+import com.hypersoft.baseproject.commons.preferences.SharedPreferenceUtils
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 

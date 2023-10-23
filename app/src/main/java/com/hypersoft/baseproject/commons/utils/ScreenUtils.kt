@@ -1,10 +1,10 @@
-package com.hypersoft.baseproject.helpers.utils
+package com.hypersoft.baseproject.commons.utils
 
 import android.app.Activity
 import android.hardware.display.DisplayManager
 import android.view.Display
 import androidx.core.content.getSystemService
-import com.hypersoft.baseproject.helpers.firebase.FirebaseUtils.recordException
+import com.hypersoft.baseproject.commons.firebase.FirebaseUtils.recordException
 
 object ScreenUtils {
 
