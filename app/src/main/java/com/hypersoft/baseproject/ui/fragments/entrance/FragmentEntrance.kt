@@ -9,6 +9,11 @@ class FragmentEntrance : BaseFragment<FragmentEntranceBinding>(R.layout.fragment
 
     override fun onViewCreatedOneTime() {
         fetchRemoteConfiguration()
+        withDelay(3000) {
+            launchWhenResumed {
+                (activity as ActivityEntrance).nextActivity()
+            }
+        }
     }
 
     override fun onViewCreatedEverytime() {}
@@ -19,11 +24,7 @@ class FragmentEntrance : BaseFragment<FragmentEntranceBinding>(R.layout.fragment
 
     private fun fetchRemoteConfiguration() {
         diComponent.remoteConfiguration.checkRemoteConfig {
-            withDelay(2000) {
-                launchWhenResumed {
-                    (activity as ActivityEntrance).nextActivity()
-                }
-            }
+         // do your work here
         }
     }
 

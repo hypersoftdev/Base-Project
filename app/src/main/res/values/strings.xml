@@ -46,6 +46,7 @@
     <string name="allow_permission_settings">Allow permission from \'Setting\' to proceed</string>
     <string name="setting">Setting</string>
     <string name="loading_configurations">Loading Configurations</string>
+    <string name="text_display">Text Display</string>
 
 
 </resources>
