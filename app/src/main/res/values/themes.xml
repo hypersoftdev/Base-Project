@@ -39,15 +39,78 @@
 
     <!-- _________ TextView _________ -->
 
-    <style name="CustomTextSmall" parent="TextAppearance.Material3.BodyLarge"/>
-
-    <style name="CustomTextSmallBold" parent="TextAppearance.Material3.BodyLarge">
+    <style name="TextBodySmall" parent="TextAppearance.Material3.BodySmall" />
+    <style name="TextBodySmallBold" parent="TextAppearance.Material3.BodySmall">
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="CustomTextMedium" parent="TextAppearance.Material3.HeadlineSmall"/>
+    <style name="TextBodyMedium" parent="TextAppearance.Material3.BodyMedium" />
+    <style name="TextBodyMediumBold" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textStyle">bold</item>
+    </style>
 
-    <style name="CustomTextMediumBold" parent="TextAppearance.Material3.HeadlineSmall">
+    <style name="TextBodyLarge" parent="TextAppearance.Material3.BodyLarge" />
+    <style name="TextBodyLargeBold" parent="TextAppearance.Material3.BodyLarge">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextLabelSmall" parent="TextAppearance.Material3.LabelSmall" />
+    <style name="TextLabelSmallBold" parent="TextAppearance.Material3.LabelSmall">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextLabelMedium" parent="TextAppearance.Material3.LabelMedium" />
+    <style name="TextLabelMediumBold" parent="TextAppearance.Material3.LabelMedium">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextLabelLarge" parent="TextAppearance.Material3.LabelLarge" />
+    <style name="TextLabelLargeBold" parent="TextAppearance.Material3.LabelLarge">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextTitleSmall" parent="TextAppearance.Material3.TitleSmall" />
+    <style name="TextTitleSmallBold" parent="TextAppearance.Material3.TitleSmall">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextTitleMedium" parent="TextAppearance.Material3.TitleMedium" />
+    <style name="TextTitleMediumBold" parent="TextAppearance.Material3.TitleMedium">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextTitleLarge" parent="TextAppearance.Material3.TitleLarge" />
+    <style name="TextTitleLargeBold" parent="TextAppearance.Material3.TitleLarge">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextHeadlineSmall" parent="TextAppearance.Material3.HeadlineSmall" />
+    <style name="TextHeadlineSmallBold" parent="TextAppearance.Material3.HeadlineSmall">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextHeadlineMedium" parent="TextAppearance.Material3.HeadlineMedium" />
+    <style name="TextHeadlineMediumBold" parent="TextAppearance.Material3.HeadlineMedium">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextHeadlineLarge" parent="TextAppearance.Material3.HeadlineLarge" />
+    <style name="TextHeadlineLargeBold" parent="TextAppearance.Material3.HeadlineLarge">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextDisplaySmall" parent="TextAppearance.Material3.DisplaySmall" />
+    <style name="TextDisplaySmallBold" parent="TextAppearance.Material3.DisplaySmall" >
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextDisplayMedium" parent="TextAppearance.Material3.DisplayMedium" />
+    <style name="TextDisplayMediumBold" parent="TextAppearance.Material3.DisplayMedium" >
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextDisplayLarge" parent="TextAppearance.Material3.DisplayLarge" />
+    <style name="TextDisplayLargeBold" parent="TextAppearance.Material3.DisplayLarge" >
         <item name="android:textStyle">bold</item>
     </style>
 

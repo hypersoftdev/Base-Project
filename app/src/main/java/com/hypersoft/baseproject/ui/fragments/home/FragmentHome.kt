@@ -19,6 +19,7 @@ class FragmentHome : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     override fun onViewCreatedOneTime() {
         binding.btnResultScreen.setOnRapidClickSafeListener { onResultClick() }
         binding.btnPermission.setOnRapidClickSafeListener { onPermissionClick() }
+        binding.btnTextDisplay.setOnRapidClickSafeListener { onTextDisplayClick() }
 
         EventsProvider.HOME_SCREEN.postFirebaseEvent()
     }
@@ -49,6 +50,10 @@ class FragmentHome : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private fun onPermissionClick() {
         navigateTo(R.id.fragmentHome, R.id.action_fragmentHome_to_fragmentPermissions)
+    }
+
+    private fun onTextDisplayClick() {
+        navigateTo(R.id.fragmentHome, R.id.action_fragmentHome_to_fragmentTextDisplay)
     }
 
     override fun navIconBackPressed() {

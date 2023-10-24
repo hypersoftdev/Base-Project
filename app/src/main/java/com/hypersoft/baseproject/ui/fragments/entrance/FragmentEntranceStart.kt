@@ -8,15 +8,16 @@ class FragmentEntranceStart : BaseFragment<FragmentEntranceStartBinding>(R.layou
 
     override fun onViewCreatedOneTime() {
         fetchRemoteConfiguration()
+        withDelay(3000) {
+            launchWhenResumed {
+                navigateTo(R.id.fragmentEntranceStart, R.id.action_fragmentEntranceStart_to_fragmentEntranceLanguage)
+            }
+        }
     }
 
     private fun fetchRemoteConfiguration() {
         diComponent.remoteConfiguration.checkRemoteConfig {
-            withDelay(3000) {
-                launchWhenResumed {
-                    navigateTo(R.id.fragmentEntranceStart, R.id.action_fragmentEntranceStart_to_fragmentEntranceLanguage)
-                }
-            }
+           // Do Your Work here
         }
     }
 

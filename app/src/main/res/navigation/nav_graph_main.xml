@@ -32,6 +32,13 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_fragmentHome_to_fragmentTextDisplay"
+            app:destination="@id/fragmentTextDisplay"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
 
     <fragment
@@ -40,11 +47,6 @@
         android:label="Sample Result"
         tools:layout="@layout/fragment_sample_result" />
 
-    <dialog
-        android:id="@+id/dialogExit"
-        android:name="com.hypersoft.baseproject.ui.dialogs.DialogExit"
-        android:label="fragment_dialog_exit"
-        tools:layout="@layout/dialog_exit" />
     <fragment
         android:id="@+id/fragmentLanguage"
         android:name="com.hypersoft.baseproject.ui.fragments.languages.FragmentLanguage"
@@ -55,4 +57,15 @@
         android:name="com.hypersoft.baseproject.ui.fragments.permissions.FragmentPermissions"
         android:label="@string/permission_required"
         tools:layout="@layout/fragment_permissions"/>
+    <fragment
+        android:id="@+id/fragmentTextDisplay"
+        android:name="com.hypersoft.baseproject.ui.fragments.text.FragmentTextDisplay"
+        android:label="@string/text_display"
+        tools:layout="@layout/fragment_text_display"/>
+
+    <dialog
+        android:id="@+id/dialogExit"
+        android:name="com.hypersoft.baseproject.ui.dialogs.DialogExit"
+        android:label="fragment_dialog_exit"
+        tools:layout="@layout/dialog_exit" />
 </navigation>
