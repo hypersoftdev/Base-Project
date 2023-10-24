@@ -20,7 +20,7 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/mtv_result_sample_result"
-            style="@style/CustomTextMediumBold"
+            style="@style/TextBodyMediumBold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/results"
