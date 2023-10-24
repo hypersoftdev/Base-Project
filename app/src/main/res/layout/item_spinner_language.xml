@@ -27,7 +27,7 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/mtv_language_item_language"
-            style="@style/CustomTextSmall"
+            style="@style/TextBodySmall"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
