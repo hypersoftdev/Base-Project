@@ -10,6 +10,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.LayoutRes
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -80,15 +81,14 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes layoutId: Int,privat
     }
 
     protected fun debugToast(message: String) {
-        try {
-            runOnUiThread {
-                if (BuildConfig.DEBUG) {
-                    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-                }
-            }
-        } catch (ex: Exception) {
-            ex.recordException("debugToast : ${javaClass.simpleName}")
+        if (BuildConfig.DEBUG) {
+            showToast(message)
         }
+    }
+
+    protected fun showToast(@StringRes stringId: Int) {
+        val message = getString(stringId)
+        showToast(message)
     }
 
     override fun attachBaseContext(newBase: Context?) {
