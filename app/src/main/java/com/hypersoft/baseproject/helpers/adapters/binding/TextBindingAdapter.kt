@@ -21,7 +21,7 @@ fun TextView.setDTextColor(isItemSelected:Boolean) {
 //    }else{
 //        this.setTextColor(ContextCompat.getColor(context, R.color.normalColor))
 //    }
-
+}
 
 
     /**
@@ -39,4 +39,3 @@ fun TextView.setDTextColor(isItemSelected:Boolean) {
             this.paintFlags = this.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
         }
     }
-}
