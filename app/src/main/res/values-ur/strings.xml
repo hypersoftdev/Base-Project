@@ -1,52 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">جنرل پروجیکٹ</string>
 
-    <!-- _________ ٹوسٹ _________ -->
-    <string name="permission_required"> اجازت درکار ہے</string>
-
-    <!-- _________ مواد کی تفصیل _________ -->
-
-    <string name="header_image"> ہیڈر کی تصویر</string>
-
-    <!-- _________ مینو _________ -->
+    <!-- ______________________________ ٹوسٹ ______________________________ -->
 
 
+    <!-- ____________________________________ UI _______________________________ -->
 
-    <!--گھر-->
-    <string name="activity_result"><![CDATA[سرگرمی کے نتائج]]></string>
+    <!--Language -->
+    <string name="choose_your_language">اپنی زبان منتخب کریں</string>
+    <string name="_continue">جاری رکھیں</string>
 
-    <!-- nav_drawer_content -->
-    <string name="privacy_policy"> رازداری کی پالیسی</string>
-    <string name="share_app">ایپ کا اشتراک کریں</string>
+    <!-- ڈیش بورڈ -->
+    <string name="home">ہوم</string>
+    <string name="history">تاریخ</string>
+    <string name="settings">ترتیبات</string>
+
+    <!-- گھر -->
+    <string name="media">میڈیا</string>
+
+    <!-- پریمیم -->
+    <string name="premium">پریمیم</string>
+
+    <!-- ترتیبات -->
+    <string name="app_language">ایپ کی زبان</string>
     <string name="rate_us">ہمیں درجہ بندی کریں</string>
-    <string name="feedback"> تاثرات</string>
-    <string name="update_app">ایپ اپ ڈیٹ کریں</string>
+    <string name="share_app">ایپ کا اشتراک کریں</string>
+    <string name = "feedback"> تاثرات</string>
+    <string name = "privacy_policy"> رازداری کی پالیسی</string>
+    <string name="version">ورژن</string>
+
+    <!--InApp زبان -->
     <string name="change_language">زبان تبدیل کریں</string>
-    <string name="remove_ads">اشتہارات ہٹائیں</string>
-
-    <!-- FragmentSampleResult -->
-    <string name="counter_activity"> انسداد سرگرمی</string>
-    <string name="results">نتائج:</string>
-
-    <!--SampleResult-->
-    <string name="type_something">کچھ ٹائپ کریں…</string>
-    <string name="submit">جمع کروائیں</string>
-
-    <!--Mix-->
-    <string name="exit_message">کیا آپ باہر نکلنا چاہتے ہیں؟</string>
-    <string name="exit">باہر نکلیں</string>
-    <string name="cancel">منسوخ کریں</string>
-    <string name="language_screen">زبان کی سکرین</string>
-    <string name="continue_text">جاری رکھیں</string>
-    <string name="select_your_language">اپنی زبان منتخب کریں</string>
-    <string name="ask_for_permission">اجازت طلب کریں</string>
-    <string name="permission_screen">اجازت اسکرین</string>
-    <string name="no_permission_is_granted">کوئی اجازت نہیں دی گئی ہے!</string>
-    <string name="all_permission_granted">تمام اجازتیں کامیابی کے ساتھ دی گئی ہیں!، اب اپنا کام کریں۔</string>
-    <string name="please_grant_permission">براہ کرم نمونے والی چیزوں تک رسائی کی اجازت دیں…</string>
-    <string name="enable">فعال کریں</string>
-    <string name = "allow_permission_settings"> آگے بڑھنے کے لیے \'Setting\' سے اجازت دیں</string>
-    <string name="setting">ترتیب</string>
+    <string name="search_language">تلاش کی زبان…</string>
+    <string name = "apply"> اپلائی کریں</string>
+    <string name="select_distinct_language">مختلف زبان منتخب کریں</string>
 
 </resources>

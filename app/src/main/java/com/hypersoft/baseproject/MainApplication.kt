@@ -1,23 +1,27 @@
 package com.hypersoft.baseproject
 
 import android.app.Application
-import androidx.appcompat.app.AppCompatDelegate
-import com.hypersoft.baseproject.commons.koin.modulesList
+import com.hypersoft.baseproject.di.setup.KoinModules
 import org.koin.android.ext.koin.androidContext
+import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.core.context.startKoin
+import org.koin.core.lazyModules
 
 class MainApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         initKoin()
     }
 
+    @OptIn(KoinExperimentalAPI::class)
     private fun initKoin() {
+        val koinModules = KoinModules()
         startKoin {
             androidContext(this@MainApplication)
-            modules(modulesList)
+            modules(koinModules.mainModuleList)
+            lazyModules(koinModules.backgroundModuleList)
         }
     }
+
 }
