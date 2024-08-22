@@ -25,6 +25,10 @@ class FragmentHome : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     }
 
     private fun showExitDialog() {
+        dialogExit.setListener {
+            activity?.finish()
+        }
+
         dialogExit.showSafe(this, isDialogShown) {
             isDialogShown = it
         }
