@@ -1,7 +1,7 @@
 package com.hypersoft.baseproject.di.setup
 
+import com.hypersoft.baseproject.di.domain.manager.InternetManager
 import com.hypersoft.baseproject.di.domain.observers.GeneralObserver
-import com.hypersoft.baseproject.utilities.managers.InternetManager
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.dsl.lazyModule

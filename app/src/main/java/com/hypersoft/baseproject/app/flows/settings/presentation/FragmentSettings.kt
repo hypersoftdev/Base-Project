@@ -1,8 +1,8 @@
-package com.hypersoft.baseproject.app.flows.settings
+package com.hypersoft.baseproject.app.flows.settings.presentation
 
 import com.hypersoft.baseproject.R
 import com.hypersoft.baseproject.databinding.FragmentSettingsBinding
-import com.hypersoft.baseproject.utilities.base.BaseFragment
+import com.hypersoft.baseproject.utilities.base.fragment.BaseFragment
 import com.hypersoft.baseproject.utilities.extensions.openEmailApp
 import com.hypersoft.baseproject.utilities.extensions.openPlayStoreApp
 import com.hypersoft.baseproject.utilities.extensions.openWebUrl

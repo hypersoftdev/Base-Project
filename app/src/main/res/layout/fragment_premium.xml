@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/img_bg_premium"
-    tools:context=".app.flows.premium.FragmentPremium">
+    tools:context=".app.flows.premium.presentation.FragmentPremium">
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/mbBackHome"

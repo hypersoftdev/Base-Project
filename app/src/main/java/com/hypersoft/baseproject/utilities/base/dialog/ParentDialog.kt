@@ -1,14 +1,14 @@
-package com.hypersoft.baseproject.utilities.base
+package com.hypersoft.baseproject.utilities.base.dialog
 
 import android.app.Activity
+import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
-abstract class ParentFragment<T : ViewBinding>(val bindingFactory: (LayoutInflater) -> T) : Fragment() {
+abstract class ParentDialog<T : ViewBinding>(val bindingFactory: (LayoutInflater) -> T) : ParentDialogDismissal() {
 
     /**
      * These properties are only valid between onCreateView and onDestroyView
@@ -30,20 +30,23 @@ abstract class ParentFragment<T : ViewBinding>(val bindingFactory: (LayoutInflat
     protected val globalContext by lazy { binding.root.context }
     protected val globalActivity by lazy { globalContext as Activity }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _binding = bindingFactory(inflater)
-        return binding.root
-    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        onViewCreated()
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        _binding = bindingFactory(layoutInflater)
+        (binding.root.parent as? ViewGroup)?.removeView(binding.root)
+
+        isCancelable = false
+        onDialogCreated()
+
+        return MaterialAlertDialogBuilder(binding.root.context)
+            .setView(binding.root)
+            .create()
     }
 
     /**
      *  @since : Start code...
      */
-    abstract fun onViewCreated()
+    abstract fun onDialogCreated()
 
     override fun onDestroyView() {
         super.onDestroyView()

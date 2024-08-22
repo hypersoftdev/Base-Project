@@ -3,7 +3,7 @@ package com.hypersoft.baseproject.app.features.history.presentation.ui
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.hypersoft.baseproject.utilities.base.BaseFragment
+import com.hypersoft.baseproject.utilities.base.fragment.BaseFragment
 import com.hypersoft.baseproject.databinding.FragmentHistoryBinding
 import com.hypersoft.baseproject.app.features.history.data.repository.RepositoryHistory
 import com.hypersoft.baseproject.app.features.history.domain.usecases.UseCaseHistory

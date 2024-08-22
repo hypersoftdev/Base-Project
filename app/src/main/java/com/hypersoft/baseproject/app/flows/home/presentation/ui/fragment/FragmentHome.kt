@@ -1,12 +1,16 @@
-package com.hypersoft.baseproject.app.flows.home
+package com.hypersoft.baseproject.app.flows.home.presentation.ui.fragment
 
 import com.hypersoft.baseproject.R
+import com.hypersoft.baseproject.app.flows.home.presentation.ui.dialog.DialogExit
 import com.hypersoft.baseproject.databinding.FragmentHomeBinding
-import com.hypersoft.baseproject.utilities.base.BaseFragment
+import com.hypersoft.baseproject.utilities.base.fragment.BaseFragment
 import com.hypersoft.baseproject.utilities.extensions.onBackPressedDispatcher
-import com.hypersoft.baseproject.utilities.extensions.showToast
+import com.hypersoft.baseproject.utilities.extensions.showSafe
 
 class FragmentHome : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
+
+    private val dialogExit by lazy { DialogExit() }
+    private var isDialogShown = false
 
     override fun onViewCreated() {
         registerBackPress()
@@ -21,7 +25,9 @@ class FragmentHome : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     }
 
     private fun showExitDialog() {
-        context.showToast("Oye Hoye")
+        dialogExit.showSafe(this, isDialogShown) {
+            isDialogShown = it
+        }
     }
 
     private fun navigateDrawer() {

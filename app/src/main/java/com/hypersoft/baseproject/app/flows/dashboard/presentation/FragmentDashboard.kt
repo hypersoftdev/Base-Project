@@ -1,10 +1,10 @@
-package com.hypersoft.baseproject.app.flows.dashboard
+package com.hypersoft.baseproject.app.flows.dashboard.presentation
 
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
 import com.hypersoft.baseproject.R
-import com.hypersoft.baseproject.utilities.base.BaseFragment
+import com.hypersoft.baseproject.utilities.base.fragment.BaseFragment
 import com.hypersoft.baseproject.databinding.FragmentDashboardBinding
 import com.hypersoft.baseproject.utilities.extensions.navigateTo
 

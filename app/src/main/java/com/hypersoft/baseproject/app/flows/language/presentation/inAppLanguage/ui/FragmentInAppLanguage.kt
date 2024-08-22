@@ -8,7 +8,7 @@ import com.hypersoft.baseproject.app.flows.language.presentation.inAppLanguage.a
 import com.hypersoft.baseproject.app.flows.language.presentation.inAppLanguage.viewmodels.ViewModelInAppLanguage
 import com.hypersoft.baseproject.app.flows.language.presentation.inAppLanguage.viewmodels.ViewModelInAppLanguageFactory
 import com.hypersoft.baseproject.databinding.FragmentInAppLanguageBinding
-import com.hypersoft.baseproject.utilities.base.BaseFragment
+import com.hypersoft.baseproject.utilities.base.fragment.BaseFragment
 import com.hypersoft.baseproject.utilities.extensions.popFrom
 import com.hypersoft.baseproject.utilities.extensions.showToast
 

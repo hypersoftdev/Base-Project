@@ -1,4 +1,4 @@
-package com.hypersoft.baseproject.utilities.base
+package com.hypersoft.baseproject.utilities.base.activity
 
 import android.view.LayoutInflater
 import androidx.viewbinding.ViewBinding
