@@ -4,7 +4,7 @@ import androidx.fragment.app.viewModels
 import com.hypersoft.baseproject.R
 import com.hypersoft.baseproject.app.flows.entrance.presentation.viewModel.ViewModelEntrance
 import com.hypersoft.baseproject.databinding.FragmentEntranceBinding
-import com.hypersoft.baseproject.utilities.base.BaseFragment
+import com.hypersoft.baseproject.utilities.base.fragment.BaseFragment
 import com.hypersoft.baseproject.utilities.extensions.navigateTo
 
 class FragmentEntrance : BaseFragment<FragmentEntranceBinding>(FragmentEntranceBinding::inflate) {

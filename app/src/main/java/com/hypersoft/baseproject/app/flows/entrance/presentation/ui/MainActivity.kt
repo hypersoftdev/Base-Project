@@ -4,7 +4,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.hypersoft.baseproject.R
 import com.hypersoft.baseproject.databinding.ActivityMainBinding
-import com.hypersoft.baseproject.utilities.base.BaseActivity
+import com.hypersoft.baseproject.utilities.base.activity.BaseActivity
 import com.hypersoft.baseproject.utilities.extensions.onBackPressedDispatcher
 
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {

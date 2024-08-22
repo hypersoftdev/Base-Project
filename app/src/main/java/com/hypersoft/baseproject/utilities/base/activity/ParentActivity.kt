@@ -1,4 +1,4 @@
-package com.hypersoft.baseproject.utilities.base
+package com.hypersoft.baseproject.utilities.base.activity
 
 import android.os.Bundle
 import android.util.Log

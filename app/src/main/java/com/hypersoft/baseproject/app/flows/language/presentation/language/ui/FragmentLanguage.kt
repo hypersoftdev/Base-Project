@@ -8,7 +8,7 @@ import com.hypersoft.baseproject.app.flows.language.presentation.language.viewmo
 import com.hypersoft.baseproject.databinding.FragmentLanguageBinding
 import com.hypersoft.baseproject.app.flows.language.data.repository.RepositoryLanguage
 import com.hypersoft.baseproject.app.flows.language.presentation.language.adapter.AdapterLanguage
-import com.hypersoft.baseproject.utilities.base.BaseFragment
+import com.hypersoft.baseproject.utilities.base.fragment.BaseFragment
 import com.hypersoft.baseproject.utilities.extensions.navigateTo
 
 class FragmentLanguage : BaseFragment<FragmentLanguageBinding>(FragmentLanguageBinding::inflate) {
