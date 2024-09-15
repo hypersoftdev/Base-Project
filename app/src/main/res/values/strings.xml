@@ -2,7 +2,8 @@
     <string name="app_name" translatable="false">Base Project</string>
 
     <!-- _____________________________ Toast ______________________________ -->
-
+    <string name="something_went_wrong">Something went wrong! Try again later</string>
+    <string name="image_not_found">Image not found</string>
 
     <!-- _______________________________ UI _______________________________ -->
 
@@ -17,6 +18,14 @@
 
     <!-- Home -->
     <string name="media">Media</string>
+
+    <!-- Media -->
+    <string name="images">Images</string>
+    <string name="audios">Audios</string>
+    <string name="videos">Videos</string>
+    
+    <string name="all">All</string>
+
 
     <!-- Premium -->
     <string name="premium">Premium</string>

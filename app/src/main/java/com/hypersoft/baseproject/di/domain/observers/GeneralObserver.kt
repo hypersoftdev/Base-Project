@@ -12,4 +12,7 @@ class GeneralObserver {
     val _navDashboardDirectionLiveData = SingleLiveEvent<NavDirections>()
     val navDashboardDirectionLiveData: LiveData<NavDirections> get() = _navDashboardDirectionLiveData
 
+    val _navigationDirectionsMediaImageLiveData = SingleLiveEvent<NavDirections>()
+    val navigationDirectionsMediaImageLiveData: LiveData<NavDirections> get() = _navigationDirectionsMediaImageLiveData
+
 }

@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.navigation.safe.args)
 }
 
 android {
@@ -69,7 +70,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-    implementation(libs.lottie)
+    implementation(libs.glide)
 
     // Unit Testing
     testImplementation(libs.junit)
@@ -86,4 +87,10 @@ dependencies {
     // Dependency Injection -> Koin
     implementation(libs.koin.android)
     implementation(libs.koin.core.coroutines)
+
+    // Swipe Refresh Layout
+    implementation(libs.androidx.swiperefreshlayout)
+
+    // Lottie Animations
+    implementation(libs.lottie)
 }
