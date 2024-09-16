@@ -30,5 +30,4 @@ class FragmentDashboard : BaseFragment<FragmentDashboardBinding>(FragmentDashboa
             navigateTo(R.id.fragmentDashboard, it)
         }
     }
-
 }

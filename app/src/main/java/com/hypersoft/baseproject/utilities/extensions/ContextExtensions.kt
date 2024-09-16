@@ -36,7 +36,7 @@ fun Context?.getDrawableResource(@DrawableRes drawableId: Int): Drawable? {
 /* ---------------------------------------------- Toast ---------------------------------------------- */
 
 fun Context?.showToast(message: String) {
-    (this as Activity).runOnUiThread {
+    (this as? Activity)?.runOnUiThread {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }
@@ -55,7 +55,7 @@ fun Context?.debugToast(message: String) {
 /* ---------------------------------------------- SnackBar ---------------------------------------------- */
 
 fun Context?.showSnackBar(message: String) {
-    (this as Activity).runOnUiThread {
+    (this as? Activity)?.runOnUiThread {
         Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_SHORT).show()
     }
 }
@@ -170,7 +170,7 @@ fun Context?.searchData(text: String) {
     }
 }
 
-fun Activity?.translateDate(data: String) {
+fun Context?.translateDate(data: String) {
     this?.let {
         try {
             val url = "https://translate.google.com/#view=home&op=translate&sl=auto&tl=en&text=$data"

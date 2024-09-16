@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.navigation.safe.args)
 }
 
 android {
@@ -11,8 +12,8 @@ android {
         applicationId = "com.hypersoft.baseproject"
         minSdk = 24
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 21
+        versionName = "2.1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -69,7 +70,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-    implementation(libs.lottie)
+    implementation(libs.glide)
 
     // Unit Testing
     testImplementation(libs.junit)
@@ -86,4 +87,10 @@ dependencies {
     // Dependency Injection -> Koin
     implementation(libs.koin.android)
     implementation(libs.koin.core.coroutines)
+
+    // Swipe Refresh Layout
+    implementation(libs.androidx.swiperefreshlayout)
+
+    // Lottie Animations
+    implementation(libs.lottie)
 }
