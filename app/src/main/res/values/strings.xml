@@ -18,6 +18,7 @@
 
     <!-- Home -->
     <string name="media">Media</string>
+    <string name="remote">Remote Config</string>
 
     <!-- Media -->
     <string name="images">Images</string>
