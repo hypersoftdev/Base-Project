@@ -18,20 +18,29 @@ class NetworkStatusDataSource(private val context: Context) {
 
     private val networkCallback = object : ConnectivityManager.NetworkCallback() {
         override fun onAvailable(network: Network) {
-            updateNetworkStatus(true) // Network is available
+            checkInternetAccessAndUpdateStatus()
         }
 
         override fun onLost(network: Network) {
-            updateNetworkStatus(false) // Network is lost
+            updateNetworkStatus(false)
         }
 
         override fun onUnavailable() {
-            updateNetworkStatus(false) // No network available
+            updateNetworkStatus(false)
         }
     }
 
     private fun updateNetworkStatus(isConnected: Boolean) {
         _networkStatusLiveData.postValue(isConnected)
+    }
+
+
+    private fun checkInternetAccessAndUpdateStatus() {
+        val activeNetwork = connectivityManager.activeNetwork
+        val networkCapabilities = connectivityManager.getNetworkCapabilities(activeNetwork)
+
+        val hasInternet = networkCapabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED) == true
+        updateNetworkStatus(hasInternet)
     }
 
     fun startListening() {
@@ -40,7 +49,6 @@ class NetworkStatusDataSource(private val context: Context) {
             .build()
         connectivityManager.registerNetworkCallback(networkRequest, networkCallback)
 
-        // Initial state check
         val isConnected = connectivityManager.activeNetwork != null
         _networkStatusLiveData.postValue(isConnected)
     }
