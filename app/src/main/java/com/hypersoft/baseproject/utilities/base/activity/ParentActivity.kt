@@ -19,6 +19,7 @@ abstract class ParentActivity<T : ViewBinding>(private val bindingFactory: (Layo
     protected val binding by lazy { bindingFactory(layoutInflater) }
     protected var includeTopPadding = false
     protected var includeBottomPadding = false
+    var statusBarHeight = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         onPreCreated()
@@ -36,6 +37,7 @@ abstract class ParentActivity<T : ViewBinding>(private val bindingFactory: (Layo
     private fun setPadding() {
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
+            statusBarHeight = bars.top
             val topPadding = if (includeTopPadding) bars.top else 0
             val bottomPadding = if (includeBottomPadding) bars.bottom else 0
             v.updatePadding(left = bars.left, top = topPadding, right = bars.right, bottom = bottomPadding)
