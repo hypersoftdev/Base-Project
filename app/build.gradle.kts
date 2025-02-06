@@ -6,28 +6,16 @@ plugins {
 
 android {
     namespace = "com.hypersoft.baseproject"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.hypersoft.baseproject"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 21
         versionName = "2.1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    buildFeatures {
-        viewBinding = true
-        buildConfig = true
-    }
-
-    // Disable language-specific APK splits, include all languages in a single APK
-    bundle {
-        language {
-            enableSplit = false
-        }
     }
 
     // Use the "release" signing configuration for the release build
@@ -61,6 +49,18 @@ android {
     }
     kotlinOptions {
         jvmTarget = "17"
+    }
+
+    buildFeatures {
+        viewBinding = true
+        buildConfig = true
+    }
+
+    // Disable language-specific APK splits, include all languages in a single APK
+    bundle {
+        language {
+            enableSplit = false
+        }
     }
 }
 

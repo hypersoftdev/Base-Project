@@ -15,6 +15,11 @@ class FragmentEntrance : BaseFragment<FragmentEntranceBinding>(FragmentEntranceB
         initObserver()
     }
 
+
+    private fun initObserver() {
+        viewModel.navigateLiveData.observe(viewLifecycleOwner) { navigateScreen() }
+    }
+
     override fun onResume() {
         super.onResume()
         //binding.lavAnimationEntrance.resumeAnimation()
@@ -25,12 +30,6 @@ class FragmentEntrance : BaseFragment<FragmentEntranceBinding>(FragmentEntranceB
         //binding.lavAnimationEntrance.pauseAnimation()
     }
 
-
-    private fun initObserver() {
-        viewModel.navigateLiveData.observe(viewLifecycleOwner) {
-            navigateScreen()
-        }
-    }
 
     private fun navigateScreen() {
         navigateTo(R.id.fragmentEntrance, R.id.action_fragmentEntrance_to_fragmentLanguage)

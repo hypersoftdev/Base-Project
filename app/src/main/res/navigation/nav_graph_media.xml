@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/fragmentMedia"
-        android:name="com.hypersoft.baseproject.app.features.media.presentation.media.FragmentMedia"
+        android:name="com.hypersoft.baseproject.app.features.media.presentation.images.ui.FragmentMedia"
         android:label="fragment_media"
         tools:layout="@layout/fragment_media">
         <action

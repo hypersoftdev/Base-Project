@@ -1,4 +1,4 @@
-package com.hypersoft.baseproject.app.features.media.presentation.media
+package com.hypersoft.baseproject.app.features.media.presentation.images.ui
 
 import com.hypersoft.baseproject.R
 import com.hypersoft.baseproject.databinding.FragmentMediaBinding

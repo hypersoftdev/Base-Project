@@ -103,7 +103,7 @@
     <include app:graph="@navigation/nav_graph_media" />
     <fragment
         android:id="@+id/fragmentRemoteConfig"
-        android:name="com.hypersoft.baseproject.app.flows.remoteconfig.presentation.ui.FragmentRemoteConfig"
+        android:name="com.hypersoft.baseproject.app.features.remoteConfig.presentation.ui.FragmentRemoteConfig"
         android:label="FragmentRemoteConfig"
         tools:layout="@layout/fragment_remote_config"
         />

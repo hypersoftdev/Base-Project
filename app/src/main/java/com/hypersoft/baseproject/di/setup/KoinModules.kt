@@ -1,14 +1,15 @@
 package com.hypersoft.baseproject.di.setup
 
-import com.hypersoft.baseproject.app.flows.remoteconfig.data.datasource.NetworkStatusDataSource
-import com.hypersoft.baseproject.app.flows.remoteconfig.data.repository.NetworkRepository
-import com.hypersoft.baseproject.app.flows.remoteconfig.domain.usecase.NetworkUseCase
-import com.hypersoft.baseproject.app.flows.remoteconfig.presentation.viewmodel.NetworkViewModel
+import com.hypersoft.baseproject.app.features.remoteConfig.data.datasource.DataSourceNetwork
+import com.hypersoft.baseproject.app.features.remoteConfig.data.datasource.DataSourceRemoteConfig
+import com.hypersoft.baseproject.app.features.remoteConfig.data.repositories.RepositoryNetworkImpl
+import com.hypersoft.baseproject.app.features.remoteConfig.data.repositories.RepositoryRemoteConfigImpl
+import com.hypersoft.baseproject.app.features.remoteConfig.domain.usecase.UseCaseNetwork
+import com.hypersoft.baseproject.app.features.remoteConfig.domain.usecase.UseCaseRemoteConfig
+import com.hypersoft.baseproject.app.features.remoteConfig.presentation.viewmodel.NetworkViewModel
 import com.hypersoft.baseproject.di.domain.manager.InternetManager
 import com.hypersoft.baseproject.di.domain.observers.GeneralObserver
-import com.hypersoft.baseproject.utilities.dummyconfig.RemoteConfig
 import org.koin.android.ext.koin.androidContext
-import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.dsl.lazyModule
 import org.koin.dsl.module
 
@@ -19,24 +20,26 @@ class KoinModules {
     private val mainModules = module {
         single { InternetManager(androidContext()) }
         single { GeneralObserver() }
-        single { RemoteConfig() }
-
-        single { NetworkStatusDataSource(get()) }
-        single { NetworkRepository() }
-        single { NetworkUseCase(get(),get()) }
-        single { NetworkViewModel(get()) }
     }
 
     /* ________________________________ Background Thread Modules ________________________________ */
 
-    @OptIn(KoinExperimentalAPI::class)
-    private val domainModules = lazyModule {
+    private val networkModule = lazyModule {
+        single { DataSourceNetwork(androidContext()) }
+        single { DataSourceRemoteConfig() }
 
+        single { RepositoryNetworkImpl(get()) }
+        single { RepositoryRemoteConfigImpl(get()) }
+
+        single { UseCaseNetwork(get()) }
+        single { UseCaseRemoteConfig(get()) }
+
+        single { NetworkViewModel(get(), get()) }
     }
 
     /* ________________________________ Modules List ________________________________ */
 
     val mainModuleList = listOf(mainModules)
-    val backgroundModuleList = listOf(domainModules)
+    val backgroundModuleList = listOf(networkModule)
 
 }

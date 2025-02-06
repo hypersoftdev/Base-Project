@@ -18,7 +18,7 @@ class ViewModelEntrance : ViewModel() {
 
     private fun startTimer() {
         viewModelScope.launch {
-            delay(3000)
+            delay(2000)
             _navigateLiveData.value = true
         }
     }
