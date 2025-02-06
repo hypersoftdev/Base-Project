@@ -1,6 +1,7 @@
 package com.hypersoft.baseproject
 
 import android.app.Application
+import com.hypersoft.baseproject.di.setup.DIComponent
 import com.hypersoft.baseproject.di.setup.KoinModules
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.annotation.KoinExperimentalAPI
@@ -20,8 +21,31 @@ class MainApplication : Application() {
         startKoin {
             androidContext(this@MainApplication)
             modules(koinModules.mainModuleList)
-            lazyModules(koinModules.backgroundModuleList)
+            //lazyModules(koinModules.backgroundModuleList)
         }
+
+        //Start this observer if you don't want to get any callback in viewmodel
+      //  startNetworkObserver()
+
+    }
+
+
+    private fun startNetworkObserver ()
+    {
+        val diComponent = DIComponent()
+        diComponent.networkUseCase.startListening()
+    }
+
+    private fun stopNetworkObserver ()
+    {
+        val diComponent = DIComponent()
+        diComponent.networkUseCase.stopListening()
+    }
+
+
+    override fun onTerminate() {
+        stopNetworkObserver()
+        super.onTerminate()
     }
 
 }

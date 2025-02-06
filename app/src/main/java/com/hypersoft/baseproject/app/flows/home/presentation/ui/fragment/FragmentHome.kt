@@ -18,6 +18,7 @@ class FragmentHome : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         binding.mbDrawerHome.setOnClickListener { navigateDrawer() }
         binding.mbPremiumHome.setOnClickListener { navigatePremium() }
         binding.mbMediaHome.setOnClickListener { navigateMedia() }
+        binding.mbRemoteHome.setOnClickListener { navigateRemoteConfig() }
     }
 
     private fun registerBackPress() {
@@ -45,4 +46,8 @@ class FragmentHome : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private fun navigateMedia() {
         diComponent.generalObserver._navDashboardLiveData.value = R.id.action_fragmentDashboard_to_nav_graph_media
     }
+    private fun navigateRemoteConfig() {
+        diComponent.generalObserver._navDashboardLiveData.value = R.id.action_fragmentDashboard_to_fragmentRemoteConfig
+    }
+
 }
