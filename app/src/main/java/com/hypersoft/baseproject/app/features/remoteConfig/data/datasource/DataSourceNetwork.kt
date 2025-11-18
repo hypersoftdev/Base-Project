@@ -5,32 +5,38 @@ import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
+import android.util.Log
+import com.hypersoft.baseproject.utilities.utils.ConstantUtils.TAG
 
 class DataSourceNetwork(context: Context) {
 
-    private val connectivityManager by lazy { context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager }
+    private val connectivityManager by lazy {
+        context.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    }
     private var networkStateCallback: ((Boolean) -> Unit)? = null
 
     /**
      *  Public methods
-     *   @see startListening
+     *   @see startListeningNetworkState
      *   @see stopListening
      */
 
-    fun startListening(networkStateCallback: (isConnected: Boolean) -> Unit) {
+    fun startListeningNetworkState(networkStateCallback: (isConnected: Boolean) -> Unit) {
         this.networkStateCallback = networkStateCallback
 
         val networkRequest = NetworkRequest.Builder()
             .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
             .build()
-        connectivityManager.registerNetworkCallback(networkRequest, networkCallback)
 
-        val isConnected = connectivityManager.activeNetwork != null
-        networkStateCallback.invoke(isConnected)
+        connectivityManager.registerNetworkCallback(networkRequest, networkCallback)
     }
 
     fun stopListening() {
-        connectivityManager.unregisterNetworkCallback(networkCallback)
+        try {
+            connectivityManager.unregisterNetworkCallback(networkCallback)
+        } catch (ex: IllegalArgumentException) {
+            Log.e(TAG, "DataSourceNetwork: stopListening: NetworkCallback not registered or already unregistered.", ex)
+        }
     }
 
     private val networkCallback = object : ConnectivityManager.NetworkCallback() {
@@ -47,6 +53,7 @@ class DataSourceNetwork(context: Context) {
     }
 
     private fun updateNetworkStatus(isConnected: Boolean) {
+        Log.d(TAG, "DataSourceNetwork: updateNetworkStatus: isConnected: $isConnected")
         networkStateCallback?.invoke(isConnected)
     }
 }

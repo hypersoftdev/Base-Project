@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.hypersoft.baseproject.app.features.remoteConfig.domain.usecase.UseCaseNetwork
 import com.hypersoft.baseproject.app.features.remoteConfig.domain.usecase.UseCaseRemoteConfig
 
-class NetworkViewModel(private val useCaseNetwork: UseCaseNetwork, private val useCaseRemoteConfig: UseCaseRemoteConfig) : ViewModel() {
+class ViewModelNetwork(private val useCaseNetwork: UseCaseNetwork, private val useCaseRemoteConfig: UseCaseRemoteConfig) : ViewModel() {
 
     private val _remoteSuccessLiveData = MutableLiveData<Unit>()
     val remoteSuccessLiveData: LiveData<Unit> get() = _remoteSuccessLiveData
@@ -15,11 +15,11 @@ class NetworkViewModel(private val useCaseNetwork: UseCaseNetwork, private val u
     val errorLiveData: LiveData<String> get() = _errorLiveData
 
     init {
-        fetchNetworkState()
+        startListeningNetworkState()
     }
 
-    private fun fetchNetworkState() {
-        useCaseNetwork.fetchNetworkState { fetchRemoteConfig(it) }
+    private fun startListeningNetworkState() {
+        useCaseNetwork.startListeningNetworkState { fetchRemoteConfig(it) }
     }
 
     private fun fetchRemoteConfig(isInternetConnected: Boolean) {
@@ -32,5 +32,10 @@ class NetworkViewModel(private val useCaseNetwork: UseCaseNetwork, private val u
                 }
             }
         )
+    }
+
+    override fun onCleared() {
+        useCaseNetwork.stopListeningNetworkState()
+        super.onCleared()
     }
 }

@@ -10,5 +10,6 @@ package com.hypersoft.baseproject.app.features.remoteConfig.domain.repositories
  */
 
 interface RepositoryNetwork {
-    fun fetchNetworkState(networkStateCallback: (isConnected: Boolean) -> Unit)
+    fun startListeningNetworkState(networkStateCallback: (isConnected: Boolean) -> Unit)
+    fun stopListeningNetworkState()
 }

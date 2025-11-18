@@ -13,7 +13,11 @@ import com.hypersoft.baseproject.app.features.remoteConfig.data.repositories.Rep
 
 class UseCaseNetwork(private val repositoryNetworkImpl: RepositoryNetworkImpl) {
 
-    fun fetchNetworkState(networkStateCallback: (isConnected: Boolean) -> Unit) {
-        repositoryNetworkImpl.fetchNetworkState(networkStateCallback)
+    fun startListeningNetworkState(networkStateCallback: (isConnected: Boolean) -> Unit) {
+        repositoryNetworkImpl.startListeningNetworkState(networkStateCallback)
+    }
+
+    fun stopListeningNetworkState() {
+        repositoryNetworkImpl.stopListeningNetworkState()
     }
 }

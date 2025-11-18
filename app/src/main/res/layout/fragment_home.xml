@@ -42,15 +42,14 @@
         app:layout_constraintStart_toEndOf="@+id/mbDrawerHome"
         app:layout_constraintTop_toTopOf="@+id/mbDrawerHome" />
 
-
     <com.google.android.material.button.MaterialButton
         android:id="@+id/mbMediaHome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:text="@string/media"
         app:layout_constraintBottom_toTopOf="@+id/mbRemoteHome"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.button.MaterialButton
@@ -62,8 +61,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

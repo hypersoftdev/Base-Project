@@ -46,8 +46,8 @@ class FragmentHome : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private fun navigateMedia() {
         diComponent.generalObserver._navDashboardLiveData.value = R.id.action_fragmentDashboard_to_nav_graph_media
     }
+
     private fun navigateRemoteConfig() {
         diComponent.generalObserver._navDashboardLiveData.value = R.id.action_fragmentDashboard_to_fragmentRemoteConfig
     }
-
 }

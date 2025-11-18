@@ -9,11 +9,11 @@ import com.hypersoft.baseproject.utilities.utils.ConstantUtils.TAG
 class FragmentRemoteConfig : BaseFragment<FragmentRemoteConfigBinding>(FragmentRemoteConfigBinding::inflate) {
 
     override fun onViewCreated() {
-        diComponent.networkViewModel.remoteSuccessLiveData.observe(viewLifecycleOwner) {
+        diComponent.viewModelNetwork.remoteSuccessLiveData.observe(viewLifecycleOwner) {
             val text = "Remote Config fetch: $it"
             updateUI(text)
         }
-        diComponent.networkViewModel.errorLiveData.observe(viewLifecycleOwner) {
+        diComponent.viewModelNetwork.errorLiveData.observe(viewLifecycleOwner) {
             val text = "Remote Config fetch: $it"
             updateUI(text)
         }
