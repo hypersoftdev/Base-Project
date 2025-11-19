@@ -28,7 +28,7 @@
         android:theme="@style/Theme.BaseProject"
         tools:targetApi="31">
         <activity
-            android:name=".app.flows.entrance.presentation.ui.MainActivity"
+            android:name=".ui.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.App.Starting">
             <intent-filter>
