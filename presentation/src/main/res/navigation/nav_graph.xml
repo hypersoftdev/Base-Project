@@ -3,108 +3,107 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_main"
-    app:startDestination="@id/fragmentEntrance">
+    app:startDestination="@id/entranceFragment">
 
     <fragment
-        android:id="@+id/fragmentEntrance"
-        android:name="com.hypersoft.baseproject.app.flows.entrance.presentation.ui.FragmentEntrance"
+        android:id="@+id/entranceFragment"
+        android:name="com.hypersoft.baseproject.presentation.entrance.ui.EntranceFragment"
         android:label="fragment_entrance"
         tools:layout="@layout/fragment_entrance">
         <action
-            android:id="@+id/action_fragmentEntrance_to_fragmentLanguage"
-            app:destination="@id/fragmentLanguage"
+            android:id="@+id/action_entranceFragment_to_languageFragment"
+            app:destination="@id/languageFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
-            app:popUpTo="@id/fragmentEntrance"
+            app:popUpTo="@id/entranceFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_entranceFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/entranceFragment"
             app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
-        android:id="@+id/fragmentLanguage"
-        android:name="com.hypersoft.baseproject.app.flows.language.presentation.language.ui.FragmentLanguage"
+        android:id="@+id/languageFragment"
+        android:name="com.hypersoft.baseproject.presentation.language.ui.LanguageFragment"
         android:label="fragment_language"
         tools:layout="@layout/fragment_language">
         <action
-            android:id="@+id/action_fragmentLanguage_to_fragmentDashboard"
-            app:destination="@id/fragmentDashboard"
+            android:id="@+id/action_languageFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
-            app:popUpTo="@id/fragmentLanguage"
+            app:popUpTo="@id/languageFragment"
             app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
-        android:id="@+id/fragmentDashboard"
-        android:name="com.hypersoft.baseproject.app.flows.dashboard.presentation.FragmentDashboard"
+        android:id="@+id/dashboardFragment"
+        android:name="com.hypersoft.baseproject.presentation.dashboard.DashboardFragment"
         android:label="fragment_dashboard"
         tools:layout="@layout/fragment_dashboard">
         <action
-            android:id="@+id/action_fragmentDashboard_to_fragmentInAppLanguage"
-            app:destination="@id/fragmentInAppLanguage"
+            android:id="@+id/action_dashboardFragment_to_drawerFragment"
+            app:destination="@id/drawerFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
         <action
-            android:id="@+id/action_fragmentDashboard_to_fragmentDrawer"
-            app:destination="@id/fragmentDrawer"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/static_anim"
-            app:popEnterAnim="@anim/static_anim"
-            app:popExitAnim="@anim/slide_out_left" />
-        <action
-            android:id="@+id/action_fragmentDashboard_to_nav_graph_media"
+            android:id="@+id/action_dashboardFragment_to_nav_graph_media"
             app:destination="@id/nav_graph_media"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
         <action
-            android:id="@+id/action_fragmentDashboard_to_fragmentRemoteConfig"
-            app:destination="@id/fragmentRemoteConfig"
+            android:id="@+id/action_dashboardFragment_to_inAppLanguageFragment"
+            app:destination="@id/inAppLanguageFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            />
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
-        android:id="@+id/fragmentDrawer"
-        android:name="com.hypersoft.baseproject.app.flows.drawer.presentation.FragmentDrawer"
+        android:id="@+id/drawerFragment"
+        android:name="com.hypersoft.baseproject.presentation.drawer.ui.DrawerFragment"
         android:label="fragment_drawer"
         tools:layout="@layout/fragment_drawer" />
 
     <fragment
-        android:id="@+id/fragmentPremium"
-        android:name="com.hypersoft.baseproject.app.flows.premium.presentation.FragmentPremium"
+        android:id="@+id/premiumFragment"
+        android:name="com.hypersoft.baseproject.presentation.premium.ui.PremiumFragment"
         android:label="fragment_premium"
         tools:layout="@layout/fragment_premium" />
 
     <fragment
-        android:id="@+id/fragmentInAppLanguage"
-        android:name="com.hypersoft.baseproject.app.flows.language.presentation.inAppLanguage.ui.FragmentInAppLanguage"
+        android:id="@+id/inAppLanguageFragment"
+        android:name="com.hypersoft.baseproject.presentation.inAppLanguage.ui.InAppLanguageFragment"
         android:label="fragment_in_app_language"
         tools:layout="@layout/fragment_in_app_language" />
 
     <!-- ___________________ Global Actions ___________________ -->
 
     <action
-        android:id="@+id/action_global_fragmentPremium"
-        app:destination="@id/fragmentPremium"
+        android:id="@+id/action_global_premiumFragment"
+        app:destination="@id/premiumFragment"
         app:enterAnim="@anim/slide_in_bottom"
         app:exitAnim="@anim/static_anim"
         app:popEnterAnim="@anim/static_anim"
         app:popExitAnim="@anim/slide_out_bottom" />
+
+    <!-- ___________________ Child NavGraph ___________________ -->
+
     <include app:graph="@navigation/nav_graph_media" />
-    <fragment
-        android:id="@+id/fragmentRemoteConfig"
-        android:name="com.hypersoft.baseproject.app.features.remoteConfig.presentation.ui.FragmentRemoteConfig"
-        android:label="FragmentRemoteConfig"
-        tools:layout="@layout/fragment_remote_config"
-        />
+
 </navigation>
