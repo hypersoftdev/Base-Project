@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/img_bg_entrance_compressed"
-    tools:context=".app.flows.entrance.presentation.ui.FragmentEntrance">
+    tools:context=".entrance.ui.EntranceFragment">
 
     <androidx.constraintlayout.utils.widget.ImageFilterView
         android:id="@+id/ifvLogoEntrance"
@@ -34,7 +34,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ifvLogoEntrance"
         app:layout_constraintWidth_percent="0.2"
-        app:lottie_autoPlay="true"
         app:lottie_loop="true"
         app:lottie_rawRes="@raw/anim_entrance_footer" />
 
