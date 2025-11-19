@@ -1,0 +1,10 @@
+package com.hypersoft.baseproject.data.repositories.repositories
+
+import com.hypersoft.baseproject.data.dataSources.inAppMemory.entities.Language
+import kotlinx.coroutines.flow.Flow
+
+interface LanguageRepository {
+    suspend fun getLanguages(): Flow<List<Language>>
+    suspend fun updateLanguageCode(selectedCode: String): Flow<List<Language>>
+    suspend fun applyLanguage(selectedCode: String)
+}

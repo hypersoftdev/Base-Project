@@ -1,8 +1,8 @@
 package com.hypersoft.baseproject.presentation.entrance.ui
 
 import com.hypersoft.baseproject.core.base.fragment.BaseFragment
+import com.hypersoft.baseproject.core.extensions.collectWhenStarted
 import com.hypersoft.baseproject.core.extensions.navigateTo
-import com.hypersoft.baseproject.core.extensions.repeatWhenStarted
 import com.hypersoft.baseproject.core.extensions.showToast
 import com.hypersoft.baseproject.presentation.R
 import com.hypersoft.baseproject.presentation.databinding.FragmentEntranceBinding
@@ -23,13 +23,13 @@ class EntranceFragment : BaseFragment<FragmentEntranceBinding>(FragmentEntranceB
     }
 
     private fun observeState() {
-        repeatWhenStarted(viewModel.state) { state ->
+        collectWhenStarted(viewModel.state) { state ->
             renderState(state)
         }
     }
 
     private fun observeEffects() {
-        repeatWhenStarted(viewModel.effect) { effect ->
+        collectWhenStarted(viewModel.effect) { effect ->
             handleEffect(effect)
         }
     }

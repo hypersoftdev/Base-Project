@@ -7,6 +7,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.withCreated
 import androidx.lifecycle.withResumed
 import androidx.lifecycle.withStarted
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 fun LifecycleOwner.launchWhenCreated(callback: () -> Unit) {
@@ -27,4 +28,8 @@ inline fun LifecycleOwner.repeatWhenStarted(lifecycleState: Lifecycle.State = Li
             block()
         }
     }
+}
+
+inline fun <T> LifecycleOwner.collectWhenStarted(flow: Flow<T>, lifecycleState: Lifecycle.State = Lifecycle.State.STARTED, crossinline block: suspend (T) -> Unit) {
+    repeatWhenStarted(lifecycleState = lifecycleState) { flow.collect { block(it) } }
 }
