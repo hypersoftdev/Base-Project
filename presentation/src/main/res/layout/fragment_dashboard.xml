@@ -4,16 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".app.flows.dashboard.presentation.FragmentDashboard">
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bnvContainerDashboard"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/menu_dashboard" />
+    tools:context=".dashboard.ui.DashboardFragment">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fcvContainerDashboard"
@@ -26,5 +17,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/nav_graph_dashboard" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bnvContainerDashboard"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/menu_dashboard" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

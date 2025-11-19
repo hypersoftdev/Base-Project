@@ -7,11 +7,6 @@
         android:title="@string/home" />
 
     <item
-        android:id="@+id/fragmentHistory"
-        android:icon="@drawable/ic_dashboard_history"
-        android:title="@string/history" />
-
-    <item
         android:id="@+id/fragmentSettings"
         android:icon="@drawable/ic_dashboard_settings"
         android:title="@string/settings" />
