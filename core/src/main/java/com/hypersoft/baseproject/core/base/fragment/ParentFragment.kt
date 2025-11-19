@@ -1,6 +1,5 @@
-package com.hypersoft.baseproject.utilities.base.fragment
+package com.hypersoft.baseproject.core.base.fragment
 
-import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,18 +16,7 @@ abstract class ParentFragment<T : ViewBinding>(val bindingFactory: (LayoutInflat
      *          -> before onDestroyView
      */
     private var _binding: T? = null
-    protected val binding get() = _binding!!
-
-    /**
-     * These properties are only valid between onCreateView and onDestroyView
-     * @property globalContext
-     * @property globalActivity
-     *          -> after onCreateView
-     *          -> before onDestroyView
-     */
-
-    protected val globalContext by lazy { binding.root.context }
-    protected val globalActivity by lazy { globalContext as Activity }
+    protected val binding get() = _binding ?: throw IllegalStateException("Accessing binding outside of view lifecycle")
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = bindingFactory(inflater)
@@ -37,13 +25,19 @@ abstract class ParentFragment<T : ViewBinding>(val bindingFactory: (LayoutInflat
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        onViewCreated(savedInstanceState)
         onViewCreated()
+        initObservers()
     }
 
     /**
      *  @since : Start code...
      */
+    open fun onViewCreated(savedInstanceState: Bundle?) {}
+
     abstract fun onViewCreated()
+
+    open fun initObservers() {}
 
     override fun onDestroyView() {
         super.onDestroyView()
