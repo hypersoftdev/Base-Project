@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ______________________________ ٹوسٹ ______________________________ -->
+
+
+    <!-- ____________________________________ UI _______________________________ -->
+
+    <!--Language -->
+    <string name="choose_your_language">اپنی زبان منتخب کریں</string>
+    <string name="_continue">جاری رکھیں</string>
+
+    <!-- ڈیش بورڈ -->
+    <string name="home">ہوم</string>
+    <string name="history">تاریخ</string>
+    <string name="settings">ترتیبات</string>
+
+    <!-- گھر -->
+    <string name="media">میڈیا</string>
+
+    <!-- پریمیم -->
+    <string name="premium">پریمیم</string>
+
+    <!-- ترتیبات -->
+    <string name="app_language">ایپ کی زبان</string>
+    <string name="rate_us">ہمیں درجہ بندی کریں</string>
+    <string name="share_app">ایپ کا اشتراک کریں</string>
+    <string name = "feedback"> تاثرات</string>
+    <string name = "privacy_policy"> رازداری کی پالیسی</string>
+    <string name="version">ورژن</string>
+
+    <!--InApp زبان -->
+    <string name="change_language">زبان تبدیل کریں</string>
+    <string name="search_language">تلاش کی زبان…</string>
+    <string name = "apply"> اپلائی کریں</string>
+    <string name="select_distinct_language">مختلف زبان منتخب کریں</string>
+
+    <!-- باہر نکلیں -->
+    <string name="exit_message">کیا آپ باہر نکلنا چاہتے ہیں؟</string>
+    <string name="exit">باہر نکلیں</string>
+    <string name="cancel">منسوخ کریں</string>
+</resources>

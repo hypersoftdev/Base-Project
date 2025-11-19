@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<defaultsMap>
+    <entry>
+        <key>interEntrance</key>
+        <value>0</value>
+    </entry>
+    <entry>
+        <key>nativeEntrance</key>
+        <value>0</value>
+    </entry>
+</defaultsMap>
