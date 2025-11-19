@@ -38,6 +38,7 @@
     <string name="feedback">Feedback</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="version">Version</string>
+    <string name="version_s">Version (%s)</string>
 
     <!-- InApp Language -->
     <string name="change_language">Change Language</string>
@@ -49,8 +50,6 @@
     <string name="exit_message">Do you want to exit?</string>
     <string name="exit">Exit</string>
     <string name="cancel">Cancel</string>
-    <string name="fetching_remote_config">Fetching Remote Config...</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="fetching_remote_config">Fetching Remote Config…</string>
 
 </resources>

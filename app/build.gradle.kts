@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.hypersoft.baseproject"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.hypersoft.baseproject"
@@ -65,17 +65,18 @@ android {
 }
 
 dependencies {
+    // Modules
+    implementation(project(":core"))
+    implementation(project(":data"))
+    implementation(project(":domain"))
+    implementation(project(":presentation"))
+
+    // Core Android
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-    implementation(libs.glide)
-
-    // Unit Testing
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
 
     // Splash Screen Api
     implementation(libs.androidx.core.splashscreen)
