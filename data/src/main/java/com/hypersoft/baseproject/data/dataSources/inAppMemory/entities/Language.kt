@@ -7,5 +7,5 @@ data class Language(
     val languageCode: String,
     val languageName: String,
     val isSelected: Boolean = false,
-    val itemClick: () -> Unit
+    val itemClick: () -> Unit = {}
 )
