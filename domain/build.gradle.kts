@@ -32,13 +32,9 @@ android {
 
 dependencies {
     // Core Modules
-    api(project(":core"))
-
-    // Coroutines
-    implementation(libs.kotlinx.coroutines.core)
+    implementation(project(":core"))
 
     // Dependency Injection -> Koin
     implementation(libs.koin.android)
     implementation(libs.koin.core.coroutines)
 }
-

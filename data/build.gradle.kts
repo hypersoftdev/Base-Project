@@ -40,12 +40,7 @@ dependencies {
     // Android Core
     implementation(libs.androidx.core.ktx)
 
-    // Coroutines
-    implementation(libs.kotlinx.coroutines.core)
-    implementation(libs.kotlinx.coroutines.android)
-
     // Dependency Injection -> Koin
     implementation(libs.koin.android)
     implementation(libs.koin.core.coroutines)
 }
-

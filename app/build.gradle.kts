@@ -68,27 +68,7 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":presentation"))
 
-    // Core Android
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    implementation(libs.androidx.activity)
-    implementation(libs.androidx.constraintlayout)
-
-    // Splash Screen Api
-    implementation(libs.androidx.core.splashscreen)
-
-    // Navigational Components
-    implementation(libs.androidx.navigation.fragment.ktx)
-    implementation(libs.androidx.navigation.ui.ktx)
-
     // Dependency Injection -> Koin
     implementation(libs.koin.android)
     implementation(libs.koin.core.coroutines)
-
-    // Swipe Refresh Layout
-    implementation(libs.androidx.swiperefreshlayout)
-
-    // Lottie Animations
-    implementation(libs.lottie)
 }

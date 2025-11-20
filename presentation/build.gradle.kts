@@ -51,9 +51,6 @@ dependencies {
     // Fragment Ktx
     implementation(libs.androidx.fragment.ktx)
 
-    // RecyclerView
-    implementation(libs.androidx.recyclerview)
-
     // Navigational Components
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
@@ -62,21 +59,9 @@ dependencies {
     implementation(libs.koin.android)
     implementation(libs.koin.core.coroutines)
 
-    // Coroutines
-    implementation(libs.kotlinx.coroutines.core)
-    implementation(libs.kotlinx.coroutines.android)
-
     // Lottie Animation
     implementation(libs.lottie)
-
-    // Swipe Refresh Layout
-    implementation(libs.androidx.swiperefreshlayout)
-
-    // Media3 ExoPlayer
-    implementation(libs.androidx.media3.exoplayer)
-    implementation(libs.androidx.media3.ui)
 
     // Glide
     implementation(libs.glide)
 }
-
