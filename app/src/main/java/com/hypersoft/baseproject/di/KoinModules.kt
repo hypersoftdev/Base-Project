@@ -7,6 +7,7 @@ import com.hypersoft.baseproject.presentation.entrance.di.entrancePresentationMo
 import com.hypersoft.baseproject.presentation.home.di.homePresentationModule
 import com.hypersoft.baseproject.presentation.inAppLanguage.di.inAppLanguagePresentationModule
 import com.hypersoft.baseproject.presentation.language.di.languagePresentationModule
+import com.hypersoft.baseproject.presentation.media.di.mediaPresentationModule
 import com.hypersoft.baseproject.presentation.premium.di.premiumPresentationModule
 import com.hypersoft.baseproject.presentation.settings.di.settingsPresentationModule
 import org.koin.core.module.LazyModule
@@ -31,7 +32,10 @@ class KoinModules {
             // Presentation Modules
             entrancePresentationModule,
             languagePresentationModule,
+
             homePresentationModule,
+            mediaPresentationModule,
+
             premiumPresentationModule,
             settingsPresentationModule,
             inAppLanguagePresentationModule,
