@@ -16,4 +16,3 @@ data class AudioEntity(
     val dateModified: Long = 0,
     val folderName: String = ""
 ) : Parcelable
-

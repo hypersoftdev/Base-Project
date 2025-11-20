@@ -30,7 +30,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     override fun initObservers() {
         observeState()
-        observeEffects()
+        observeEffect()
     }
 
     private fun registerBackPress() {
@@ -43,7 +43,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         }
     }
 
-    private fun observeEffects() {
+    private fun observeEffect() {
         collectWhenStarted(viewModel.effect) { effect ->
             handleEffect(effect)
         }

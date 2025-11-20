@@ -26,7 +26,7 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(FragmentHistoryBind
 
     override fun initObservers() {
         observeState()
-        observeEffects()
+        observeEffect()
     }
 
     private fun observeState() {
@@ -35,7 +35,7 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(FragmentHistoryBind
         }
     }
 
-    private fun observeEffects() {
+    private fun observeEffect() {
         collectWhenStarted(viewModel.effect) { effect ->
             handleEffect(effect)
         }

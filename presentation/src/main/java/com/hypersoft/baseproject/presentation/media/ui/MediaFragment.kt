@@ -26,7 +26,7 @@ class MediaFragment : BaseFragment<FragmentMediaBinding>(FragmentMediaBinding::i
 
     override fun initObservers() {
         observeState()
-        observeEffects()
+        observeEffect()
     }
 
     private fun observeState() {
@@ -35,7 +35,7 @@ class MediaFragment : BaseFragment<FragmentMediaBinding>(FragmentMediaBinding::i
         }
     }
 
-    private fun observeEffects() {
+    private fun observeEffect() {
         collectWhenStarted(viewModel.effect) { effect ->
             handleEffect(effect)
         }

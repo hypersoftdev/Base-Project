@@ -19,7 +19,7 @@ class EntranceFragment : BaseFragment<FragmentEntranceBinding>(FragmentEntranceB
 
     override fun initObservers() {
         observeState()
-        observeEffects()
+        observeEffect()
     }
 
     private fun observeState() {
@@ -28,7 +28,7 @@ class EntranceFragment : BaseFragment<FragmentEntranceBinding>(FragmentEntranceB
         }
     }
 
-    private fun observeEffects() {
+    private fun observeEffect() {
         collectWhenStarted(viewModel.effect) { effect ->
             handleEffect(effect)
         }

@@ -1,83 +1,91 @@
 package com.hypersoft.baseproject.presentation.mediaAudioDetails.ui
 
-import android.media.MediaPlayer
-import android.net.Uri
+import androidx.core.view.isVisible
+import androidx.navigation.fragment.navArgs
 import com.hypersoft.baseproject.core.base.fragment.BaseFragment
+import com.hypersoft.baseproject.core.extensions.collectWhenStarted
 import com.hypersoft.baseproject.core.extensions.popFrom
+import com.hypersoft.baseproject.core.extensions.showToast
+import com.hypersoft.baseproject.core.extensions.toTimeFormat
 import com.hypersoft.baseproject.presentation.R
 import com.hypersoft.baseproject.presentation.databinding.FragmentMediaAudioDetailBinding
-import java.io.IOException
+import com.hypersoft.baseproject.presentation.mediaAudioDetails.effect.MediaAudioDetailEffect
+import com.hypersoft.baseproject.presentation.mediaAudioDetails.intent.MediaAudioDetailIntent
+import com.hypersoft.baseproject.presentation.mediaAudioDetails.state.MediaAudioDetailState
+import com.hypersoft.baseproject.presentation.mediaAudioDetails.viewModel.MediaAudioDetailViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import com.hypersoft.baseproject.core.R as coreR
 
 class MediaAudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(FragmentMediaAudioDetailBinding::inflate) {
 
-    private var mediaPlayer: MediaPlayer? = null
-    private var audioUri: String? = null
-    private var isPlaying = false
+    private val navArgs: MediaAudioDetailFragmentArgs by navArgs()
+
+    private val viewModel: MediaAudioDetailViewModel by viewModel()
 
     override fun onViewCreated() {
-        audioUri = arguments?.getString("audioUriPath")
+        loadAudio()
 
-
-        binding.mbBackMediaAudioDetail.setOnClickListener { popFrom(R.id.mediaAudiosFragment) }
-        binding.mbPlayPauseMediaAudioDetail.setOnClickListener { togglePlayPause() }
-
-        audioUri?.let { uri ->
-            loadAudioInfo(uri)
-            initializeMediaPlayer(uri)
-        }
-    }
-
-    private fun loadAudioInfo(uriString: String) {
-        // For now, just show the URI. You can enhance this to load metadata
-        binding.mtvTitleMediaAudioDetail.text = "Audio File"
-        binding.mtvArtistMediaAudioDetail.text = uriString
-    }
-
-    private fun initializeMediaPlayer(uriString: String) {
-        try {
-            val uri = Uri.parse(uriString)
-            mediaPlayer = MediaPlayer().apply {
-                setDataSource(requireContext(), uri)
-                prepareAsync()
-                setOnPreparedListener {
-                    // MediaPlayer is ready
-                }
-                setOnCompletionListener {
-                    this@MediaAudioDetailFragment.isPlaying = false
-                    updatePlayPauseButton()
-                }
+        binding.mbBackMediaAudioDetail.setOnClickListener { viewModel.handleIntent(MediaAudioDetailIntent.NavigateBack) }
+        binding.mbPlayPauseMediaAudioDetail.setOnClickListener { viewModel.handleIntent(MediaAudioDetailIntent.PlayPause) }
+        binding.sliderMediaAudioDetail.addOnChangeListener { _, value, fromUser ->
+            if (fromUser) {
+                viewModel.handleIntent(MediaAudioDetailIntent.SeekTo(value.toInt()))
             }
-        } catch (e: IOException) {
-            e.printStackTrace()
         }
     }
 
-    private fun togglePlayPause() {
-        mediaPlayer?.let { player ->
-            if (isPlaying) {
-                player.pause()
-                isPlaying = false
-            } else {
-                player.start()
-                isPlaying = true
+    private fun loadAudio() {
+        viewModel.handleIntent(MediaAudioDetailIntent.LoadAudio(navArgs.audioUriPath))
+    }
+
+    override fun initObservers() {
+        observeState()
+        observeEffect()
+    }
+
+    private fun observeState() {
+        collectWhenStarted(viewModel.state) { state ->
+            renderState(state)
+        }
+    }
+
+    private fun observeEffect() {
+        collectWhenStarted(viewModel.effect) { effect ->
+            handleEffect(effect)
+        }
+    }
+
+    private fun renderState(state: MediaAudioDetailState) {
+        // Update title and artist
+        binding.mtvTitleMediaAudioDetail.text = state.title
+        binding.mtvArtistMediaAudioDetail.text = state.artist
+
+        // Update play/pause button icon
+        binding.mbPlayPauseMediaAudioDetail.setIconResource(
+            when (state.isPlaying) {
+                true -> coreR.drawable.ic_svg_pause
+                false -> coreR.drawable.ic_svg_play
             }
-            updatePlayPauseButton()
+        )
+
+        // Update slider
+        if (state.duration > 0) {
+            binding.sliderMediaAudioDetail.valueTo = state.duration.toFloat()
+            binding.sliderMediaAudioDetail.value = state.currentProgress.toFloat()
         }
+
+        // Update time labels (MediaPlayer returns milliseconds)
+        binding.mtvCurrentProgressMediaAudioDetail.text = state.currentProgress.toLong().toTimeFormat()
+        binding.mtvTotalTimeMediaAudioDetail.text = state.duration.toLong().toTimeFormat()
+
+        // Show/hide loading indicator if you have one
+        binding.cpiLoadingMediaAudioDetail.isVisible = state.isLoading
     }
 
-    private fun updatePlayPauseButton() {
-        // Update button icon based on play/pause state
-        // You can add play/pause icons here
-    }
-
-    override fun onPause() {
-        super.onPause()
-        mediaPlayer?.pause()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        mediaPlayer?.release()
-        mediaPlayer = null
+    private fun handleEffect(effect: MediaAudioDetailEffect) {
+        when (effect) {
+            is MediaAudioDetailEffect.NavigateBack -> popFrom(R.id.mediaAudioDetailFragment)
+            is MediaAudioDetailEffect.ShowError -> context?.showToast(effect.message)
+        }
     }
 }

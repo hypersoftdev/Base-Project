@@ -21,7 +21,7 @@ class PremiumFragment : BaseFragment<FragmentPremiumBinding>(FragmentPremiumBind
 
     override fun initObservers() {
         observeState()
-        observeEffects()
+        observeEffect()
     }
 
     private fun observeState() {
@@ -30,7 +30,7 @@ class PremiumFragment : BaseFragment<FragmentPremiumBinding>(FragmentPremiumBind
         }
     }
 
-    private fun observeEffects() {
+    private fun observeEffect() {
         collectWhenStarted(viewModel.effect) { effect ->
             handleEffect(effect)
         }

@@ -27,7 +27,7 @@ class InAppLanguageFragment : BaseFragment<FragmentInAppLanguageBinding>(Fragmen
 
     override fun initObservers() {
         observeState()
-        observeEffects()
+        observeEffect()
     }
 
     private fun initRecyclerView() {
@@ -40,7 +40,7 @@ class InAppLanguageFragment : BaseFragment<FragmentInAppLanguageBinding>(Fragmen
         }
     }
 
-    private fun observeEffects() {
+    private fun observeEffect() {
         collectWhenStarted(viewModel.effect) { effect ->
             handleEffect(effect)
         }
