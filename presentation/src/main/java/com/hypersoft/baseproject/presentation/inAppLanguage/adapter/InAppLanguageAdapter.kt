@@ -6,7 +6,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.hypersoft.baseproject.data.dataSources.inAppMemory.entities.Language
+import com.hypersoft.baseproject.data.dataSources.inAppMemory.languages.entities.Language
 import com.hypersoft.baseproject.presentation.databinding.ItemInAppLanguageBinding
 
 class InAppLanguageAdapter : ListAdapter<Language, InAppLanguageAdapter.CustomViewHolder>(DiffCallback) {

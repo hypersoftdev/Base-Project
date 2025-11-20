@@ -1,7 +1,7 @@
-package com.hypersoft.baseproject.data.dataSources.inAppMemory
+package com.hypersoft.baseproject.data.dataSources.inAppMemory.languages
 
 import com.hypersoft.baseproject.core.R
-import com.hypersoft.baseproject.data.dataSources.inAppMemory.entities.Language
+import com.hypersoft.baseproject.data.dataSources.inAppMemory.languages.entities.Language
 
 class LanguageDataSource {
 

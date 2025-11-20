@@ -1,4 +1,4 @@
-package com.hypersoft.baseproject.data.dataSources.inAppMemory.entities
+package com.hypersoft.baseproject.data.dataSources.inAppMemory.languages.entities
 
 import androidx.annotation.DrawableRes
 

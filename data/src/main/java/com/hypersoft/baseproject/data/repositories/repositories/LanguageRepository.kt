@@ -1,6 +1,6 @@
 package com.hypersoft.baseproject.data.repositories.repositories
 
-import com.hypersoft.baseproject.data.dataSources.inAppMemory.entities.Language
+import com.hypersoft.baseproject.data.dataSources.inAppMemory.languages.entities.Language
 import kotlinx.coroutines.flow.Flow
 
 interface LanguageRepository {

@@ -2,8 +2,8 @@ package com.hypersoft.baseproject.data.repositories.repositories
 
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
-import com.hypersoft.baseproject.data.dataSources.inAppMemory.LanguageDataSource
-import com.hypersoft.baseproject.data.dataSources.inAppMemory.entities.Language
+import com.hypersoft.baseproject.data.dataSources.inAppMemory.languages.LanguageDataSource
+import com.hypersoft.baseproject.data.dataSources.inAppMemory.languages.entities.Language
 import com.hypersoft.baseproject.data.dataSources.storage.SharedPrefManager
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

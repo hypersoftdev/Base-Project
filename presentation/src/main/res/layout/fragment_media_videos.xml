@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.media.videos.ui.VideosFragment">
+    tools:context=".mediaVideos.ui.MediaVideosFragment">
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/mbBackVideos"
+        android:id="@+id/mbBackMediaVideos"
         style="@style/Widget.Material3.Button.IconButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -18,14 +18,14 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcvVideos"
+        android:id="@+id/rcvListMediaVideos"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:padding="4dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mbBackVideos" />
+        app:layout_constraintTop_toBottomOf="@+id/mbBackMediaVideos" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
