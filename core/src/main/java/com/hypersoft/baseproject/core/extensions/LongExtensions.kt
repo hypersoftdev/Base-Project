@@ -27,7 +27,10 @@ fun Long.toTimeFormat(): String {
     val hours = this / 3600000
     val minutes = (this % 3600000) / 60000
     val seconds = (this % 60000) / 1000
-    return String.format(Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, seconds)
+    return when (hours > 0L) {
+        true -> String.format(Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, seconds)
+        false -> String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds)
+    }
 }
 
 /**

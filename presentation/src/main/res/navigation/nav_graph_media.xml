@@ -97,7 +97,7 @@
 
     <fragment
         android:id="@+id/mediaAudioDetailFragment"
-        android:name="com.hypersoft.baseproject.presentation.mediaAudios.detail.AudioDetailFragment"
+        android:name="com.hypersoft.baseproject.presentation.mediaAudioDetails.ui.AudioDetailFragment"
         android:label="fragment_media_audio_detail"
         tools:layout="@layout/fragment_media_audio_detail" >
         <argument

@@ -52,6 +52,8 @@
         <item name="android:fontFamily">@font/poppins</item>
         <item name="fontFamily">@font/poppins</item>
 
+        <item name="android:includeFontPadding">false</item>
+
     </style>
 
     <style name="Theme.BaseProject" parent="Base.Theme.BaseProject" />
