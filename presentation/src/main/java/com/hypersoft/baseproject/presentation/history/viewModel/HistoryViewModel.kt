@@ -44,12 +44,8 @@ class HistoryViewModel(
 
     private suspend fun loadHistories() {
         _state.update { it.copy(isLoading = true) }
-        try {
-            val histories = repository.getHistories()
-            _state.update { it.copy(histories = histories, isLoading = false) }
-        } catch (ex: Exception) {
-            handleError(ex)
-        }
+        val histories = repository.getHistories()
+        _state.update { it.copy(histories = histories, isLoading = false) }
     }
 
     private suspend fun handleError(exception: Throwable) {
