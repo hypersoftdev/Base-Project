@@ -3,10 +3,12 @@ package com.hypersoft.baseproject.presentation.mediaAudioDetails.ui
 import android.media.MediaPlayer
 import android.net.Uri
 import com.hypersoft.baseproject.core.base.fragment.BaseFragment
+import com.hypersoft.baseproject.core.extensions.popFrom
+import com.hypersoft.baseproject.presentation.R
 import com.hypersoft.baseproject.presentation.databinding.FragmentMediaAudioDetailBinding
 import java.io.IOException
 
-class AudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(FragmentMediaAudioDetailBinding::inflate) {
+class MediaAudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(FragmentMediaAudioDetailBinding::inflate) {
 
     private var mediaPlayer: MediaPlayer? = null
     private var audioUri: String? = null
@@ -16,13 +18,8 @@ class AudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(Fragme
         audioUri = arguments?.getString("audioUriPath")
 
 
-        binding.mbBackAudioDetail.setOnClickListener {
-            requireActivity().onBackPressedDispatcher.onBackPressed()
-        }
-
-        binding.mbPlayPauseAudioDetail.setOnClickListener {
-            togglePlayPause()
-        }
+        binding.mbBackMediaAudioDetail.setOnClickListener { popFrom(R.id.mediaAudiosFragment) }
+        binding.mbPlayPauseMediaAudioDetail.setOnClickListener { togglePlayPause() }
 
         audioUri?.let { uri ->
             loadAudioInfo(uri)
@@ -32,8 +29,8 @@ class AudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(Fragme
 
     private fun loadAudioInfo(uriString: String) {
         // For now, just show the URI. You can enhance this to load metadata
-        binding.mtvTitleAudioDetail.text = "Audio File"
-        binding.mtvArtistAudioDetail.text = uriString
+        binding.mtvTitleMediaAudioDetail.text = "Audio File"
+        binding.mtvArtistMediaAudioDetail.text = uriString
     }
 
     private fun initializeMediaPlayer(uriString: String) {
@@ -46,7 +43,7 @@ class AudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(Fragme
                     // MediaPlayer is ready
                 }
                 setOnCompletionListener {
-                    this@AudioDetailFragment.isPlaying = false
+                    this@MediaAudioDetailFragment.isPlaying = false
                     updatePlayPauseButton()
                 }
             }

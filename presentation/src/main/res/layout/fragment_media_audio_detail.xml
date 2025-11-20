@@ -4,22 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/black"
-    tools:context=".mediaAudioDetails.ui.AudioDetailFragment">
+    tools:context=".mediaAudioDetails.ui.MediaAudioDetailFragment">
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/mbBackAudioDetail"
+        android:id="@+id/mbBackMediaAudioDetail"
         style="@style/Widget.Material3.Button.IconButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         app:icon="@drawable/ic_back"
-        app:iconTint="@android:color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/mtvTitleAudioDetail"
+        android:id="@+id/mtvTitleMediaAudioDetail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
@@ -28,14 +26,13 @@
         android:gravity="center"
         android:maxLines="2"
         android:textAppearance="?attr/textAppearanceHeadlineSmall"
-        android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mbBackAudioDetail"
+        app:layout_constraintTop_toBottomOf="@+id/mbBackMediaAudioDetail"
         tools:text="Audio Title" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/mtvArtistAudioDetail"
+        android:id="@+id/mtvArtistMediaAudioDetail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
@@ -44,23 +41,50 @@
         android:gravity="center"
         android:maxLines="1"
         android:textAppearance="?attr/textAppearanceBodyLarge"
-        android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mtvTitleAudioDetail"
+        app:layout_constraintTop_toBottomOf="@+id/mtvTitleMediaAudioDetail"
         tools:text="Artist Name" />
 
+    <com.google.android.material.slider.Slider
+        android:id="@+id/sliderMediaAudioDetail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="80dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mtvArtistMediaAudioDetail" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/mtvCurrentProgressMediaAudioDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/_00_00"
+        app:layout_constraintStart_toStartOf="@+id/sliderMediaAudioDetail"
+        app:layout_constraintTop_toBottomOf="@+id/sliderMediaAudioDetail" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/mtvTotalTimeMediaAudioDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/_00_00"
+        app:layout_constraintEnd_toEndOf="@+id/sliderMediaAudioDetail"
+        app:layout_constraintTop_toBottomOf="@+id/sliderMediaAudioDetail" />
+
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/mbPlayPauseAudioDetail"
+        android:id="@+id/mbPlayPauseMediaAudioDetail"
         style="@style/Widget.Material3.Button.IconButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
-        app:icon="@drawable/ic_back"
-        app:iconTint="@android:color/white"
+        app:icon="@drawable/ic_svg_play"
+        app:iconSize="64dp"
+        app:iconTint="#4DB353"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mtvArtistAudioDetail" />
+        app:layout_constraintTop_toBottomOf="@+id/sliderMediaAudioDetail" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
