@@ -16,6 +16,9 @@ import com.hypersoft.baseproject.presentation.mediaAudios.di.mediaAudiosPresenta
 import com.hypersoft.baseproject.presentation.mediaAudioDetails.di.mediaAudioDetailsPresentationModule
 import com.hypersoft.baseproject.presentation.mediaVideos.di.mediaVideosPresentationModule
 import com.hypersoft.baseproject.presentation.mediaVideoDetails.di.mediaVideoDetailsPresentationModule
+import com.hypersoft.baseproject.presentation.mediaImages.di.mediaImagesPresentationModule
+import com.hypersoft.baseproject.presentation.mediaImagesTab.di.imagesTabPresentationModule
+import com.hypersoft.baseproject.presentation.mediaImageDetails.di.mediaImageDetailsPresentationModule
 import com.hypersoft.baseproject.presentation.premium.di.premiumPresentationModule
 import com.hypersoft.baseproject.presentation.settings.di.settingsPresentationModule
 import org.koin.core.module.LazyModule
@@ -48,6 +51,9 @@ class KoinModules {
             mediaAudioDetailsPresentationModule,
             mediaVideosPresentationModule,
             mediaVideoDetailsPresentationModule,
+            mediaImagesPresentationModule,
+            imagesTabPresentationModule,
+            mediaImageDetailsPresentationModule,
             historyPresentationModule,
 
             premiumPresentationModule,

@@ -36,7 +36,7 @@ class MediaAudiosFragment : BaseFragment<FragmentMediaAudiosBinding>(FragmentMed
 
     override fun initObservers() {
         observeState()
-        observeEffect()
+        observeEffects()
     }
 
     private fun observeState() {
@@ -45,7 +45,7 @@ class MediaAudiosFragment : BaseFragment<FragmentMediaAudiosBinding>(FragmentMed
         }
     }
 
-    private fun observeEffect() {
+    private fun observeEffects() {
         collectWhenStarted(viewModel.effect) { effect ->
             handleEffect(effect)
         }

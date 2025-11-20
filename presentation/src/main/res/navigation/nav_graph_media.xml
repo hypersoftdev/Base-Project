@@ -61,7 +61,25 @@
         android:id="@+id/mediaImagesFragment"
         android:name="com.hypersoft.baseproject.presentation.mediaImages.ui.MediaImagesFragment"
         android:label="fragment_media_image"
-        tools:layout="@layout/fragment_media_images" />
+        tools:layout="@layout/fragment_media_images">
+        <action
+            android:id="@+id/action_mediaImagesFragment_to_mediaImageDetailFragment"
+            app:destination="@id/mediaImageDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/mediaImageDetailFragment"
+        android:name="com.hypersoft.baseproject.presentation.mediaImageDetails.ui.MediaImageDetailFragment"
+        android:label="fragment_media_image_detail"
+        tools:layout="@layout/fragment_media_image_detail">
+        <argument
+            android:name="imageUriPath"
+            app:argType="string" />
+    </fragment>
 
     <fragment
         android:id="@+id/mediaVideosFragment"
