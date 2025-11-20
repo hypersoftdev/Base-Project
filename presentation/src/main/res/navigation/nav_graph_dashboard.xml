@@ -12,6 +12,12 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
+        android:id="@+id/historyFragment"
+        android:name="com.hypersoft.baseproject.presentation.history.ui.HistoryFragment"
+        android:label="fragment_history"
+        tools:layout="@layout/fragment_history" />
+
+    <fragment
         android:id="@+id/settingsFragment"
         android:name="com.hypersoft.baseproject.presentation.settings.ui.SettingsFragment"
         android:label="fragment_settings"

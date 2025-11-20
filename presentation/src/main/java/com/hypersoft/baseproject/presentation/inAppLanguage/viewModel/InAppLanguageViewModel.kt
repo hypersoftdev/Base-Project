@@ -38,6 +38,10 @@ class InAppLanguageViewModel(
         }
     }
 
+    init {
+        handleIntent(InAppLanguageIntent.LoadLanguages)
+    }
+
     fun handleIntent(intent: InAppLanguageIntent) = viewModelScope.launch(coroutineExceptionHandler) {
         when (intent) {
             is InAppLanguageIntent.LoadLanguages -> loadLanguages()
