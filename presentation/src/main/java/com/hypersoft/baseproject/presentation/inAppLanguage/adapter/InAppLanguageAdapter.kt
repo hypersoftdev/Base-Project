@@ -1,4 +1,4 @@
-package com.hypersoft.baseproject.presentation.language.adapter
+package com.hypersoft.baseproject.presentation.inAppLanguage.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,13 +7,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.hypersoft.baseproject.data.dataSources.inAppMemory.entities.Language
-import com.hypersoft.baseproject.presentation.databinding.ItemLanguageBinding
+import com.hypersoft.baseproject.presentation.databinding.ItemInAppLanguageBinding
 
-class LanguageAdapter : ListAdapter<Language, LanguageAdapter.CustomViewHolder>(DiffCallback) {
+class InAppLanguageAdapter : ListAdapter<Language, InAppLanguageAdapter.CustomViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val binding = ItemLanguageBinding.inflate(layoutInflater, parent, false)
+        val binding = ItemInAppLanguageBinding.inflate(layoutInflater, parent, false)
         return CustomViewHolder(binding)
     }
 
@@ -21,19 +21,19 @@ class LanguageAdapter : ListAdapter<Language, LanguageAdapter.CustomViewHolder>(
         holder.bindViews(getItem(position))
     }
 
-    inner class CustomViewHolder(private val binding: ItemLanguageBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class CustomViewHolder(private val binding: ItemInAppLanguageBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bindViews(currentItem: Language) {
             binding.apply {
                 // Fill views
-                ifvImageItemLanguage.setImageResource(currentItem.flagIcon)
-                mtvLanguageItemLanguage.text = currentItem.languageName
+                ifvImageItemInAppLanguage.setImageResource(currentItem.flagIcon)
+                mtvLanguageItemInAppLanguage.text = currentItem.languageName
 
                 // Selection
-                sivTickItemLanguage.isVisible = currentItem.isSelected
-                sivOverlayItemLanguage.isVisible = currentItem.isSelected
+                sivTickItemInAppLanguage.isVisible = currentItem.isSelected
+                sivOverlayItemInAppLanguage.isVisible = currentItem.isSelected
 
                 // Clicks
-                mcvContainerItemLanguage.setOnClickListener { currentItem.itemClick() }
+                mcvContainerItemInAppLanguage.setOnClickListener { currentItem.itemClick() }
             }
         }
     }
