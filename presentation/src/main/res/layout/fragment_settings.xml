@@ -76,6 +76,7 @@
                 style="@style/CustomTextSettings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:drawableEnd="@null"
                 android:text="@string/version_s" />
 
         </LinearLayout>

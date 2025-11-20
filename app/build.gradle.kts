@@ -11,11 +11,9 @@ android {
     defaultConfig {
         applicationId = "com.hypersoft.baseproject"
         minSdk = 24
-        targetSdk = 35
-        versionCode = 21
-        versionName = "2.1.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        targetSdk = 36
+        versionCode = 3
+        versionName = "3.0.0-MVI"
     }
 
     // Use the "release" signing configuration for the release build
