@@ -76,7 +76,7 @@
 
     <fragment
         android:id="@+id/drawerFragment"
-        android:name="com.hypersoft.baseproject.presentation.drawer.ui.DrawerFragment"
+        android:name="com.hypersoft.baseproject.presentation.drawer.DrawerFragment"
         android:label="fragment_drawer"
         tools:layout="@layout/fragment_drawer" />
 
