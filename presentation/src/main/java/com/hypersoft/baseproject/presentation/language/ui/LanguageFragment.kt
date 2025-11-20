@@ -25,13 +25,13 @@ class LanguageFragment : BaseFragment<FragmentLanguageBinding>(FragmentLanguageB
         binding.mbContinueLanguage.setOnClickListener { viewModel.handleIntent(LanguageIntent.ApplyLanguage) }
     }
 
+    private fun initRecyclerView() {
+        binding.rvListLanguage.adapter = adapter
+    }
+
     override fun initObservers() {
         observeState()
         observeEffects()
-    }
-
-    private fun initRecyclerView() {
-        binding.rvListLanguage.adapter = adapter
     }
 
     private fun observeState() {

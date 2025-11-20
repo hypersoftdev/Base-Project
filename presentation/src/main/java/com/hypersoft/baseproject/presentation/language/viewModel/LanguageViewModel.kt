@@ -38,6 +38,10 @@ class LanguageViewModel(
         }
     }
 
+    init {
+        handleIntent(LanguageIntent.LoadLanguages)
+    }
+
     fun handleIntent(intent: LanguageIntent) = viewModelScope.launch(coroutineExceptionHandler) {
         when (intent) {
             is LanguageIntent.LoadLanguages -> loadLanguages()
@@ -47,36 +51,36 @@ class LanguageViewModel(
     }
 
     private suspend fun loadLanguages() {
-        _state.update { it.copy(isLoading = true, error = null) }
+        _state.update { it.copy(isLoading = true) }
 
         repository
             .getLanguages()
-            .map { languages ->
-                languages.map { language ->
-                    if (language.isSelected) {
-                        _state.update { it.copy(selectedLanguageCode = language.languageCode) }
-                    }
+            .map { list ->
+                val selectedCode = list.find { it.isSelected }?.languageCode
+                _state.update { it.copy(selectedLanguageCode = selectedCode) }
 
-                    language.copy(itemClick = { selectLanguage(language.languageCode) })
+                list.map { language ->
+                    language.copy(
+                        isSelected = language.languageCode == selectedCode,
+                        itemClick = { handleIntent(LanguageIntent.SelectLanguage(language.languageCode)) }
+                    )
                 }
             }
             .flowOn(defaultDispatcher)
             .catch {
                 handleError(it)
             }
-            .collect { languages ->
-                _state.update { it.copy(isLoading = false, languages = languages, error = null) }
+            .collect { list ->
+                _state.update { it.copy(isLoading = false, languages = list) }
             }
     }
 
-    private fun selectLanguage(selectedCode: String) = viewModelScope.launch {
+    private fun selectLanguage(selectedCode: String) {
         _state.update { it.copy(selectedLanguageCode = selectedCode) }
 
-        repository
-            .updateLanguageCode(selectedCode)
-            .collect { languages ->
-                _state.update { it.copy(languages = languages, error = null) }
-            }
+        val updatedList = _state.value.languages.map { it.copy(isSelected = it.languageCode == selectedCode) }
+
+        _state.update { it.copy(languages = updatedList) }
     }
 
     private suspend fun applyLanguage() {
