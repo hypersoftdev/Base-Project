@@ -17,15 +17,41 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:text="@string/videos"
+        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/mbBackMediaVideos"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/mbBackMediaVideos"
+        app:layout_constraintTop_toTopOf="@+id/mbBackMediaVideos" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvListMediaVideos"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:padding="4dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mbBackMediaVideos" />
+        app:layout_constraintTop_toBottomOf="@+id/mbBackMediaVideos"
+        tools:listitem="@layout/item_media_video" />
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/cpiLoadingMediaVideos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

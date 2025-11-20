@@ -67,6 +67,24 @@
         android:id="@+id/mediaVideosFragment"
         android:name="com.hypersoft.baseproject.presentation.mediaVideos.ui.MediaVideosFragment"
         android:label="fragment_media_video"
-        tools:layout="@layout/fragment_media_videos" />
+        tools:layout="@layout/fragment_media_videos">
+        <action
+            android:id="@+id/action_mediaVideosFragment_to_mediaVideoDetailFragment"
+            app:destination="@id/mediaVideoDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/mediaVideoDetailFragment"
+        android:name="com.hypersoft.baseproject.presentation.mediaVideoDetails.ui.MediaVideoDetailFragment"
+        android:label="fragment_media_video_detail"
+        tools:layout="@layout/fragment_media_video_detail">
+        <argument
+            android:name="videoUriPath"
+            app:argType="string" />
+    </fragment>
 
 </navigation>
