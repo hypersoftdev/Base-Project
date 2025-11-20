@@ -2,6 +2,8 @@ package com.hypersoft.baseproject.di
 
 import com.hypersoft.baseproject.core.di.modules.coreModule
 import com.hypersoft.baseproject.core.di.modules.dispatchersModule
+import com.hypersoft.baseproject.data.di.dataSourceModules
+import com.hypersoft.baseproject.data.di.repositoryModules
 import com.hypersoft.baseproject.di.modules.appModule
 import com.hypersoft.baseproject.presentation.entrance.di.entrancePresentationModule
 import com.hypersoft.baseproject.presentation.history.di.historyPresentationModule
@@ -24,8 +26,11 @@ class KoinModules {
             coreModule,
             dispatchersModule,
 
+            // Data Modules
+            dataSourceModules,
+            repositoryModules,
+
             /*// Data Modules
-            dataSourceModule,
             entranceDataModule,
             languageDataModule,
             audioDataModule,*/
