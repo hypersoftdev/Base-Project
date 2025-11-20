@@ -6,5 +6,5 @@
     android:padding="16dp"
     android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
     android:textStyle="bold|italic"
-    tools:context=".app.features.history.presentation.adapter.AdapterHistory"
+    tools:context=".history.adapter.HistoryAdapter"
     tools:text="@tools:sample/full_names" />
