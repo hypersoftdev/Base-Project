@@ -1,4 +1,4 @@
-package com.hypersoft.baseproject.data.repositories.repositories
+package com.hypersoft.baseproject.data.repositories.language
 
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat

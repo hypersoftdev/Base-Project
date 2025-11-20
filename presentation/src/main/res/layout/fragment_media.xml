@@ -18,10 +18,10 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/mbImageMedia"
+        android:id="@+id/mbAudioMedia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/images"
+        android:text="@string/audios"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,14 +29,14 @@
         app:layout_constraintVertical_bias="0.3" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/mbAudioMedia"
+        android:id="@+id/mbImageMedia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="@string/audios"
+        android:text="@string/images"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mbImageMedia" />
+        app:layout_constraintTop_toBottomOf="@+id/mbAudioMedia" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/mbVideoMedia"
@@ -46,6 +46,6 @@
         android:text="@string/videos"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mbAudioMedia" />
+        app:layout_constraintTop_toBottomOf="@+id/mbImageMedia" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,7 +2,7 @@ package com.hypersoft.baseproject.presentation.inAppLanguage.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hypersoft.baseproject.data.repositories.repositories.LanguageRepository
+import com.hypersoft.baseproject.data.repositories.language.LanguageRepository
 import com.hypersoft.baseproject.presentation.inAppLanguage.effect.InAppLanguageEffect
 import com.hypersoft.baseproject.presentation.inAppLanguage.intent.InAppLanguageIntent
 import com.hypersoft.baseproject.presentation.inAppLanguage.state.InAppLanguageState
