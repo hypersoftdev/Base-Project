@@ -39,7 +39,6 @@ class HistoryViewModel(
     fun handleIntent(intent: HistoryIntent) = viewModelScope.launch(coroutineExceptionHandler) {
         when (intent) {
             is HistoryIntent.LoadHistories -> loadHistories()
-            is HistoryIntent.ErrorCleared -> _state.update { it.copy(error = null) }
         }
     }
 
