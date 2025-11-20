@@ -47,10 +47,10 @@ class MediaFragment : BaseFragment<FragmentMediaBinding>(FragmentMediaBinding::i
 
     private fun handleEffect(effect: MediaEffect) {
         when (effect) {
-            is MediaEffect.NavigateBack -> popFrom(R.id.fragmentMedia)
-            is MediaEffect.NavigateToImages -> navigateTo(R.id.fragmentMedia, R.id.action_fragmentMedia_to_fragmentMediaImage)
-            is MediaEffect.NavigateToVideos -> navigateTo(R.id.fragmentMedia, R.id.action_fragmentMedia_to_fragmentMediaVideo)
-            is MediaEffect.NavigateToAudios -> navigateTo(R.id.fragmentMedia, R.id.action_fragmentMedia_to_fragmentMediaAudio)
+            is MediaEffect.NavigateBack -> popFrom(R.id.mediaFragment)
+            is MediaEffect.NavigateToImages -> navigateTo(R.id.mediaFragment, R.id.action_mediaFragment_to_mediaImagesFragment)
+            is MediaEffect.NavigateToVideos -> navigateTo(R.id.mediaFragment, R.id.action_mediaFragment_to_mediaVideosFragment)
+            is MediaEffect.NavigateToAudios -> navigateTo(R.id.mediaFragment, R.id.action_mediaFragment_to_mediaAudiosFragment)
             is MediaEffect.ShowError -> context.showToast(effect.message)
         }
     }
