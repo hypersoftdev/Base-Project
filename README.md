@@ -3,7 +3,7 @@
 - **MVI + Clean Architecture**
 - **Multi‑module (by layers)**
 
-### Topics Covered
+## Topics Covered
 
 - **Kotlin Coroutines**
 - **Kotlin Flows**
@@ -16,7 +16,7 @@
 - **MediaStore**
 - **SharedPreferences**
 
-### Modules
+## Modules
 
 - **`app`**
 - **`core`**
@@ -24,7 +24,7 @@
 - **`data`**
 - **`presentation`**
 
-### Module Dependency Graph
+## Module Dependency Graph
 
 - `app` → `core`, `domain`, `data`, `presentation`
 - `presentation` → `core`, `domain`, `data`
