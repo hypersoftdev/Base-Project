@@ -35,9 +35,14 @@
 
 If you find this project helpful, please consider giving it a star! It helps others discover this base project.
 
-## Credits
+## Contributing
 
-This project is a forked repository. Original work and contributions are appreciated. If you'd like to contribute improvements, please feel free to submit a pull request.
+Contributions are welcome! Feel free to open issues or submit pull requests.
+
+# Acknowledgements
+
+We are deeply grateful for [Sohaib Ahmed](https://github.com/epegasus) involvement and his belief in the importance of this work. His contributions have made a significant impact, and we are honored to have had the opportunity to collaborate with him.
+
 
 ## License
 
