@@ -13,9 +13,8 @@
 - **DiffUtil / ListAdapter**
 - **Multi‑module setup**
 - **Firebase (Analytics, Crashlytics)**
-- **Language / In‑App Language**
-- **Media (Images / Videos / Audios)**
-- **Back handling (OnBackPressed)**
+- **MediaStore**
+- **SharedPreferences**
 
 ### Modules
 
