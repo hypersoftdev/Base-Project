@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".home.ui.dialog.ExitDialog">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/sivLogoExit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="24dp"
+        android:src="@drawable/ic_exit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="#FF0000" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/mtvTitleExit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/exit_message"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/sivLogoExit"
+        app:layout_constraintStart_toStartOf="@+id/sivLogoExit"
+        app:layout_constraintTop_toBottomOf="@+id/sivLogoExit" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/mbExitExit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        android:text="@string/exit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/mbCancelExit"
+        app:layout_constraintTop_toBottomOf="@+id/mtvTitleExit" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/mbCancelExit"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/cancel"
+        android:textColor="?attr/colorControlNormal"
+        app:layout_constraintBottom_toBottomOf="@+id/mbExitExit"
+        app:layout_constraintEnd_toStartOf="@+id/mbExitExit"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/mbExitExit" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

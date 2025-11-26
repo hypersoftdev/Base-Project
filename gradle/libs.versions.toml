@@ -1,41 +1,47 @@
 [versions]
 # -------------- Plugins -------------- #
-agp = "8.5.2"
-kotlin = "1.9.21"
-navigationSafeArgsGradlePlugin = "2.8.0"
+agp = "8.13.1"
+kotlin = "2.2.21"
+navigationSafeArgsGradlePlugin = "2.9.6"
 
 # -------------- Dependencies -------------- #
-coreKtx = "1.13.1"
-appcompat = "1.7.0"
-material = "1.12.0"
-activity = "1.9.2"
-constraintlayout = "2.1.4"
-
-# Unit Testing
-junit = "4.13.2"
-junitVersion = "1.2.1"
-espressoCore = "3.6.1"
+coreKtx = "1.17.0"
+appcompat = "1.7.1"
+material = "1.13.0"
+activity = "1.12.0"
+constraintlayout = "2.2.1"
 
 # Splash Screen Api
-coreSplashscreen = "1.0.1"
+coreSplashscreen = "1.2.0"
+
+# Fragment Ktx
+fragmentKtx = "1.8.9"
 
 # Navigational Components
-navigationFragmentKtx = "2.8.0"
-navigationUiKtx = "2.8.0"
+navigationFragmentKtx = "2.9.6"
+navigationUiKtx = "2.9.6"
+
+# Lifecycle
+lifecycleRuntimeKtx = "2.10.0"
+
+# Firebase
+firebaseCrashlyticsVersion = "20.0.3"
+firebaseAnalyticsVersion = "23.0.0"
 
 # Dependency Injection -> Koin
-koinAndroid = "3.5.6"
+koinAndroid = "4.1.1"
 
-# Swipe Refresh Layout
-swiperefreshlayout = "1.1.0"
+# Glide
+glide = "5.0.5"
 
 # Lottie Animations
-lottie = "6.5.2"
-glide = "5.0.0-rc01"
+lottie = "6.7.1"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 navigation-safe-args = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigationSafeArgsGradlePlugin" }
 
 [libraries]
@@ -45,25 +51,29 @@ material = { group = "com.google.android.material", name = "material", version.r
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 
-# Unit Testing
-junit = { group = "junit", name = "junit", version.ref = "junit" }
-androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
-androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
-
 # Splash Screen Api
 androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "coreSplashscreen" }
+
+# Fragment Ktx
+androidx-fragment-ktx = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "fragmentKtx" }
 
 # Navigational Components
 androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
 androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigationUiKtx" }
 
+# Lifecycle
+androidx-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+
+# Firebase
+firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics", version.ref = "firebaseCrashlyticsVersion" }
+firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics", version.ref = "firebaseAnalyticsVersion" }
+
 # Dependency Injection -> Koin
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koinAndroid" }
 koin-core-coroutines = { group = "io.insert-koin", name = "koin-core-coroutines", version.ref = "koinAndroid" }
 
-# Swipe Refresh Layout
-androidx-swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "swiperefreshlayout", version.ref = "swiperefreshlayout" }
+# Glide
+glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 
 # Lottie Animations
 lottie = { group = "com.airbnb.android", name = "lottie", version.ref = "lottie" }
-glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_media"
+    app:startDestination="@id/mediaFragment">
+
+    <fragment
+        android:id="@+id/mediaFragment"
+        android:name="com.hypersoft.baseproject.presentation.media.ui.MediaFragment"
+        android:label="fragment_media"
+        tools:layout="@layout/fragment_media">
+        <action
+            android:id="@+id/action_mediaFragment_to_mediaAudiosFragment"
+            app:destination="@id/mediaAudiosFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_mediaFragment_to_mediaImagesFragment"
+            app:destination="@id/mediaImagesFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_mediaFragment_to_mediaVideosFragment"
+            app:destination="@id/mediaVideosFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/mediaAudiosFragment"
+        android:name="com.hypersoft.baseproject.presentation.mediaAudios.ui.MediaAudiosFragment"
+        android:label="fragment_media_audio"
+        tools:layout="@layout/fragment_media_audios">
+        <action
+            android:id="@+id/action_mediaAudiosFragment_to_mediaAudioDetailFragment"
+            app:destination="@id/mediaAudioDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/mediaAudioDetailFragment"
+        android:name="com.hypersoft.baseproject.presentation.mediaAudioDetails.ui.MediaAudioDetailFragment"
+        android:label="fragment_media_audio_detail"
+        tools:layout="@layout/fragment_media_audio_detail">
+        <argument
+            android:name="audioUriPath"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/mediaImagesFragment"
+        android:name="com.hypersoft.baseproject.presentation.mediaImages.ui.MediaImagesFragment"
+        android:label="fragment_media_image"
+        tools:layout="@layout/fragment_media_images">
+        <action
+            android:id="@+id/action_mediaImagesFragment_to_mediaImageDetailFragment"
+            app:destination="@id/mediaImageDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/mediaImageDetailFragment"
+        android:name="com.hypersoft.baseproject.presentation.mediaImageDetails.ui.MediaImageDetailFragment"
+        android:label="fragment_media_image_detail"
+        tools:layout="@layout/fragment_media_image_detail">
+        <argument
+            android:name="imageUriPath"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/mediaVideosFragment"
+        android:name="com.hypersoft.baseproject.presentation.mediaVideos.ui.MediaVideosFragment"
+        android:label="fragment_media_video"
+        tools:layout="@layout/fragment_media_videos">
+        <action
+            android:id="@+id/action_mediaVideosFragment_to_mediaVideoDetailFragment"
+            app:destination="@id/mediaVideoDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/mediaVideoDetailFragment"
+        android:name="com.hypersoft.baseproject.presentation.mediaVideoDetails.ui.MediaVideoDetailFragment"
+        android:label="fragment_media_video_detail"
+        tools:layout="@layout/fragment_media_video_detail">
+        <argument
+            android:name="videoUriPath"
+            app:argType="string" />
+    </fragment>
+
+</navigation>

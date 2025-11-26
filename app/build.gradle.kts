@@ -1,33 +1,18 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
-    alias(libs.plugins.navigation.safe.args)
 }
 
 android {
     namespace = "com.hypersoft.baseproject"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.hypersoft.baseproject"
         minSdk = 24
-        targetSdk = 34
-        versionCode = 21
-        versionName = "2.1.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    buildFeatures {
-        viewBinding = true
-        buildConfig = true
-    }
-
-    // Disable language-specific APK splits, include all languages in a single APK
-    bundle {
-        language {
-            enableSplit = false
-        }
+        targetSdk = 36
+        versionCode = 3
+        versionName = "3.0.0-MVI"
     }
 
     // Use the "release" signing configuration for the release build
@@ -62,35 +47,28 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
+
+    buildFeatures {
+        viewBinding = true
+        buildConfig = true
+    }
+
+    // Disable language-specific APK splits, include all languages in a single APK
+    bundle {
+        language {
+            enableSplit = false
+        }
+    }
 }
 
 dependencies {
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    implementation(libs.androidx.activity)
-    implementation(libs.androidx.constraintlayout)
-    implementation(libs.glide)
-
-    // Unit Testing
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-
-    // Splash Screen Api
-    implementation(libs.androidx.core.splashscreen)
-
-    // Navigational Components
-    implementation(libs.androidx.navigation.fragment.ktx)
-    implementation(libs.androidx.navigation.ui.ktx)
+    // Modules
+    implementation(project(":core"))
+    implementation(project(":data"))
+    implementation(project(":domain"))
+    implementation(project(":presentation"))
 
     // Dependency Injection -> Koin
     implementation(libs.koin.android)
     implementation(libs.koin.core.coroutines)
-
-    // Swipe Refresh Layout
-    implementation(libs.androidx.swiperefreshlayout)
-
-    // Lottie Animations
-    implementation(libs.lottie)
 }
