@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.hypersoft.baseproject.domain.media.useCases.GetVideosUseCase
 import com.hypersoft.baseproject.domain.media.useCases.contentObserver.ObserveMediaChangesUseCase
 import com.hypersoft.baseproject.presentation.mediaVideos.effect.MediaVideosEffect
+import com.hypersoft.baseproject.presentation.mediaVideos.enums.MediaVideosPermissionLevel
 import com.hypersoft.baseproject.presentation.mediaVideos.intent.MediaVideosIntent
 import com.hypersoft.baseproject.presentation.mediaVideos.state.MediaVideosState
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -47,6 +48,7 @@ class MediaVideosViewModel(
     fun handleIntent(intent: MediaVideosIntent) = viewModelScope.launch(coroutineExceptionHandler) {
         when (intent) {
             is MediaVideosIntent.LoadVideos -> loadVideos()
+            is MediaVideosIntent.PermissionChanged -> onPermissionChanged(intent.level)
             is MediaVideosIntent.VideoClicked -> _effect.emit(MediaVideosEffect.NavigateToDetail(intent.videoUri))
         }
     }
@@ -71,6 +73,18 @@ class MediaVideosViewModel(
             _state.update {
                 it.copy(isLoading = false, videos = videos, error = null)
             }
+        }
+    }
+
+    private fun onPermissionChanged(level: MediaVideosPermissionLevel) {
+        val isPermissionIdle = state.value.permission == MediaVideosPermissionLevel.Idle
+        val isStateSame = (level == MediaVideosPermissionLevel.Full) && (level == state.value.permission)
+
+        _state.update { it.copy(permission = level) }
+        if (isPermissionIdle || isStateSame) return
+
+        if (level == MediaVideosPermissionLevel.Full || level == MediaVideosPermissionLevel.Limited) {
+            loadVideos()
         }
     }
 

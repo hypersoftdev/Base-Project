@@ -1,7 +1,10 @@
 package com.hypersoft.baseproject.presentation.mediaImages.intent
 
+import com.hypersoft.baseproject.presentation.mediaImages.enums.MediaImagesPermissionLevel
+
 sealed class MediaImagesIntent {
     object LoadFolders : MediaImagesIntent()
     object RefreshFolders : MediaImagesIntent()
+    data class PermissionChanged(val level: MediaImagesPermissionLevel) : MediaImagesIntent()
     data class ImageClicked(val imageUri: String) : MediaImagesIntent()
 }

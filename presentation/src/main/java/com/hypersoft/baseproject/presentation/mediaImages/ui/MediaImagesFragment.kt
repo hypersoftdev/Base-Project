@@ -14,6 +14,7 @@ import com.hypersoft.baseproject.presentation.R
 import com.hypersoft.baseproject.presentation.databinding.FragmentMediaImagesBinding
 import com.hypersoft.baseproject.presentation.mediaImages.adapter.MediaImagesPagerAdapter
 import com.hypersoft.baseproject.presentation.mediaImages.effect.MediaImagesEffect
+import com.hypersoft.baseproject.presentation.mediaImages.enums.MediaImagesPermissionLevel
 import com.hypersoft.baseproject.presentation.mediaImages.intent.MediaImagesIntent
 import com.hypersoft.baseproject.presentation.mediaImages.state.MediaImagesState
 import com.hypersoft.baseproject.presentation.mediaImages.viewModel.MediaImagesViewModel
@@ -28,9 +29,6 @@ class MediaImagesFragment : BaseFragment<FragmentMediaImagesBinding>(FragmentMed
     private var pagerAdapter: MediaImagesPagerAdapter? = null
     private var tabLayoutMediator: TabLayoutMediator? = null
 
-    // 0 = denied, 1 = limited, 2 = full
-    private var lastPermissionState: Int = -1
-
     override fun onViewCreated() {
         binding.toolbarMediaImages.setNavigationOnClickListener { popFrom(R.id.mediaImagesFragment) }
         binding.mbGrantPermissionMediaImages.setOnClickListener { onGrantClick() }
@@ -42,40 +40,13 @@ class MediaImagesFragment : BaseFragment<FragmentMediaImagesBinding>(FragmentMed
     }
 
     private fun updatePermissionState() {
-        when (val state = currentPermissionState()) {
-            2 -> { // Full access
-                binding.llLimitedPermissionWarningMediaImages.isVisible = false
-                checkForRefresh(state)
-                lastPermissionState = state
-            }
-
-            1 -> { // Limited access
-                binding.llLimitedPermissionWarningMediaImages.isVisible = true
-                checkForRefresh(state)
-                lastPermissionState = state
-            }
-
-            0 -> { // Denied
-                popFrom(R.id.mediaImagesFragment)
-            }
+        val level = when {
+            permissionManager.isPermissionGranted(MediaPermission.IMAGES_VIDEOS) -> MediaImagesPermissionLevel.Full
+            permissionManager.isLimitedPermissionGranted(MediaPermission.IMAGES_VIDEOS) -> MediaImagesPermissionLevel.Limited
+            else -> MediaImagesPermissionLevel.Denied
         }
-    }
 
-    private fun checkForRefresh(state: Int) {
-        if (lastPermissionState == -1) return
-        if (state == lastPermissionState) return
-        viewModel.handleIntent(MediaImagesIntent.RefreshFolders)
-    }
-
-    /**
-     * Maps PermissionManager states → simplified local 0/1/2 state
-     */
-    private fun currentPermissionState(): Int {
-        return when {
-            permissionManager.isPermissionGranted(MediaPermission.IMAGES_VIDEOS) -> 2
-            permissionManager.isLimitedPermissionGranted(MediaPermission.IMAGES_VIDEOS) -> 1
-            else -> 0
-        }
+        viewModel.handleIntent(MediaImagesIntent.PermissionChanged(level))
     }
 
     override fun initObservers() {
@@ -96,9 +67,17 @@ class MediaImagesFragment : BaseFragment<FragmentMediaImagesBinding>(FragmentMed
     }
 
     private fun renderState(state: MediaImagesState) {
-        if (state.folders.isNotEmpty() && pagerAdapter == null) {
-            initViewPager(state.folders)
+        when (state.permission) {
+            MediaImagesPermissionLevel.Idle -> {}
+            MediaImagesPermissionLevel.Full -> binding.llLimitedPermissionWarningMediaImages.isVisible = false
+            MediaImagesPermissionLevel.Limited -> binding.llLimitedPermissionWarningMediaImages.isVisible = true
+            MediaImagesPermissionLevel.Denied -> {
+                popFrom(R.id.mediaImagesFragment)
+                return
+            }
         }
+
+        initViewPager(state.folders)
     }
 
     private fun initViewPager(folders: List<ImageFolderEntity>) {
