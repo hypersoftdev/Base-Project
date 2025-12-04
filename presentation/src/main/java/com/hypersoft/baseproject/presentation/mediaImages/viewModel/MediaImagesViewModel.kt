@@ -47,6 +47,7 @@ class MediaImagesViewModel(
     fun handleIntent(intent: MediaImagesIntent) = viewModelScope.launch(coroutineExceptionHandler) {
         when (intent) {
             is MediaImagesIntent.LoadFolders -> loadFolders()
+            is MediaImagesIntent.RefreshFolders -> loadFolders()
             is MediaImagesIntent.ImageClicked -> _effect.emit(MediaImagesEffect.NavigateToDetail(intent.imageUri))
         }
     }

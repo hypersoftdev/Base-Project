@@ -175,6 +175,39 @@ class PermissionManager(private val fragment: Fragment) {
     }
 
     /**
+     *  Check if already granted (full or limited)
+     */
+    fun checkPermissionGranted(mediaPermission: MediaPermission, callback: (PermissionResult) -> Unit) {
+        val perms = permissionStringsFor(mediaPermission)
+        val result = checkPermissionStatus(mediaPermission, perms)
+        callback.invoke(result)
+    }
+
+    /**
+     * Check if permission is granted.
+     */
+    fun isPermissionGranted(type: MediaPermission): Boolean {
+        return try {
+            val ctx = getContextSafely() ?: return false
+            when (type) {
+                MediaPermission.IMAGES_VIDEOS -> {
+                    val hasFullImages = ContextCompat.checkSelfPermission(ctx, Manifest.permission.READ_MEDIA_IMAGES) == PackageManager.PERMISSION_GRANTED
+                    val hasFullVideos = ContextCompat.checkSelfPermission(ctx, Manifest.permission.READ_MEDIA_VIDEO) == PackageManager.PERMISSION_GRANTED
+                    hasFullImages && hasFullVideos
+                }
+
+                MediaPermission.AUDIOS -> {
+                    // Audio doesn't have limited permission on Android 14+
+                    true
+                }
+            }
+        } catch (ex: Exception) {
+            Log.e(TAG, "PermissionManager: Error checking limited permission", ex)
+            false
+        }
+    }
+
+    /**
      * Check if limited permission is granted (Android 14+ only).
      * Use this to show a banner/snackBar to user to grant full permission.
      * Returns true if user has limited access (READ_MEDIA_VISUAL_USER_SELECTED)
@@ -233,9 +266,8 @@ class PermissionManager(private val fragment: Fragment) {
             safeCallback(callback, PermissionResult.Denied)
         }
     }
-    // endregion
 
-    // region: permission result handlers
+    // permission result handlers
     private fun askSystem(permissions: Array<String>, type: MediaPermission, callback: (PermissionResult) -> Unit) {
         try {
             if (!isFragmentValid()) {
@@ -440,9 +472,8 @@ class PermissionManager(private val fragment: Fragment) {
         }
         settingsLauncher.launch(intent)
     }
-    // endregion
 
-    // region: permissions logic
+    // permissions logic
     /**
      * Returns permission strings based on type and Android version.
      * - IMAGES_VIDEOS: Requests both READ_MEDIA_IMAGES and READ_MEDIA_VIDEO together (Android 13+)
