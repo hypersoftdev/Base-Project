@@ -4,6 +4,7 @@
     <!-- _____________________________ Toast ______________________________ -->
     <string name="something_went_wrong">Something went wrong! Try again later</string>
     <string name="image_not_found">Image not found</string>
+    <string name="permission_denied">Permission Denied</string>
 
     <!-- _______________________________ UI _______________________________ -->
 
@@ -26,6 +27,7 @@
     <string name="videos">Videos</string>
 
     <string name="all">All</string>
+    <string name="_00_00">00:00</string>
 
 
     <!-- Premium -->
