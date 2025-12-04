@@ -9,9 +9,7 @@ import com.hypersoft.baseproject.core.extensions.popFrom
 import com.hypersoft.baseproject.core.extensions.showToast
 import com.hypersoft.baseproject.core.permission.PermissionManager
 import com.hypersoft.baseproject.core.permission.enums.MediaPermission
-import com.hypersoft.baseproject.core.permission.result.PermissionResult
 import com.hypersoft.baseproject.domain.media.entities.ImageFolderEntity
-import com.hypersoft.baseproject.core.R as coreR
 import com.hypersoft.baseproject.presentation.R
 import com.hypersoft.baseproject.presentation.databinding.FragmentMediaImagesBinding
 import com.hypersoft.baseproject.presentation.mediaImages.adapter.MediaImagesPagerAdapter
@@ -34,8 +32,6 @@ class MediaImagesFragment : BaseFragment<FragmentMediaImagesBinding>(FragmentMed
     private var lastPermissionState: Int = -1
 
     override fun onViewCreated() {
-        updatePermissionState()
-
         binding.toolbarMediaImages.setNavigationOnClickListener { popFrom(R.id.mediaImagesFragment) }
         binding.mbGrantPermissionMediaImages.setOnClickListener { onGrantClick() }
     }
@@ -46,27 +42,29 @@ class MediaImagesFragment : BaseFragment<FragmentMediaImagesBinding>(FragmentMed
     }
 
     private fun updatePermissionState() {
-        val current = currentPermissionState()
+        when (val state = currentPermissionState()) {
+            2 -> { // Full access
+                binding.llLimitedPermissionWarningMediaImages.isVisible = false
+                checkForRefresh(state)
+                lastPermissionState = state
+            }
 
-        if (current != lastPermissionState) {
-            lastPermissionState = current
+            1 -> { // Limited access
+                binding.llLimitedPermissionWarningMediaImages.isVisible = true
+                checkForRefresh(state)
+                lastPermissionState = state
+            }
 
-            when (current) {
-                2 -> { // Full access
-                    binding.llLimitedPermissionWarningMediaImages.isVisible = false
-                    viewModel.handleIntent(MediaImagesIntent.RefreshFolders)
-                }
-
-                1 -> { // Limited access
-                    binding.llLimitedPermissionWarningMediaImages.isVisible = true
-                    viewModel.handleIntent(MediaImagesIntent.RefreshFolders)
-                }
-
-                0 -> { // Denied
-                    binding.llLimitedPermissionWarningMediaImages.isVisible = false
-                }
+            0 -> { // Denied
+                popFrom(R.id.mediaImagesFragment)
             }
         }
+    }
+
+    private fun checkForRefresh(state: Int) {
+        if (lastPermissionState == -1) return
+        if (state == lastPermissionState) return
+        viewModel.handleIntent(MediaImagesIntent.RefreshFolders)
     }
 
     /**
