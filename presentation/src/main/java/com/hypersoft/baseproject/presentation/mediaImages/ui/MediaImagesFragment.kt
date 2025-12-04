@@ -30,8 +30,8 @@ class MediaImagesFragment : BaseFragment<FragmentMediaImagesBinding>(FragmentMed
     private var tabLayoutMediator: TabLayoutMediator? = null
 
     override fun onViewCreated() {
-        binding.toolbarMediaImages.setNavigationOnClickListener { popFrom(R.id.mediaImagesFragment) }
-        binding.mbGrantPermissionMediaImages.setOnClickListener { onGrantClick() }
+        binding.toolbarMediaImages.setNavigationOnClickListener { viewModel.handleIntent(MediaImagesIntent.NavigationBack) }
+        binding.mbGrantPermissionMediaImages.setOnClickListener { viewModel.handleIntent(MediaImagesIntent.GrantPermissionClick) }
     }
 
     override fun onResume() {
@@ -72,7 +72,7 @@ class MediaImagesFragment : BaseFragment<FragmentMediaImagesBinding>(FragmentMed
             MediaImagesPermissionLevel.Full -> binding.llLimitedPermissionWarningMediaImages.isVisible = false
             MediaImagesPermissionLevel.Limited -> binding.llLimitedPermissionWarningMediaImages.isVisible = true
             MediaImagesPermissionLevel.Denied -> {
-                popFrom(R.id.mediaImagesFragment)
+                viewModel.handleIntent(MediaImagesIntent.NavigationBack)
                 return
             }
         }
@@ -94,6 +94,8 @@ class MediaImagesFragment : BaseFragment<FragmentMediaImagesBinding>(FragmentMed
 
     private fun handleEffect(effect: MediaImagesEffect) {
         when (effect) {
+            is MediaImagesEffect.NavigateBack -> popFrom(R.id.mediaImagesFragment)
+            is MediaImagesEffect.GrantPermissionClick -> permissionManager.openSettingsForPermission(type = MediaPermission.IMAGES_VIDEOS) {}
             is MediaImagesEffect.NavigateToDetail -> navigateToDetail(effect.imageUri)
             is MediaImagesEffect.ShowError -> context?.showToast(effect.message)
         }
@@ -106,10 +108,6 @@ class MediaImagesFragment : BaseFragment<FragmentMediaImagesBinding>(FragmentMed
     private fun navigateToDetail(imageUri: String) {
         val action = MediaImagesFragmentDirections.actionMediaImagesFragmentToMediaImageDetailFragment(imageUri)
         navigateTo(R.id.mediaImagesFragment, action)
-    }
-
-    private fun onGrantClick() {
-        permissionManager.openSettingsForPermission(type = MediaPermission.IMAGES_VIDEOS) {}
     }
 
     override fun onDestroyView() {

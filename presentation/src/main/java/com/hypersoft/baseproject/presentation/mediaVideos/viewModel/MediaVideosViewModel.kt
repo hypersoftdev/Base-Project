@@ -47,7 +47,9 @@ class MediaVideosViewModel(
 
     fun handleIntent(intent: MediaVideosIntent) = viewModelScope.launch(coroutineExceptionHandler) {
         when (intent) {
+            is MediaVideosIntent.NavigationBack -> _effect.emit(MediaVideosEffect.NavigateBack)
             is MediaVideosIntent.LoadVideos -> loadVideos()
+            is MediaVideosIntent.GrantPermissionClick -> _effect.emit(MediaVideosEffect.GrantPermissionClick)
             is MediaVideosIntent.PermissionChanged -> onPermissionChanged(intent.level)
             is MediaVideosIntent.VideoClicked -> _effect.emit(MediaVideosEffect.NavigateToDetail(intent.videoUri))
         }

@@ -32,7 +32,8 @@ class MediaVideosFragment : BaseFragment<FragmentMediaVideosBinding>(FragmentMed
     override fun onViewCreated() {
         initRecyclerView()
 
-        binding.mbBackMediaVideos.setOnClickListener { requireActivity().onBackPressedDispatcher.onBackPressed() }
+        binding.mbBackMediaVideos.setOnClickListener { viewModel.handleIntent(MediaVideosIntent.NavigationBack) }
+        binding.mbGrantPermissionMediaVideos.setOnClickListener { viewModel.handleIntent(MediaVideosIntent.GrantPermissionClick) }
     }
 
     override fun onResume() {
@@ -77,7 +78,7 @@ class MediaVideosFragment : BaseFragment<FragmentMediaVideosBinding>(FragmentMed
             MediaVideosPermissionLevel.Full -> binding.llLimitedPermissionWarningMediaVideos.isVisible = false
             MediaVideosPermissionLevel.Limited -> binding.llLimitedPermissionWarningMediaVideos.isVisible = true
             MediaVideosPermissionLevel.Denied -> {
-                popFrom(R.id.mediaVideosFragment)
+                viewModel.handleIntent(MediaVideosIntent.NavigationBack)
                 return
             }
         }
@@ -89,6 +90,8 @@ class MediaVideosFragment : BaseFragment<FragmentMediaVideosBinding>(FragmentMed
 
     private fun handleEffect(effect: MediaVideosEffect) {
         when (effect) {
+            is MediaVideosEffect.NavigateBack -> popFrom(R.id.mediaVideosFragment)
+            is MediaVideosEffect.GrantPermissionClick -> permissionManager.openSettingsForPermission(type = MediaPermission.IMAGES_VIDEOS) {}
             is MediaVideosEffect.NavigateToDetail -> navigateToDetail(effect.videoUri)
             is MediaVideosEffect.ShowError -> context?.showToast(effect.message)
         }
