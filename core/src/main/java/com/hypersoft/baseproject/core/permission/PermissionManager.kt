@@ -15,14 +15,13 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.hypersoft.baseproject.core.constants.Constants.TAG
 import com.hypersoft.baseproject.core.extensions.launchWhenStarted
 import com.hypersoft.baseproject.core.permission.enums.MediaPermission
 import com.hypersoft.baseproject.core.permission.model.PermissionRequest
 import com.hypersoft.baseproject.core.permission.result.PermissionResult
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
-
-private const val TAG = "PermissionManager"
 
 /**
  * One-line API for Fragments to request media permissions in a MVI-friendly way.
@@ -53,7 +52,7 @@ class PermissionManager(private val fragment: Fragment) {
      * REGISTERED EARLY → SAFE → no more IllegalStateException
      */
     private val permissionLauncher = fragment.registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { resultMap ->
-        handlePermissionResult(resultMap)
+        handlePermissionResult()
     }
 
     private val settingsLauncher = fragment.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { _ ->
@@ -284,49 +283,38 @@ class PermissionManager(private val fragment: Fragment) {
         }
     }
 
-    private fun handlePermissionResult(result: Map<String, Boolean>) {
+    private fun handlePermissionResult() {
         val request = currentRequest ?: return
         currentRequest = null // Clear request to prevent memory leak
 
-        try {
-            if (!isFragmentValid()) {
-                safeCallback(request.callback, PermissionResult.Denied)
-                return
-            }
-
-            val ctx = getContextSafely()
-            if (ctx == null) {
-                safeCallback(request.callback, PermissionResult.Denied)
-                return
-            }
-
-            val perms = permissionStringsFor(request.type)
-
-            // Check if all permissions granted
-            val allGranted = perms.all { perm ->
-                try {
-                    result[perm] == true && ContextCompat.checkSelfPermission(ctx, perm) == PackageManager.PERMISSION_GRANTED
-                } catch (e: Exception) {
-                    Log.e(TAG, "Error checking permission: $perm", e)
-                    false
-                }
-            }
-
-            if (allGranted) {
-                // Check for limited permission on Android 14+
-                val isLimited = isLimitedPermissionGranted(request.type)
-                safeCallback(
-                    request.callback,
-                    if (isLimited) PermissionResult.GrantedLimited
-                    else PermissionResult.GrantedFull
-                )
-            } else {
-                // Permission denied → callback for toast
-                safeCallback(request.callback, PermissionResult.Denied)
-            }
-        } catch (ex: Exception) {
-            Log.e(TAG, "PermissionManager: Error handling permission result", ex)
+        if (!isFragmentValid()) {
             safeCallback(request.callback, PermissionResult.Denied)
+            return
+        }
+
+        val ctx = getContextSafely()
+        if (ctx == null) {
+            safeCallback(request.callback, PermissionResult.Denied)
+            return
+        }
+
+        val perms = permissionStringsFor(request.type)
+
+        val isLimited = isLimitedPermissionGranted(request.type)
+
+        if (isLimited) {
+            safeCallback(request.callback, PermissionResult.GrantedLimited)
+            return
+        }
+
+        // Check if the user denied everything
+        val fullyGranted = perms.all { perm ->
+            ContextCompat.checkSelfPermission(ctx, perm) == PackageManager.PERMISSION_GRANTED
+        }
+
+        when (fullyGranted) {
+            true -> safeCallback(request.callback, PermissionResult.GrantedFull)
+            false -> safeCallback(request.callback, PermissionResult.Denied)
         }
     }
 

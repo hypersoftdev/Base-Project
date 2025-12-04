@@ -1,18 +1,17 @@
 package com.hypersoft.baseproject.presentation.mediaImages.ui
 
 import androidx.core.view.isVisible
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import com.hypersoft.baseproject.core.base.fragment.BaseFragment
 import com.hypersoft.baseproject.core.extensions.collectWhenStarted
 import com.hypersoft.baseproject.core.extensions.navigateTo
 import com.hypersoft.baseproject.core.extensions.popFrom
-import com.hypersoft.baseproject.core.extensions.showSnackBar
 import com.hypersoft.baseproject.core.extensions.showToast
 import com.hypersoft.baseproject.core.permission.PermissionManager
 import com.hypersoft.baseproject.core.permission.enums.MediaPermission
 import com.hypersoft.baseproject.core.permission.result.PermissionResult
 import com.hypersoft.baseproject.domain.media.entities.ImageFolderEntity
+import com.hypersoft.baseproject.core.R as coreR
 import com.hypersoft.baseproject.presentation.R
 import com.hypersoft.baseproject.presentation.databinding.FragmentMediaImagesBinding
 import com.hypersoft.baseproject.presentation.mediaImages.adapter.MediaImagesPagerAdapter
@@ -22,7 +21,6 @@ import com.hypersoft.baseproject.presentation.mediaImages.state.MediaImagesState
 import com.hypersoft.baseproject.presentation.mediaImages.viewModel.MediaImagesViewModel
 import com.hypersoft.baseproject.presentation.mediaImagesTab.ui.ImagesTabFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import com.hypersoft.baseproject.core.R as coreR
 
 class MediaImagesFragment : BaseFragment<FragmentMediaImagesBinding>(FragmentMediaImagesBinding::inflate), ImagesTabFragment.OnImageClickListener {
 
@@ -36,7 +34,7 @@ class MediaImagesFragment : BaseFragment<FragmentMediaImagesBinding>(FragmentMed
     private var lastPermissionState: Int = -1
 
     override fun onViewCreated() {
-        checkForPermission()
+        updatePermissionState()
 
         binding.toolbarMediaImages.setNavigationOnClickListener { popFrom(R.id.mediaImagesFragment) }
         binding.mbGrantPermissionMediaImages.setOnClickListener { onGrantClick() }
@@ -44,31 +42,36 @@ class MediaImagesFragment : BaseFragment<FragmentMediaImagesBinding>(FragmentMed
 
     override fun onResume() {
         super.onResume()
-        checkPermissionChange()
+        updatePermissionState()
     }
 
-    private fun checkForPermission() {
-        permissionManager.checkPermissionGranted(MediaPermission.IMAGES_VIDEOS) { result ->
-            lastPermissionState = when (result) {
-                PermissionResult.GrantedFull -> 2
-                PermissionResult.GrantedLimited -> 1
-                PermissionResult.Denied -> 0
-            }
-        }
-        binding.llLimitedPermissionWarningMediaImages.isVisible = permissionManager.isLimitedPermissionGranted(MediaPermission.IMAGES_VIDEOS)
-    }
-
-    private fun checkPermissionChange() {
+    private fun updatePermissionState() {
         val current = currentPermissionState()
+
         if (current != lastPermissionState) {
             lastPermissionState = current
+
             when (current) {
-                1, 2 -> viewModel.handleIntent(MediaImagesIntent.RefreshFolders)
-                else -> checkForPermission()
+                2 -> { // Full access
+                    binding.llLimitedPermissionWarningMediaImages.isVisible = false
+                    viewModel.handleIntent(MediaImagesIntent.RefreshFolders)
+                }
+
+                1 -> { // Limited access
+                    binding.llLimitedPermissionWarningMediaImages.isVisible = true
+                    viewModel.handleIntent(MediaImagesIntent.RefreshFolders)
+                }
+
+                0 -> { // Denied
+                    binding.llLimitedPermissionWarningMediaImages.isVisible = false
+                }
             }
         }
     }
 
+    /**
+     * Maps PermissionManager states → simplified local 0/1/2 state
+     */
     private fun currentPermissionState(): Int {
         return when {
             permissionManager.isPermissionGranted(MediaPermission.IMAGES_VIDEOS) -> 2
@@ -129,9 +132,7 @@ class MediaImagesFragment : BaseFragment<FragmentMediaImagesBinding>(FragmentMed
     }
 
     private fun onGrantClick() {
-        permissionManager.openSettingsForPermission(MediaPermission.IMAGES_VIDEOS) {
-            // return from system settings → onResume() will handle refresh
-        }
+        permissionManager.openSettingsForPermission(type = MediaPermission.IMAGES_VIDEOS) {}
     }
 
     override fun onDestroyView() {
