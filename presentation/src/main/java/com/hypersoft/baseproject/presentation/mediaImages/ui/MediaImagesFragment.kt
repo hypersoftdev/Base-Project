@@ -1,5 +1,7 @@
 package com.hypersoft.baseproject.presentation.mediaImages.ui
 
+import androidx.core.view.isVisible
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import com.hypersoft.baseproject.core.base.fragment.BaseFragment
 import com.hypersoft.baseproject.core.extensions.collectWhenStarted
@@ -37,6 +39,7 @@ class MediaImagesFragment : BaseFragment<FragmentMediaImagesBinding>(FragmentMed
         checkForPermission()
 
         binding.toolbarMediaImages.setNavigationOnClickListener { popFrom(R.id.mediaImagesFragment) }
+        binding.mbGrantPermissionMediaImages.setOnClickListener { onGrantClick() }
     }
 
     override fun onResume() {
@@ -52,13 +55,7 @@ class MediaImagesFragment : BaseFragment<FragmentMediaImagesBinding>(FragmentMed
                 PermissionResult.Denied -> 0
             }
         }
-        if (permissionManager.isLimitedPermissionGranted(MediaPermission.IMAGES_VIDEOS)) {
-            context.showSnackBar(messageResId = coreR.string.limited_access_warning_message, actionResId = coreR.string.grant) {
-                permissionManager.openSettingsForPermission(MediaPermission.IMAGES_VIDEOS) {
-                    // return from system settings → onResume() will handle refresh
-                }
-            }
-        }
+        binding.llLimitedPermissionWarningMediaImages.isVisible = permissionManager.isLimitedPermissionGranted(MediaPermission.IMAGES_VIDEOS)
     }
 
     private fun checkPermissionChange() {
@@ -129,6 +126,12 @@ class MediaImagesFragment : BaseFragment<FragmentMediaImagesBinding>(FragmentMed
     private fun navigateToDetail(imageUri: String) {
         val action = MediaImagesFragmentDirections.actionMediaImagesFragmentToMediaImageDetailFragment(imageUri)
         navigateTo(R.id.mediaImagesFragment, action)
+    }
+
+    private fun onGrantClick() {
+        permissionManager.openSettingsForPermission(MediaPermission.IMAGES_VIDEOS) {
+            // return from system settings → onResume() will handle refresh
+        }
     }
 
     override fun onDestroyView() {
