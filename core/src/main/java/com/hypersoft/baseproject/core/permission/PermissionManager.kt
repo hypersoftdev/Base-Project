@@ -182,13 +182,15 @@ class PermissionManager(private val fragment: Fragment) {
     /**
      * Navigate to settings screen where user can grant full permission.
      * Call this when user clicks "Grant" on the snackbar/banner.
+     * Callback will be invoked when user returns from settings with the permission status.
      */
-    fun openSettingsForPermission() {
+    fun openSettingsForPermission(type: MediaPermission, callback: (PermissionResult) -> Unit) {
         val ctx = fragment.requireContext()
         val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
             data = Uri.fromParts("package", ctx.packageName, null)
         }
-        fragment.startActivity(intent)
+        currentRequest = PermissionRequest(type, callback)
+        settingsLauncher.launch(intent)
     }
     // endregion
 
