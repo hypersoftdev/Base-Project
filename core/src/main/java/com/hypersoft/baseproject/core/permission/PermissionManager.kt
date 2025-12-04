@@ -398,9 +398,6 @@ class PermissionManager(private val fragment: Fragment) {
                 onResult(false)
             }
             .setCancelable(false)
-            .setOnDismissListener {
-                onResult(false)
-            }
             .show()
     }
 
@@ -428,9 +425,6 @@ class PermissionManager(private val fragment: Fragment) {
                 onResult(false)
             }
             .setCancelable(false)
-            .setOnDismissListener {
-                onResult(false)
-            }
             .show()
     }
 

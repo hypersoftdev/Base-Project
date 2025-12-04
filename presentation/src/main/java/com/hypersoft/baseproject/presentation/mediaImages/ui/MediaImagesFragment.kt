@@ -5,7 +5,10 @@ import com.hypersoft.baseproject.core.base.fragment.BaseFragment
 import com.hypersoft.baseproject.core.extensions.collectWhenStarted
 import com.hypersoft.baseproject.core.extensions.navigateTo
 import com.hypersoft.baseproject.core.extensions.popFrom
+import com.hypersoft.baseproject.core.extensions.showSnackBar
 import com.hypersoft.baseproject.core.extensions.showToast
+import com.hypersoft.baseproject.core.permission.PermissionManager
+import com.hypersoft.baseproject.core.permission.enums.MediaPermission
 import com.hypersoft.baseproject.domain.media.entities.ImageFolderEntity
 import com.hypersoft.baseproject.presentation.R
 import com.hypersoft.baseproject.presentation.databinding.FragmentMediaImagesBinding
@@ -13,9 +16,10 @@ import com.hypersoft.baseproject.presentation.mediaImages.adapter.MediaImagesPag
 import com.hypersoft.baseproject.presentation.mediaImages.effect.MediaImagesEffect
 import com.hypersoft.baseproject.presentation.mediaImages.intent.MediaImagesIntent
 import com.hypersoft.baseproject.presentation.mediaImages.state.MediaImagesState
-import com.hypersoft.baseproject.presentation.mediaImagesTab.ui.ImagesTabFragment
 import com.hypersoft.baseproject.presentation.mediaImages.viewModel.MediaImagesViewModel
+import com.hypersoft.baseproject.presentation.mediaImagesTab.ui.ImagesTabFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import com.hypersoft.baseproject.core.R as coreR
 
 class MediaImagesFragment : BaseFragment<FragmentMediaImagesBinding>(FragmentMediaImagesBinding::inflate), ImagesTabFragment.OnImageClickListener {
 
@@ -23,8 +27,23 @@ class MediaImagesFragment : BaseFragment<FragmentMediaImagesBinding>(FragmentMed
     private var pagerAdapter: MediaImagesPagerAdapter? = null
     private var tabLayoutMediator: TabLayoutMediator? = null
 
+    private val permissionManager = PermissionManager(this)
+
     override fun onViewCreated() {
+        checkForPermission()
+
         binding.toolbarMediaImages.setNavigationOnClickListener { popFrom(R.id.mediaImagesFragment) }
+    }
+
+    private fun checkForPermission() {
+        if (permissionManager.isLimitedPermissionGranted(MediaPermission.IMAGES_VIDEOS)) {
+            context.showSnackBar(messageResId = coreR.string.limited_access_warning_message, actionResId = coreR.string.grant) {
+                permissionManager.openSettingsForPermission(MediaPermission.IMAGES_VIDEOS) {
+                    // When user returns from settings, re-check and hide/show as needed
+                    checkForPermission()
+                }
+            }
+        }
     }
 
     override fun initObservers() {
@@ -79,9 +98,9 @@ class MediaImagesFragment : BaseFragment<FragmentMediaImagesBinding>(FragmentMed
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
         tabLayoutMediator?.detach()
         tabLayoutMediator = null
         pagerAdapter = null
+        super.onDestroyView()
     }
 }

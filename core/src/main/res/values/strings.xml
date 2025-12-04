@@ -6,6 +6,13 @@
     <string name="image_not_found">Image not found</string>
     <string name="permission_denied">Permission Denied</string>
 
+    <!-- _____________________________ SnackBar ______________________________ -->
+    <string name="limited_access_warning_message">You have given limited access to your photos and videos. Grant full access to see all media.</string>
+
+    <!-- _____________________________ Actions ______________________________ -->
+    <string name="grant">Grant</string>
+
+
     <!-- _______________________________ UI _______________________________ -->
 
     <!-- Language -->
