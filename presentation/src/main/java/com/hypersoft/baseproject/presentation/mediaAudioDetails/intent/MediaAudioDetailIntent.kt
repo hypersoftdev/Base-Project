@@ -1,8 +1,14 @@
 package com.hypersoft.baseproject.presentation.mediaAudioDetails.intent
 
 sealed class MediaAudioDetailIntent {
-    data class LoadAudio(val audioUri: String) : MediaAudioDetailIntent()
-    object PlayPause : MediaAudioDetailIntent()
+    data class LoadAudio(val audioUri: String, val queue: List<String> = emptyList()) : MediaAudioDetailIntent()
+
     object NavigateBack : MediaAudioDetailIntent()
+    object SkipToPrevious : MediaAudioDetailIntent()
+    object PlayPause : MediaAudioDetailIntent()
+    object SkipToNext : MediaAudioDetailIntent()
+
+    data class Rewind(val seconds: Int = 5) : MediaAudioDetailIntent()
+    data class Forward(val seconds: Int = 15) : MediaAudioDetailIntent()
     data class SeekTo(val position: Int) : MediaAudioDetailIntent()
 }
