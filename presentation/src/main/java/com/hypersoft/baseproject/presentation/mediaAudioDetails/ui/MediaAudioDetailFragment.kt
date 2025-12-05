@@ -26,7 +26,11 @@ class MediaAudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(F
         loadAudio()
 
         binding.mbBackMediaAudioDetail.setOnClickListener { viewModel.handleIntent(MediaAudioDetailIntent.NavigateBack) }
+        binding.mbPreviousMediaAudioDetail.setOnClickListener { viewModel.handleIntent(MediaAudioDetailIntent.SkipToPrevious) }
+        binding.mbRewindMediaAudioDetail.setOnClickListener { viewModel.handleIntent(MediaAudioDetailIntent.Rewind(5)) }
         binding.mbPlayPauseMediaAudioDetail.setOnClickListener { viewModel.handleIntent(MediaAudioDetailIntent.PlayPause) }
+        binding.mbForwardMediaAudioDetail.setOnClickListener { viewModel.handleIntent(MediaAudioDetailIntent.Forward(15)) }
+        binding.mbNextMediaAudioDetail.setOnClickListener { viewModel.handleIntent(MediaAudioDetailIntent.SkipToNext) }
         binding.sliderMediaAudioDetail.addOnChangeListener { _, value, fromUser ->
             if (fromUser) {
                 viewModel.handleIntent(MediaAudioDetailIntent.SeekTo(value.toInt()))
@@ -74,7 +78,7 @@ class MediaAudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(F
             binding.sliderMediaAudioDetail.value = state.currentProgress.toFloat()
         }
 
-        // Update time labels (MediaPlayer returns milliseconds)
+        // Update time labels (ExoPlayer returns milliseconds)
         binding.mtvCurrentProgressMediaAudioDetail.text = state.currentProgress.toLong().toTimeFormat()
         binding.mtvTotalTimeMediaAudioDetail.text = state.duration.toLong().toTimeFormat()
 
