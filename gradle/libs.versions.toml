@@ -31,6 +31,9 @@ firebaseAnalyticsVersion = "23.0.0"
 # Dependency Injection -> Koin
 koinAndroid = "4.1.1"
 
+# Media3 (ExoPlayer)
+media3Version = "1.8.0"
+
 # Glide
 glide = "5.0.5"
 
@@ -71,6 +74,12 @@ firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics
 # Dependency Injection -> Koin
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koinAndroid" }
 koin-core-coroutines = { group = "io.insert-koin", name = "koin-core-coroutines", version.ref = "koinAndroid" }
+
+# Media3 (ExoPlayer)
+androidx-media3-exoplayer = { group = "androidx.media3", name = "media3-exoplayer", version.ref = "media3Version" }
+androidx-media3-ui = { group = "androidx.media3", name = "media3-ui", version.ref = "media3Version" }
+androidx-media3-session = { group = "androidx.media3", name = "media3-session", version.ref = "media3Version" }
+androidx-media3-common = { group = "androidx.media3", name = "media3-common", version.ref = "media3Version" }
 
 # Glide
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
