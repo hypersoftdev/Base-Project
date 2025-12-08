@@ -22,6 +22,7 @@ class InAppLanguageFragment : BaseFragment<FragmentInAppLanguageBinding>(Fragmen
     override fun onViewCreated() {
         initRecyclerView()
 
+        binding.mtbToolbarInAppLanguage.setNavigationOnClickListener { viewModel.handleIntent(InAppLanguageIntent.NavigateBack) }
         binding.mbContinueInAppLanguage.setOnClickListener { viewModel.handleIntent(InAppLanguageIntent.ApplyLanguage) }
     }
 

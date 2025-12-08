@@ -60,9 +60,9 @@
                 android:value="true" />
         </service>
 
-        <!-- Music Player Service -->
+        <!-- Playback Service -->
         <service
-            android:name="com.hypersoft.baseproject.presentation.mediaAudioDetails.player.MusicPlayerService"
+            android:name="com.hypersoft.baseproject.presentation.mediaAudioDetails.player.PlaybackService"
             android:enabled="true"
             android:exported="false"
             android:foregroundServiceType="mediaPlayback">
