@@ -42,7 +42,7 @@ class MediaAudioDetailViewModel(private val getAudiosUseCase: GetAudiosUseCase) 
         when (intent) {
             is MediaAudioDetailIntent.NavigateBack -> _effect.emit(MediaAudioDetailEffect.NavigateBack)
             is MediaAudioDetailIntent.LoadPlaylist -> loadPlaylist(intent.startAudioUri)
-            is MediaAudioDetailIntent.PlayerSnapshot -> updateFromPlayer(intent.snapshot)
+            is MediaAudioDetailIntent.UpdatePlayerState -> updateFromPlayer(intent.snapshot)
         }
     }
 

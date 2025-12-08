@@ -6,5 +6,5 @@ package com.hypersoft.baseproject.presentation.mediaAudioDetails.intent
 sealed class MediaAudioDetailIntent {
     object NavigateBack : MediaAudioDetailIntent()
     data class LoadPlaylist(val startAudioUri: String) : MediaAudioDetailIntent()
-    data class PlayerSnapshot(val snapshot: PlayerSnapshot) : MediaAudioDetailIntent()
+    data class UpdatePlayerState(val snapshot: PlayerSnapshot) : MediaAudioDetailIntent()
 }

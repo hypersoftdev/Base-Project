@@ -2,6 +2,7 @@ package com.hypersoft.baseproject.presentation.mediaAudioDetails.ui
 
 import android.content.ComponentName
 import androidx.core.view.isVisible
+import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
 import androidx.media3.common.Player
@@ -47,10 +48,23 @@ class MediaAudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(F
     override fun onViewCreated() {
         binding.mbBackMediaAudioDetail.setOnClickListener { viewModel.handleIntent(MediaAudioDetailIntent.NavigateBack) }
         binding.mbPlayPauseMediaAudioDetail.setOnClickListener { controller?.let { if (it.isPlaying) it.pause() else it.play() } }
-        binding.mbPreviousMediaAudioDetail.setOnClickListener { controller?.seekToPrevious() }
-        binding.mbNextMediaAudioDetail.setOnClickListener { controller?.seekToNext() }
-        binding.mbRewindMediaAudioDetail.setOnClickListener { controller?.seekTo(controller!!.currentPosition - 5000) }
-        binding.mbForwardMediaAudioDetail.setOnClickListener { controller?.seekTo(controller!!.currentPosition + 10000) }
+        binding.mbPreviousMediaAudioDetail.setOnClickListener { controller?.seekToPreviousMediaItem() }
+        binding.mbNextMediaAudioDetail.setOnClickListener { controller?.seekToNextMediaItem() }
+        binding.mbRewindMediaAudioDetail.setOnClickListener {
+            controller?.let { ctrl ->
+                val newPosition = (ctrl.currentPosition - 5000).coerceAtLeast(0)
+                ctrl.seekTo(newPosition)
+            }
+        }
+        binding.mbForwardMediaAudioDetail.setOnClickListener {
+            controller?.let { ctrl ->
+                val duration = ctrl.duration
+                if (duration != C.TIME_UNSET) {
+                    val newPosition = (ctrl.currentPosition + 15000).coerceAtMost(duration)
+                    ctrl.seekTo(newPosition)
+                }
+            }
+        }
         binding.sliderMediaAudioDetail.addOnChangeListener { _, value, fromUser -> if (fromUser) controller?.seekTo(value.toLong()) }
     }
 
@@ -105,7 +119,7 @@ class MediaAudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(F
                 currentIndex = player.currentMediaItemIndex
             )
 
-            viewModel.handleIntent(MediaAudioDetailIntent.PlayerSnapshot(playerSnapshot))
+            viewModel.handleIntent(MediaAudioDetailIntent.UpdatePlayerState(playerSnapshot))
         }
     }
 
@@ -115,8 +129,16 @@ class MediaAudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(F
             if (state.playlist.isNotEmpty() && controller.mediaItemCount == 0) {
 
                 val items = state.playlist.map { audio ->
-                    val metaData = MediaMetadata.Builder().setTitle(audio.displayName).setArtist(audio.artist).build()
-                    MediaItem.Builder().setUri(audio.uri).setMediaMetadata(metaData).build()
+                    MediaItem.fromUri(audio.uri)
+                        .buildUpon()
+                        .setMediaMetadata(
+                            MediaMetadata.Builder()
+                                .setTitle(audio.displayName)
+                                .setArtist(audio.artist)
+                                .setAlbumTitle(audio.album)
+                                .build()
+                        )
+                        .build()
                 }
 
                 controller.setMediaItems(items, state.currentIndex, 0)
@@ -128,11 +150,17 @@ class MediaAudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(F
         // UI rendering
         binding.mtvTitleMediaAudioDetail.text = state.title
         binding.mtvArtistMediaAudioDetail.text = state.artist
-        binding.sliderMediaAudioDetail.valueTo = state.duration.toFloat()
-        binding.sliderMediaAudioDetail.value = state.currentPosition.toFloat()
+
+        // Update slider only when duration is valid (> 0)
+        if (state.duration > 0) {
+            binding.sliderMediaAudioDetail.valueTo = state.duration.toFloat()
+            binding.sliderMediaAudioDetail.value = state.currentPosition.toFloat().coerceIn(0f, state.duration.toFloat())
+        }
 
         binding.mtvCurrentProgressMediaAudioDetail.text = state.currentPosition.toTimeFormat()
-        binding.mtvTotalTimeMediaAudioDetail.text = state.duration.toTimeFormat()
+        if (state.duration > 0) {
+            binding.mtvTotalTimeMediaAudioDetail.text = state.duration.toTimeFormat()
+        }
 
         binding.mbPlayPauseMediaAudioDetail.setIconResource(if (state.isPlaying) coreR.drawable.ic_svg_pause else coreR.drawable.ic_svg_play)
 
