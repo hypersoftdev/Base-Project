@@ -52,29 +52,9 @@ class MediaAudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(F
     private var playlistLoaded = false
 
     override fun onViewCreated() {
-        setupClickListeners()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        initializeController()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        releaseController()
-    }
-
-    override fun initObservers() {
-        observeState()
-        observeEffect()
-    }
-
-    private fun setupClickListeners() {
-        binding.mbBackMediaAudioDetail.setOnClickListener {
-            viewModel.handleIntent(MediaAudioDetailIntent.NavigateBack)
-        }
-
+        binding.mbBackMediaAudioDetail.setOnClickListener { viewModel.handleIntent(MediaAudioDetailIntent.NavigateBack) }
+        binding.mbPreviousMediaAudioDetail.setOnClickListener { mediaController?.seekToPreviousMediaItem() }
+        binding.mbNextMediaAudioDetail.setOnClickListener { mediaController?.seekToNextMediaItem() }
         binding.mbPlayPauseMediaAudioDetail.setOnClickListener {
             mediaController?.let { controller ->
                 if (controller.isPlaying) {
@@ -83,14 +63,6 @@ class MediaAudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(F
                     controller.play()
                 }
             }
-        }
-
-        binding.mbPreviousMediaAudioDetail.setOnClickListener {
-            mediaController?.seekToPreviousMediaItem()
-        }
-
-        binding.mbNextMediaAudioDetail.setOnClickListener {
-            mediaController?.seekToNextMediaItem()
         }
 
         binding.mbRewindMediaAudioDetail.setOnClickListener {
@@ -115,6 +87,21 @@ class MediaAudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(F
                 mediaController?.seekTo(value.toLong())
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        initializeController()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        releaseController()
+    }
+
+    override fun initObservers() {
+        observeState()
+        observeEffect()
     }
 
     private fun initializeController() {
@@ -159,12 +146,7 @@ class MediaAudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(F
                     val title = metadata.title?.toString() ?: ""
                     val artist = metadata.artist?.toString() ?: ""
 
-                    viewModel.handleIntent(
-                        MediaAudioDetailIntent.UpdatePlayerState(
-                            title = title,
-                            artist = artist
-                        )
-                    )
+                    viewModel.handleIntent(MediaAudioDetailIntent.UpdatePlayerState(title = title, artist = artist))
 
                     // Update current index
                     val currentIndex = controller.currentMediaItemIndex

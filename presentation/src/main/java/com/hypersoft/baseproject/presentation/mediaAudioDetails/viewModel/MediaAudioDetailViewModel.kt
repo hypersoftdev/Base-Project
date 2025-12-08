@@ -23,9 +23,7 @@ import kotlinx.coroutines.launch
  * - Updates state based on player events
  * - Emits effects for navigation/errors
  */
-class MediaAudioDetailViewModel(
-    private val getAudiosUseCase: GetAudiosUseCase
-) : ViewModel() {
+class MediaAudioDetailViewModel(private val getAudiosUseCase: GetAudiosUseCase) : ViewModel() {
 
     private val _state = MutableStateFlow(MediaAudioDetailState())
     val state: StateFlow<MediaAudioDetailState> = _state.asStateFlow()
@@ -41,29 +39,18 @@ class MediaAudioDetailViewModel(
 
     fun handleIntent(intent: MediaAudioDetailIntent) = viewModelScope.launch(coroutineExceptionHandler) {
         when (intent) {
-            is MediaAudioDetailIntent.NavigateBack -> {
-                _effect.emit(MediaAudioDetailEffect.NavigateBack)
-            }
-
-            is MediaAudioDetailIntent.LoadPlaylist -> {
-                loadPlaylist(intent.startAudioUri)
-            }
-
-            is MediaAudioDetailIntent.UpdatePlayerState -> {
-                updatePlayerState(
-                    isPlaying = intent.isPlaying,
-                    isLoading = intent.isLoading,
-                    title = intent.title,
-                    artist = intent.artist,
-                    currentPosition = intent.currentPosition,
-                    duration = intent.duration,
-                    error = intent.error
-                )
-            }
-
-            is MediaAudioDetailIntent.OnMediaItemTransition -> {
-                _state.update { it.copy(currentIndex = intent.currentIndex) }
-            }
+            is MediaAudioDetailIntent.NavigateBack -> _effect.emit(MediaAudioDetailEffect.NavigateBack)
+            is MediaAudioDetailIntent.LoadPlaylist -> loadPlaylist(intent.startAudioUri)
+            is MediaAudioDetailIntent.OnMediaItemTransition -> _state.update { it.copy(currentIndex = intent.currentIndex) }
+            is MediaAudioDetailIntent.UpdatePlayerState -> updatePlayerState(
+                isPlaying = intent.isPlaying,
+                isLoading = intent.isLoading,
+                title = intent.title,
+                artist = intent.artist,
+                currentPosition = intent.currentPosition,
+                duration = intent.duration,
+                error = intent.error
+            )
         }
     }
 
@@ -72,16 +59,9 @@ class MediaAudioDetailViewModel(
             _state.update { it.copy(isLoading = true, error = null) }
 
             val allAudios = getAudiosUseCase()
-            val startIndex = allAudios.indexOfFirst { it.uri.toString() == startAudioUri }
-                .takeIf { it >= 0 } ?: 0
+            val startIndex = allAudios.indexOfFirst { it.uri.toString() == startAudioUri }.takeIf { it >= 0 } ?: 0
 
-            _state.update {
-                it.copy(
-                    playlist = allAudios,
-                    currentIndex = startIndex,
-                    isLoading = false
-                )
-            }
+            _state.update { it.copy(playlist = allAudios, currentIndex = startIndex, isLoading = false) }
         } catch (e: Exception) {
             handleError(e)
         }
