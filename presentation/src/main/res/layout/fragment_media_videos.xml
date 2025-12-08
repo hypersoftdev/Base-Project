@@ -29,17 +29,49 @@
         app:layout_constraintStart_toEndOf="@+id/mbBackMediaVideos"
         app:layout_constraintTop_toTopOf="@+id/mbBackMediaVideos" />
 
+    <LinearLayout
+        android:id="@+id/llLimitedPermissionWarningMediaVideos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="#FCD371"
+        android:gravity="center_vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mbBackMediaVideos">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:paddingVertical="4dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="12dp"
+            android:text="@string/limited_access_warning_message"
+            android:textAppearance="@style/TextAppearance.Material3.LabelSmall" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/mbGrantPermissionMediaVideos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="@string/grant" />
+
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvListMediaVideos"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         android:padding="4dp"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:spanCount="2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mbBackMediaVideos"
+        app:layout_constraintTop_toBottomOf="@+id/llLimitedPermissionWarningMediaVideos"
+        app:spanCount="2"
         tools:listitem="@layout/item_media_video" />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator

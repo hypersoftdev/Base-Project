@@ -4,6 +4,11 @@
     <!-- _____________________________ Toast ______________________________ -->
     <string name="something_went_wrong">Something went wrong! Try again later</string>
     <string name="image_not_found">Image not found</string>
+    <string name="permission_denied">Permission Denied</string>
+
+    <!-- _____________________________ Actions ______________________________ -->
+    <string name="grant">Grant</string>
+
 
     <!-- _______________________________ UI _______________________________ -->
 
@@ -26,6 +31,8 @@
     <string name="videos">Videos</string>
 
     <string name="all">All</string>
+    <string name="_00_00">00:00</string>
+    <string name="limited_access_warning_message">You have given limited access to your photos and videos. Grant full access to see all media.</string>
 
 
     <!-- Premium -->

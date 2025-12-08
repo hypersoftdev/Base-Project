@@ -67,10 +67,11 @@ fun Context?.showSnackBar(
 fun Context?.showSnackBar(
     @StringRes messageResId: Int,
     @StringRes actionResId: Int,
+    duration: Int = Snackbar.LENGTH_LONG,
     listener: View.OnClickListener?
 ) {
     (this as? Activity)?.findViewById<View>(android.R.id.content)?.let { root ->
-        Snackbar.make(root, messageResId, Snackbar.LENGTH_LONG)
+        Snackbar.make(root, messageResId, duration)
             .setAction(actionResId, listener)
             .show()
     }

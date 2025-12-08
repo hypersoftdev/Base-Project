@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.hypersoft.baseproject.domain.media.useCases.GetImageFoldersUseCase
 import com.hypersoft.baseproject.domain.media.useCases.contentObserver.ObserveMediaChangesUseCase
 import com.hypersoft.baseproject.presentation.mediaImages.effect.MediaImagesEffect
+import com.hypersoft.baseproject.presentation.mediaImages.enums.MediaImagesPermissionLevel
 import com.hypersoft.baseproject.presentation.mediaImages.intent.MediaImagesIntent
 import com.hypersoft.baseproject.presentation.mediaImages.state.MediaImagesState
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -46,7 +47,11 @@ class MediaImagesViewModel(
 
     fun handleIntent(intent: MediaImagesIntent) = viewModelScope.launch(coroutineExceptionHandler) {
         when (intent) {
+            is MediaImagesIntent.NavigationBack -> _effect.emit(MediaImagesEffect.NavigateBack)
             is MediaImagesIntent.LoadFolders -> loadFolders()
+            is MediaImagesIntent.RefreshFolders -> loadFolders()
+            is MediaImagesIntent.GrantPermissionClick -> _effect.emit(MediaImagesEffect.GrantPermissionClick)
+            is MediaImagesIntent.PermissionChanged -> onPermissionChanged(intent.level)
             is MediaImagesIntent.ImageClicked -> _effect.emit(MediaImagesEffect.NavigateToDetail(intent.imageUri))
         }
     }
@@ -71,6 +76,18 @@ class MediaImagesViewModel(
             _state.update {
                 it.copy(isLoading = false, folders = folders, error = null)
             }
+        }
+    }
+
+    private fun onPermissionChanged(level: MediaImagesPermissionLevel) {
+        val isPermissionIdle = state.value.permission == MediaImagesPermissionLevel.Idle
+        val isStateSame = (level == MediaImagesPermissionLevel.Full) && (level == state.value.permission)
+
+        _state.update { it.copy(permission = level) }
+        if (isPermissionIdle || isStateSame) return
+
+        if (level == MediaImagesPermissionLevel.Full || level == MediaImagesPermissionLevel.Limited) {
+            loadFolders()
         }
     }
 

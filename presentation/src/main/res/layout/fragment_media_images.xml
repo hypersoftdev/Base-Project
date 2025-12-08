@@ -16,13 +16,43 @@
         app:navigationIcon="@drawable/ic_back"
         app:title="@string/images" />
 
+    <LinearLayout
+        android:id="@+id/llLimitedPermissionWarningMediaImages"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:background="#FCD371"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarMediaImages">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:paddingVertical="4dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="12dp"
+            android:text="@string/limited_access_warning_message"
+            android:textAppearance="@style/TextAppearance.Material3.LabelSmall"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/mbGrantPermissionMediaImages"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="@string/grant" />
+
+    </LinearLayout>
+
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tlContainerMediaImages"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarMediaImages"
+        app:layout_constraintTop_toBottomOf="@+id/llLimitedPermissionWarningMediaImages"
         app:tabMode="scrollable" />
 
     <androidx.viewpager2.widget.ViewPager2
