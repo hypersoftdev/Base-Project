@@ -50,32 +50,14 @@ class MediaAudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(F
         binding.mbPlayPauseMediaAudioDetail.setOnClickListener { controller?.let { if (it.isPlaying) it.pause() else it.play() } }
         binding.mbPreviousMediaAudioDetail.setOnClickListener { controller?.seekToPreviousMediaItem() }
         binding.mbNextMediaAudioDetail.setOnClickListener { controller?.seekToNextMediaItem() }
-        binding.mbRewindMediaAudioDetail.setOnClickListener {
-            controller?.let { ctrl ->
-                val newPosition = (ctrl.currentPosition - 5000).coerceAtLeast(0)
-                ctrl.seekTo(newPosition)
-            }
-        }
-        binding.mbForwardMediaAudioDetail.setOnClickListener {
-            controller?.let { ctrl ->
-                val duration = ctrl.duration
-                if (duration != C.TIME_UNSET) {
-                    val newPosition = (ctrl.currentPosition + 15000).coerceAtMost(duration)
-                    ctrl.seekTo(newPosition)
-                }
-            }
-        }
+        binding.mbRewindMediaAudioDetail.setOnClickListener { onRewindClick() }
+        binding.mbForwardMediaAudioDetail.setOnClickListener { onForwardClick() }
         binding.sliderMediaAudioDetail.addOnChangeListener { _, value, fromUser -> if (fromUser) controller?.seekTo(value.toLong()) }
     }
 
     override fun onStart() {
         super.onStart()
         connectController()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        disconnectController()
     }
 
     override fun initObservers() {
@@ -98,29 +80,6 @@ class MediaAudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(F
             },
             MoreExecutors.directExecutor()
         )
-    }
-
-    private fun disconnectController() {
-        controller?.removeListener(playerListener)
-        future?.let { MediaController.releaseFuture(it) }
-        controller = null
-        future = null
-    }
-
-    private val playerListener = object : Player.Listener {
-        override fun onEvents(player: Player, events: Player.Events) {
-            val playerSnapshot = PlayerSnapshot(
-                isPlaying = player.isPlaying,
-                isLoading = player.playbackState == Player.STATE_BUFFERING,
-                title = player.mediaMetadata.title?.toString(),
-                artist = player.mediaMetadata.artist?.toString(),
-                position = player.currentPosition,
-                duration = player.duration,
-                currentIndex = player.currentMediaItemIndex
-            )
-
-            viewModel.handleIntent(MediaAudioDetailIntent.UpdatePlayerState(playerSnapshot))
-        }
     }
 
     private fun render(state: MediaAudioDetailState) {
@@ -172,5 +131,51 @@ class MediaAudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(F
             is MediaAudioDetailEffect.NavigateBack -> popFrom(R.id.mediaAudioDetailFragment)
             is MediaAudioDetailEffect.ShowError -> context?.showToast(effect.message)
         }
+    }
+
+    private fun onRewindClick() {
+        controller?.let { ctrl ->
+            val newPosition = (ctrl.currentPosition - 5000).coerceAtLeast(0)
+            ctrl.seekTo(newPosition)
+        }
+    }
+
+    private fun onForwardClick() {
+        controller?.let { ctrl ->
+            val duration = ctrl.duration
+            if (duration != C.TIME_UNSET) {
+                val newPosition = (ctrl.currentPosition + 15000).coerceAtMost(duration)
+                ctrl.seekTo(newPosition)
+            }
+        }
+    }
+
+    private val playerListener = object : Player.Listener {
+        override fun onEvents(player: Player, events: Player.Events) {
+            val playerSnapshot = PlayerSnapshot(
+                isPlaying = player.isPlaying,
+                isLoading = player.playbackState == Player.STATE_BUFFERING,
+                title = player.mediaMetadata.title?.toString(),
+                artist = player.mediaMetadata.artist?.toString(),
+                position = player.currentPosition,
+                duration = player.duration,
+                currentIndex = player.currentMediaItemIndex
+            )
+
+            viewModel.handleIntent(MediaAudioDetailIntent.UpdatePlayerState(playerSnapshot))
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        disconnectController()
+    }
+
+    private fun disconnectController() {
+        controller?.removeListener(playerListener)
+        future?.let { MediaController.releaseFuture(it) }
+
+        controller = null
+        future = null
     }
 }
