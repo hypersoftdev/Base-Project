@@ -1,9 +1,6 @@
 package com.hypersoft.baseproject.presentation.mediaAudioDetails.ui
 
 import android.content.ComponentName
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.media3.common.C
@@ -17,7 +14,6 @@ import androidx.navigation.fragment.navArgs
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.common.util.concurrent.MoreExecutors
 import com.hypersoft.baseproject.core.base.fragment.BaseFragment
-import com.hypersoft.baseproject.core.constants.Constants.TAG
 import com.hypersoft.baseproject.core.extensions.collectWhenStarted
 import com.hypersoft.baseproject.core.extensions.popFrom
 import com.hypersoft.baseproject.core.extensions.showToast
@@ -27,18 +23,22 @@ import com.hypersoft.baseproject.presentation.databinding.FragmentMediaAudioDeta
 import com.hypersoft.baseproject.presentation.mediaAudioDetails.effect.MediaAudioDetailEffect
 import com.hypersoft.baseproject.presentation.mediaAudioDetails.intent.MediaAudioDetailIntent
 import com.hypersoft.baseproject.presentation.mediaAudioDetails.player.PlaybackService
+import com.hypersoft.baseproject.presentation.mediaAudioDetails.state.MediaAudioDetailState
 import com.hypersoft.baseproject.presentation.mediaAudioDetails.viewModel.MediaAudioDetailViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import com.hypersoft.baseproject.core.R as coreR
 
 /**
- * Fragment that uses MediaController to connect to PlaybackService.
- * Follows Media3 best practices:
- * - Creates MediaController in onStart()
- * - Uses controller callbacks for UI updates
- * - Connects buttons directly to controller methods
- * - Releases controller in onStop()
+ * Fragment for audio playback using Media3 MediaController.
+ * Follows MVI pattern:
+ * - Observes state from ViewModel
+ * - Forwards user actions as intents
+ * - Forwards player events as intents
+ * - Renders UI from state
  */
 @UnstableApi
 class MediaAudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(FragmentMediaAudioDetailBinding::inflate) {
@@ -46,22 +46,13 @@ class MediaAudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(F
     private val navArgs: MediaAudioDetailFragmentArgs by navArgs()
     private val viewModel: MediaAudioDetailViewModel by viewModel()
 
-    private var mediaControllerFuture: ListenableFuture<MediaController>? = null
     private var mediaController: MediaController? = null
-
-    private var progressUpdateHandler: Handler? = null
-    private var progressUpdateRunnable: Runnable? = null
-
-    private var isUpdatingSlider = false
+    private var controllerFuture: ListenableFuture<MediaController>? = null
+    private var progressUpdateJob: Job? = null
+    private var playlistLoaded = false
 
     override fun onViewCreated() {
-        binding.mbBackMediaAudioDetail.setOnClickListener { viewModel.handleIntent(MediaAudioDetailIntent.NavigateBack) }
-        binding.mbPlayPauseMediaAudioDetail.setOnClickListener { onPlayPause() }
-        binding.mbPreviousMediaAudioDetail.setOnClickListener { mediaController?.seekToPreviousMediaItem() }
-        binding.mbNextMediaAudioDetail.setOnClickListener { mediaController?.seekToNextMediaItem() }
-        binding.mbRewindMediaAudioDetail.setOnClickListener { onRewindClick(milliseconds = 5000) }
-        binding.mbForwardMediaAudioDetail.setOnClickListener { onForwardClick(milliseconds = 1500) }
-        binding.sliderMediaAudioDetail.addOnChangeListener { _, value, fromUser -> onSliderChange(fromUser, value) }
+        setupClickListeners()
     }
 
     override fun onStart() {
@@ -75,45 +66,110 @@ class MediaAudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(F
     }
 
     override fun initObservers() {
+        observeState()
         observeEffect()
     }
 
-    private fun initializeController() {
-        // Create SessionToken for PlaybackService
-        val ctx = context ?: return
-        val sessionToken = SessionToken(ctx, ComponentName(ctx, PlaybackService::class.java))
+    private fun setupClickListeners() {
+        binding.mbBackMediaAudioDetail.setOnClickListener {
+            viewModel.handleIntent(MediaAudioDetailIntent.NavigateBack)
+        }
 
-        // Build MediaController asynchronously
-        mediaControllerFuture = MediaController.Builder(ctx, sessionToken).buildAsync()
-        mediaControllerFuture?.addListener(
+        binding.mbPlayPauseMediaAudioDetail.setOnClickListener {
+            mediaController?.let { controller ->
+                if (controller.isPlaying) {
+                    controller.pause()
+                } else {
+                    controller.play()
+                }
+            }
+        }
+
+        binding.mbPreviousMediaAudioDetail.setOnClickListener {
+            mediaController?.seekToPreviousMediaItem()
+        }
+
+        binding.mbNextMediaAudioDetail.setOnClickListener {
+            mediaController?.seekToNextMediaItem()
+        }
+
+        binding.mbRewindMediaAudioDetail.setOnClickListener {
+            mediaController?.let { controller ->
+                val newPosition = (controller.currentPosition - 5000).coerceAtLeast(0)
+                controller.seekTo(newPosition)
+            }
+        }
+
+        binding.mbForwardMediaAudioDetail.setOnClickListener {
+            mediaController?.let { controller ->
+                val duration = controller.duration
+                if (duration != C.TIME_UNSET) {
+                    val newPosition = (controller.currentPosition + 15000).coerceAtMost(duration)
+                    controller.seekTo(newPosition)
+                }
+            }
+        }
+
+        binding.sliderMediaAudioDetail.addOnChangeListener { _, value, fromUser ->
+            if (fromUser) {
+                mediaController?.seekTo(value.toLong())
+            }
+        }
+    }
+
+    private fun initializeController() {
+        val context = requireContext()
+        val sessionToken = SessionToken(
+            context,
+            ComponentName(context, PlaybackService::class.java)
+        )
+
+        controllerFuture = MediaController.Builder(context, sessionToken).buildAsync()
+
+        controllerFuture?.addListener(
             {
                 try {
-                    mediaController = mediaControllerFuture?.get()
-                    mediaController?.let { ctrl ->
-                        setupControllerListeners(ctrl)
-                        loadPlaylist(ctrl)
+                    mediaController = controllerFuture?.get()
+                    mediaController?.let { controller ->
+                        setupPlayerListener(controller)
+                        loadPlaylist()
                     }
-                } catch (ex: Exception) {
-                    Log.e(TAG, "MediaAudioDetailFragment: initializeController: Exception: ", ex)
-                    ctx.showToast("Failed to connect to playback service: ${ex.message}")
+                } catch (e: Exception) {
+                    context.showToast("Failed to connect to playback service: ${e.message}")
                 }
             },
             MoreExecutors.directExecutor()
         )
     }
 
-    private fun setupControllerListeners(controller: MediaController) {
+    private fun setupPlayerListener(controller: MediaController) {
         controller.addListener(object : Player.Listener {
             override fun onIsPlayingChanged(isPlaying: Boolean) {
-                updatePlayPauseButton(isPlaying)
+                viewModel.handleIntent(MediaAudioDetailIntent.UpdatePlayerState(isPlaying = isPlaying))
             }
 
             override fun onPlaybackStateChanged(playbackState: Int) {
-                updateLoadingState(playbackState == Player.STATE_BUFFERING)
+                val isLoading = playbackState == Player.STATE_BUFFERING
+                viewModel.handleIntent(MediaAudioDetailIntent.UpdatePlayerState(isLoading = isLoading))
             }
 
             override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
-                updateMetadata(mediaItem)
+                mediaItem?.let { item ->
+                    val metadata = item.mediaMetadata
+                    val title = metadata.title?.toString() ?: ""
+                    val artist = metadata.artist?.toString() ?: ""
+
+                    viewModel.handleIntent(
+                        MediaAudioDetailIntent.UpdatePlayerState(
+                            title = title,
+                            artist = artist
+                        )
+                    )
+
+                    // Update current index
+                    val currentIndex = controller.currentMediaItemIndex
+                    viewModel.handleIntent(MediaAudioDetailIntent.OnMediaItemTransition(currentIndex))
+                }
             }
 
             override fun onEvents(player: Player, events: Player.Events) {
@@ -122,154 +178,151 @@ class MediaAudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(F
                     events.contains(Player.EVENT_PLAYBACK_STATE_CHANGED) ||
                     events.contains(Player.EVENT_IS_PLAYING_CHANGED)
                 ) {
-                    updateProgress()
+                    updateProgressFromPlayer(player)
                 }
             }
         })
+
+        // Initial state update
+        updateProgressFromPlayer(controller)
+        updateMetadataFromMediaItem(controller.currentMediaItem)
 
         // Start periodic progress updates
         startProgressUpdates(controller)
     }
 
-    private fun loadPlaylist(controller: MediaController) {
-        lifecycleScope.launch {
-            try {
-                val (audios, startIndex) = viewModel.loadPlaylist(navArgs.audioUriPath)
+    private fun loadPlaylist() {
+        // Request playlist load from ViewModel
+        viewModel.handleIntent(MediaAudioDetailIntent.LoadPlaylist(navArgs.audioUriPath))
+    }
 
-                // Convert AudioEntity list to MediaItem list
-                val mediaItems = audios.map { audio ->
-                    MediaItem.fromUri(audio.uri)
-                        .buildUpon()
-                        .setMediaMetadata(
-                            MediaMetadata.Builder()
-                                .setTitle(audio.displayName)
-                                .setArtist(audio.artist)
-                                .setAlbumTitle(audio.album)
-                                .build()
-                        )
-                        .build()
-                }
+    private fun setupPlaylistIfReady(controller: MediaController, state: MediaAudioDetailState) {
+        if (state.playlist.isNotEmpty() && state.currentIndex >= 0 && !playlistLoaded) {
+            playlistLoaded = true
 
-                // Use MediaController to set the playlist - this automatically syncs with the service
-                controller.setMediaItems(mediaItems, startIndex.coerceIn(0, mediaItems.size - 1), 0)
-                controller.prepare()
-                controller.play()
-
-            } catch (e: Exception) {
-                context?.showToast("Failed to load playlist: ${e.message}")
+            val mediaItems = state.playlist.map { audio ->
+                MediaItem.fromUri(audio.uri)
+                    .buildUpon()
+                    .setMediaMetadata(
+                        MediaMetadata.Builder()
+                            .setTitle(audio.displayName)
+                            .setArtist(audio.artist)
+                            .setAlbumTitle(audio.album)
+                            .build()
+                    )
+                    .build()
             }
+
+            // Set playlist and prepare
+            controller.setMediaItems(mediaItems, state.currentIndex.coerceIn(0, mediaItems.size - 1), 0)
+            controller.prepare()
+            controller.play()
         }
+    }
+
+    private fun updateMetadataFromMediaItem(mediaItem: MediaItem?) {
+        mediaItem?.mediaMetadata?.let { metadata ->
+            viewModel.handleIntent(
+                MediaAudioDetailIntent.UpdatePlayerState(
+                    title = metadata.title?.toString() ?: "",
+                    artist = metadata.artist?.toString() ?: ""
+                )
+            )
+        }
+    }
+
+    private fun updateProgressFromPlayer(player: Player) {
+        val duration = if (player.duration != C.TIME_UNSET) player.duration else 0L
+        val position = player.currentPosition
+
+        viewModel.handleIntent(
+            MediaAudioDetailIntent.UpdatePlayerState(
+                currentPosition = position,
+                duration = duration
+            )
+        )
     }
 
     private fun startProgressUpdates(controller: MediaController) {
-        stopProgressUpdates() // Stop any existing updates
-
-        progressUpdateHandler = Handler(Looper.getMainLooper())
-        progressUpdateRunnable = object : Runnable {
-            override fun run() {
+        stopProgressUpdates()
+        progressUpdateJob = lifecycleScope.launch {
+            while (isActive) {
                 if (controller.isPlaying) {
-                    updateProgress()
-                    progressUpdateHandler?.postDelayed(this, 100) // Update every 100ms
+                    updateProgressFromPlayer(controller)
+                    delay(100)
                 } else {
-                    progressUpdateHandler?.postDelayed(this, 500) // Update every 500ms when paused
+                    delay(500)
                 }
             }
         }
-        progressUpdateHandler?.post(progressUpdateRunnable!!)
     }
 
     private fun stopProgressUpdates() {
-        progressUpdateRunnable?.let { progressUpdateHandler?.removeCallbacks(it) }
-        progressUpdateRunnable = null
-        progressUpdateHandler = null
-    }
-
-    private fun updatePlayPauseButton(isPlaying: Boolean) {
-        binding.mbPlayPauseMediaAudioDetail.setIconResource(if (isPlaying) coreR.drawable.ic_svg_pause else coreR.drawable.ic_svg_play)
-    }
-
-    private fun updateLoadingState(isLoading: Boolean) {
-        binding.cpiLoadingMediaAudioDetail.isVisible = isLoading
-    }
-
-    private fun updateMetadata(mediaItem: MediaItem?) {
-        mediaItem?.mediaMetadata?.let { metadata ->
-            binding.mtvTitleMediaAudioDetail.text = metadata.title?.toString() ?: ""
-            binding.mtvArtistMediaAudioDetail.text = metadata.artist?.toString() ?: ""
-        }
-    }
-
-    private fun updateProgress() {
-        mediaController?.let { ctrl ->
-            val duration = if (ctrl.duration != C.TIME_UNSET) {
-                ctrl.duration.toInt()
-            } else {
-                0
-            }
-            val position = ctrl.currentPosition.toInt()
-
-            isUpdatingSlider = true
-
-            if (duration > 0) {
-                binding.sliderMediaAudioDetail.valueTo = duration.toFloat()
-                binding.sliderMediaAudioDetail.value = position.toFloat()
-            }
-            isUpdatingSlider = false
-
-            binding.mtvCurrentProgressMediaAudioDetail.text = position.toLong().toTimeFormat()
-            if (duration > 0) {
-                binding.mtvTotalTimeMediaAudioDetail.text = duration.toLong().toTimeFormat()
-            }
-        }
+        progressUpdateJob?.cancel()
+        progressUpdateJob = null
     }
 
     private fun releaseController() {
         stopProgressUpdates()
-        mediaControllerFuture?.let { future ->
+        controllerFuture?.let { future ->
             MediaController.releaseFuture(future)
         }
         mediaController = null
-        mediaControllerFuture = null
+        controllerFuture = null
     }
 
-    private fun onPlayPause() {
-        mediaController?.let { ctrl ->
-            when (ctrl.isPlaying) {
-                true -> ctrl.pause()
-                false -> ctrl.play()
-            }
+    private fun observeState() {
+        collectWhenStarted(viewModel.state) { state ->
+            renderState(state)
         }
     }
 
-    private fun onRewindClick(milliseconds: Int = 10_000) {
-        mediaController?.let { ctrl ->
-            val newPosition = (ctrl.currentPosition - milliseconds).coerceAtLeast(0)
-            ctrl.seekTo(newPosition)
+    private fun renderState(state: MediaAudioDetailState) {
+        // Setup playlist if ready and controller is available
+        mediaController?.let { controller ->
+            setupPlaylistIfReady(controller, state)
         }
-    }
 
-    private fun onForwardClick(milliseconds: Int = 10_000) {
-        mediaController?.let { ctrl ->
-            val duration = ctrl.duration
-            if (duration != C.TIME_UNSET) {
-                val newPosition = (ctrl.currentPosition + milliseconds).coerceAtMost(duration)
-                ctrl.seekTo(newPosition)
-            }
+        // Update play/pause button
+        binding.mbPlayPauseMediaAudioDetail.setIconResource(
+            if (state.isPlaying) coreR.drawable.ic_svg_pause else coreR.drawable.ic_svg_play
+        )
+
+        // Update title and artist
+        binding.mtvTitleMediaAudioDetail.text = state.title
+        binding.mtvArtistMediaAudioDetail.text = state.artist
+
+        // Update progress slider
+        if (state.duration > 0) {
+            binding.sliderMediaAudioDetail.valueTo = state.duration.toFloat()
+            binding.sliderMediaAudioDetail.value = state.currentPosition.toFloat()
         }
-    }
 
-    private fun onSliderChange(fromUser: Boolean, value: Float) {
-        if (fromUser && !isUpdatingSlider) {
-            mediaController?.seekTo(value.toLong())
+        // Update time labels
+        binding.mtvCurrentProgressMediaAudioDetail.text = state.currentPosition.toTimeFormat()
+        if (state.duration > 0) {
+            binding.mtvTotalTimeMediaAudioDetail.text = state.duration.toTimeFormat()
+        }
+
+        // Update loading indicator
+        binding.cpiLoadingMediaAudioDetail.isVisible = state.isLoading
+
+        // Show error if any
+        state.error?.let { error ->
+            context?.showToast(error)
         }
     }
 
     private fun observeEffect() {
         collectWhenStarted(viewModel.effect) { effect ->
-            when (effect) {
-                is MediaAudioDetailEffect.NavigateBack -> popFrom(R.id.mediaAudioDetailFragment)
-                is MediaAudioDetailEffect.ShowError -> context?.showToast(effect.message)
-            }
+            handleEffect(effect)
+        }
+    }
+
+    private fun handleEffect(effect: MediaAudioDetailEffect) {
+        when (effect) {
+            is MediaAudioDetailEffect.NavigateBack -> popFrom(R.id.mediaAudioDetailFragment)
+            is MediaAudioDetailEffect.ShowError -> context?.showToast(effect.message)
         }
     }
 }

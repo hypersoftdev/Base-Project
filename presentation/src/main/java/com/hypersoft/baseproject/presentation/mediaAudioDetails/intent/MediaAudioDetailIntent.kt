@@ -1,9 +1,19 @@
 package com.hypersoft.baseproject.presentation.mediaAudioDetails.intent
 
 /**
- * Simplified Intent - only navigation remains.
- * All playback controls are handled directly via MediaController in the Fragment.
+ * User intents for audio playback screen.
  */
 sealed class MediaAudioDetailIntent {
     object NavigateBack : MediaAudioDetailIntent()
+    data class LoadPlaylist(val startAudioUri: String) : MediaAudioDetailIntent()
+    data class OnMediaItemTransition(val currentIndex: Int) : MediaAudioDetailIntent()
+    data class UpdatePlayerState(
+        val isPlaying: Boolean? = null,
+        val isLoading: Boolean? = null,
+        val title: String? = null,
+        val artist: String? = null,
+        val currentPosition: Long? = null,
+        val duration: Long? = null,
+        val error: String? = null
+    ) : MediaAudioDetailIntent()
 }

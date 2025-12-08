@@ -1,9 +1,19 @@
 package com.hypersoft.baseproject.presentation.mediaAudioDetails.state
 
+import com.hypersoft.baseproject.domain.media.entities.AudioEntity
+
 /**
- * Simplified State - only static UI data remains.
- * All playback state comes from MediaController in the Fragment.
+ * UI state for audio playback screen.
+ * All state comes from MediaController player events and playlist data.
  */
 data class MediaAudioDetailState(
-    val placeholder: String = "" // Placeholder to satisfy data class requirement
+    val playlist: List<AudioEntity> = emptyList(),
+    val currentIndex: Int = 0,
+    val isPlaying: Boolean = false,
+    val isLoading: Boolean = false,
+    val title: String = "",
+    val artist: String = "",
+    val currentPosition: Long = 0L,
+    val duration: Long = 0L,
+    val error: String? = null
 )
