@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.hypersoft.baseproject.domain.media.useCases.GetAudiosUseCase
 import com.hypersoft.baseproject.presentation.mediaAudioDetails.effect.MediaAudioDetailEffect
 import com.hypersoft.baseproject.presentation.mediaAudioDetails.intent.MediaAudioDetailIntent
+import com.hypersoft.baseproject.presentation.mediaAudioDetails.intent.PlayerSnapshot
 import com.hypersoft.baseproject.presentation.mediaAudioDetails.state.MediaAudioDetailState
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -41,50 +42,29 @@ class MediaAudioDetailViewModel(private val getAudiosUseCase: GetAudiosUseCase) 
         when (intent) {
             is MediaAudioDetailIntent.NavigateBack -> _effect.emit(MediaAudioDetailEffect.NavigateBack)
             is MediaAudioDetailIntent.LoadPlaylist -> loadPlaylist(intent.startAudioUri)
-            is MediaAudioDetailIntent.OnMediaItemTransition -> _state.update { it.copy(currentIndex = intent.currentIndex) }
-            is MediaAudioDetailIntent.UpdatePlayerState -> updatePlayerState(
-                isPlaying = intent.isPlaying,
-                isLoading = intent.isLoading,
-                title = intent.title,
-                artist = intent.artist,
-                currentPosition = intent.currentPosition,
-                duration = intent.duration,
-                error = intent.error
-            )
+            is MediaAudioDetailIntent.PlayerSnapshot -> updateFromPlayer(intent.snapshot)
         }
     }
 
-    private suspend fun loadPlaylist(startAudioUri: String) {
-        try {
-            _state.update { it.copy(isLoading = true, error = null) }
+    private suspend fun loadPlaylist(startUri: String) {
+        _state.update { it.copy(isLoading = true) }
 
-            val allAudios = getAudiosUseCase()
-            val startIndex = allAudios.indexOfFirst { it.uri.toString() == startAudioUri }.takeIf { it >= 0 } ?: 0
+        val list = getAudiosUseCase()
+        val index = list.indexOfFirst { it.uri.toString() == startUri }.coerceAtLeast(0)
 
-            _state.update { it.copy(playlist = allAudios, currentIndex = startIndex, isLoading = false) }
-        } catch (e: Exception) {
-            handleError(e)
-        }
+        _state.update { it.copy(playlist = list, currentIndex = index, isLoading = false) }
     }
 
-    private fun updatePlayerState(
-        isPlaying: Boolean? = null,
-        isLoading: Boolean? = null,
-        title: String? = null,
-        artist: String? = null,
-        currentPosition: Long? = null,
-        duration: Long? = null,
-        error: String? = null
-    ) {
-        _state.update { current ->
-            current.copy(
-                isPlaying = isPlaying ?: current.isPlaying,
-                isLoading = isLoading ?: current.isLoading,
-                title = title ?: current.title,
-                artist = artist ?: current.artist,
-                currentPosition = currentPosition ?: current.currentPosition,
-                duration = duration ?: current.duration,
-                error = error ?: current.error
+    private fun updateFromPlayer(snapshot: PlayerSnapshot) {
+        _state.update {
+            it.copy(
+                isPlaying = snapshot.isPlaying,
+                isLoading = snapshot.isLoading,
+                title = snapshot.title ?: it.title,
+                artist = snapshot.artist ?: it.artist,
+                currentPosition = snapshot.position,
+                duration = snapshot.duration,
+                currentIndex = snapshot.currentIndex
             )
         }
     }
