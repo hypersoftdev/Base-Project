@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
  * Follows MVI pattern:
  * - Handles intents from UI
  * - Updates state based on player events
- * - Emits effects for navigation/errors
+ * - Emits effects for one-time actions (playback controls, navigation, errors)
  */
 class MediaAudioDetailViewModel(private val getAudiosUseCase: GetAudiosUseCase) : ViewModel() {
 
@@ -41,14 +41,25 @@ class MediaAudioDetailViewModel(private val getAudiosUseCase: GetAudiosUseCase) 
     fun handleIntent(intent: MediaAudioDetailIntent) = viewModelScope.launch(coroutineExceptionHandler) {
         when (intent) {
             is MediaAudioDetailIntent.NavigateBack -> _effect.emit(MediaAudioDetailEffect.NavigateBack)
+            is MediaAudioDetailIntent.TogglePlayPause -> {
+                when (_state.value.isPlaying) {
+                    true -> _effect.emit(MediaAudioDetailEffect.Pause)
+                    false -> _effect.emit(MediaAudioDetailEffect.Play)
+                }
+            }
+
             is MediaAudioDetailIntent.LoadPlaylist -> loadPlaylist(intent.startAudioUri)
+            is MediaAudioDetailIntent.SeekToNext -> _effect.emit(MediaAudioDetailEffect.SeekToNext)
+            is MediaAudioDetailIntent.SeekToPrevious -> _effect.emit(MediaAudioDetailEffect.SeekToPrevious)
+            is MediaAudioDetailIntent.Rewind -> _effect.emit(MediaAudioDetailEffect.Rewind)
+            is MediaAudioDetailIntent.Forward -> _effect.emit(MediaAudioDetailEffect.Forward)
+            is MediaAudioDetailIntent.SeekTo -> _effect.emit(MediaAudioDetailEffect.SeekTo(intent.positionMs))
             is MediaAudioDetailIntent.UpdatePlayerState -> updateFromPlayer(intent.snapshot)
         }
     }
 
     private suspend fun loadPlaylist(startUri: String) {
         _state.update { it.copy(isLoading = true) }
-
         val list = getAudiosUseCase()
         val index = list.indexOfFirst { it.uri.toString() == startUri }.coerceAtLeast(0)
 

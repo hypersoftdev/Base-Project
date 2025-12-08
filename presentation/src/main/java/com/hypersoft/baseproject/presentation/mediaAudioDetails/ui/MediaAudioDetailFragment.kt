@@ -31,10 +31,10 @@ import com.hypersoft.baseproject.core.R as coreR
 /**
  * Fragment for audio playback using Media3 MediaController.
  * Follows MVI pattern:
- * - Observes state from ViewModel
- * - Forwards user actions as intents
- * - Forwards player events as intents
- * - Renders UI from state
+ * - Observes state from ViewModel and renders UI
+ * - Sends user actions as intents to ViewModel
+ * - Handles effects from ViewModel (one-time actions)
+ * - Forwards player events as intents to ViewModel
  */
 @UnstableApi
 class MediaAudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(FragmentMediaAudioDetailBinding::inflate) {
@@ -47,12 +47,16 @@ class MediaAudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(F
 
     override fun onViewCreated() {
         binding.mbBackMediaAudioDetail.setOnClickListener { viewModel.handleIntent(MediaAudioDetailIntent.NavigateBack) }
-        binding.mbPlayPauseMediaAudioDetail.setOnClickListener { controller?.let { if (it.isPlaying) it.pause() else it.play() } }
-        binding.mbPreviousMediaAudioDetail.setOnClickListener { controller?.seekToPreviousMediaItem() }
-        binding.mbNextMediaAudioDetail.setOnClickListener { controller?.seekToNextMediaItem() }
-        binding.mbRewindMediaAudioDetail.setOnClickListener { onRewindClick() }
-        binding.mbForwardMediaAudioDetail.setOnClickListener { onForwardClick() }
-        binding.sliderMediaAudioDetail.addOnChangeListener { _, value, fromUser -> if (fromUser) controller?.seekTo(value.toLong()) }
+        binding.mbPlayPauseMediaAudioDetail.setOnClickListener { viewModel.handleIntent(MediaAudioDetailIntent.TogglePlayPause) }
+        binding.mbPreviousMediaAudioDetail.setOnClickListener { viewModel.handleIntent(MediaAudioDetailIntent.SeekToPrevious) }
+        binding.mbNextMediaAudioDetail.setOnClickListener { viewModel.handleIntent(MediaAudioDetailIntent.SeekToNext) }
+        binding.mbRewindMediaAudioDetail.setOnClickListener { viewModel.handleIntent(MediaAudioDetailIntent.Rewind) }
+        binding.mbForwardMediaAudioDetail.setOnClickListener { viewModel.handleIntent(MediaAudioDetailIntent.Forward) }
+        binding.sliderMediaAudioDetail.addOnChangeListener { _, value, fromUser ->
+            if (fromUser) {
+                viewModel.handleIntent(MediaAudioDetailIntent.SeekTo(value.toLong()))
+            }
+        }
     }
 
     override fun onStart() {
@@ -61,8 +65,8 @@ class MediaAudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(F
     }
 
     override fun initObservers() {
-        collectWhenStarted(viewModel.state) { render(it) }
-        collectWhenStarted(viewModel.effect) { handleEffect(it) }
+        observeState()
+        observeEffect()
     }
 
     private fun connectController() {
@@ -75,18 +79,25 @@ class MediaAudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(F
                 controller = future?.get()
                 controller?.addListener(playerListener)
 
-                // Ask ViewModel to load playlist
+                // Request playlist load
                 viewModel.handleIntent(MediaAudioDetailIntent.LoadPlaylist(navArgs.audioUriPath))
             },
             MoreExecutors.directExecutor()
         )
     }
 
+    private fun observeState() {
+        collectWhenStarted(viewModel.state) { state -> render(state) }
+    }
+
+    private fun observeEffect() {
+        collectWhenStarted(viewModel.effect) { effect -> handleEffect(effect) }
+    }
+
     private fun render(state: MediaAudioDetailState) {
-        // Playlist setup
+        // Setup playlist when ready
         controller?.let { controller ->
             if (state.playlist.isNotEmpty() && controller.mediaItemCount == 0) {
-
                 val items = state.playlist.map { audio ->
                     MediaItem.fromUri(audio.uri)
                         .buildUpon()
@@ -106,7 +117,7 @@ class MediaAudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(F
             }
         }
 
-        // UI rendering
+        // Render UI state
         binding.mtvTitleMediaAudioDetail.text = state.title
         binding.mtvArtistMediaAudioDetail.text = state.artist
 
@@ -121,7 +132,9 @@ class MediaAudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(F
             binding.mtvTotalTimeMediaAudioDetail.text = state.duration.toTimeFormat()
         }
 
-        binding.mbPlayPauseMediaAudioDetail.setIconResource(if (state.isPlaying) coreR.drawable.ic_svg_pause else coreR.drawable.ic_svg_play)
+        binding.mbPlayPauseMediaAudioDetail.setIconResource(
+            if (state.isPlaying) coreR.drawable.ic_svg_pause else coreR.drawable.ic_svg_play
+        )
 
         binding.cpiLoadingMediaAudioDetail.isVisible = state.isLoading
     }
@@ -129,25 +142,41 @@ class MediaAudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(F
     private fun handleEffect(effect: MediaAudioDetailEffect) {
         when (effect) {
             is MediaAudioDetailEffect.NavigateBack -> popFrom(R.id.mediaAudioDetailFragment)
+            is MediaAudioDetailEffect.Play -> controller?.play()
+            is MediaAudioDetailEffect.Pause -> controller?.pause()
+            is MediaAudioDetailEffect.SeekToNext -> controller?.seekToNextMediaItem()
+            is MediaAudioDetailEffect.SeekToPrevious -> controller?.seekToPreviousMediaItem()
+            is MediaAudioDetailEffect.SeekTo -> controller?.seekTo(effect.positionMs)
             is MediaAudioDetailEffect.ShowError -> context?.showToast(effect.message)
-        }
-    }
+            is MediaAudioDetailEffect.Rewind -> {
+                controller?.let { ctrl ->
+                    val newPosition = (ctrl.currentPosition - 5000).coerceAtLeast(0)
+                    ctrl.seekTo(newPosition)
+                }
+            }
 
-    private fun onRewindClick() {
-        controller?.let { ctrl ->
-            val newPosition = (ctrl.currentPosition - 5000).coerceAtLeast(0)
-            ctrl.seekTo(newPosition)
-        }
-    }
-
-    private fun onForwardClick() {
-        controller?.let { ctrl ->
-            val duration = ctrl.duration
-            if (duration != C.TIME_UNSET) {
-                val newPosition = (ctrl.currentPosition + 15000).coerceAtMost(duration)
-                ctrl.seekTo(newPosition)
+            is MediaAudioDetailEffect.Forward -> {
+                controller?.let { ctrl ->
+                    val duration = ctrl.duration
+                    if (duration != C.TIME_UNSET) {
+                        val newPosition = (ctrl.currentPosition + 15000).coerceAtMost(duration)
+                        ctrl.seekTo(newPosition)
+                    }
+                }
             }
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        disconnectController()
+    }
+
+    private fun disconnectController() {
+        controller?.removeListener(playerListener)
+        future?.let { MediaController.releaseFuture(it) }
+        controller = null
+        future = null
     }
 
     private val playerListener = object : Player.Listener {
@@ -164,18 +193,5 @@ class MediaAudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(F
 
             viewModel.handleIntent(MediaAudioDetailIntent.UpdatePlayerState(playerSnapshot))
         }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        disconnectController()
-    }
-
-    private fun disconnectController() {
-        controller?.removeListener(playerListener)
-        future?.let { MediaController.releaseFuture(it) }
-
-        controller = null
-        future = null
     }
 }
