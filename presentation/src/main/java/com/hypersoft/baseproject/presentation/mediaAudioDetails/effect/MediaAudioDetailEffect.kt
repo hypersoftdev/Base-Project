@@ -8,6 +8,7 @@ sealed class MediaAudioDetailEffect {
     object NavigateBack : MediaAudioDetailEffect()
     object Play : MediaAudioDetailEffect()
     object Pause : MediaAudioDetailEffect()
+    object AnimatePlayPauseButton : MediaAudioDetailEffect()
     object SeekToNext : MediaAudioDetailEffect()
     object SeekToPrevious : MediaAudioDetailEffect()
     object Rewind : MediaAudioDetailEffect()

@@ -42,6 +42,7 @@ class MediaAudioDetailViewModel(private val getAudiosUseCase: GetAudiosUseCase) 
         when (intent) {
             is MediaAudioDetailIntent.NavigateBack -> _effect.emit(MediaAudioDetailEffect.NavigateBack)
             is MediaAudioDetailIntent.TogglePlayPause -> {
+                _effect.emit(MediaAudioDetailEffect.AnimatePlayPauseButton)
                 when (_state.value.isPlaying) {
                     true -> _effect.emit(MediaAudioDetailEffect.Pause)
                     false -> _effect.emit(MediaAudioDetailEffect.Play)

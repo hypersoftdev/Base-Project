@@ -1,6 +1,7 @@
 package com.hypersoft.baseproject.presentation.mediaAudioDetails.ui
 
 import android.content.ComponentName
+import android.view.animation.DecelerateInterpolator
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.media3.common.C
@@ -204,6 +205,7 @@ class MediaAudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(F
     private fun handleEffect(effect: MediaAudioDetailEffect) {
         when (effect) {
             is MediaAudioDetailEffect.NavigateBack -> popFrom(R.id.mediaAudioDetailFragment)
+            is MediaAudioDetailEffect.AnimatePlayPauseButton -> animatePlayPauseButton()
             is MediaAudioDetailEffect.Play -> controller?.play()
             is MediaAudioDetailEffect.Pause -> controller?.pause()
             is MediaAudioDetailEffect.SeekToNext -> controller?.seekToNextMediaItem()
@@ -241,6 +243,22 @@ class MediaAudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(F
                 }
             }
         }
+    }
+
+    private fun animatePlayPauseButton() {
+        // Reset scale and rotation first
+        binding.mbPlayPauseMediaAudioDetail.scaleX = 0.8f
+        binding.mbPlayPauseMediaAudioDetail.scaleY = 0.8f
+        binding.mbPlayPauseMediaAudioDetail.rotation = 0f
+
+        // Animate to final state with bounce effect
+        binding.mbPlayPauseMediaAudioDetail.animate()
+            .scaleX(1f)
+            .scaleY(1f)
+            .rotation(360f)
+            .setInterpolator(DecelerateInterpolator())
+            .setDuration(500)
+            .start()
     }
 
     override fun onStop() {
