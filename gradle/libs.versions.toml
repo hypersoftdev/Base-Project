@@ -37,6 +37,9 @@ media3Version = "1.8.0"
 # Glide
 glide = "5.0.5"
 
+# Palette
+palette = "1.0.0"
+
 # Lottie Animations
 lottie = "6.7.1"
 
@@ -83,6 +86,9 @@ androidx-media3-common = { group = "androidx.media3", name = "media3-common", ve
 
 # Glide
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
+
+# Palette
+androidx-palette = { group = "androidx.palette", name = "palette", version.ref = "palette" }
 
 # Lottie Animations
 lottie = { group = "com.airbnb.android", name = "lottie", version.ref = "lottie" }

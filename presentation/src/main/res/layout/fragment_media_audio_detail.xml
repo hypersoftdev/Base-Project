@@ -4,235 +4,174 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/black"
     tools:context=".mediaAudioDetails.ui.MediaAudioDetailFragment">
 
-    <!-- Blurred Album Art Background -->
-    <androidx.constraintlayout.utils.widget.ImageFilterView
-        android:id="@+id/ifvBackgroundAlbumArtMediaAudioDetail"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:alpha="0.3"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_svg_audio"
-        app:brightness="0.3"
-        app:contrast="1.2"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/ic_svg_audio" />
-
-    <!-- Gradient Overlay -->
     <View
-        android:id="@+id/vGradientOverlayMediaAudioDetail"
+        android:id="@+id/vBackgroundColorMediaAudioDetail"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@drawable/bg_gradient_audio_player"
+        android:background="@android:color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Back Button -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/mbBackMediaAudioDetail"
         style="@style/Widget.Material3.Button.IconButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:backgroundTint="@android:color/transparent"
+        android:layout_margin="8dp"
         app:icon="@drawable/ic_back"
         app:iconTint="@android:color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Album Art Image -->
     <androidx.constraintlayout.utils.widget.ImageFilterView
         android:id="@+id/ifvAlbumArtMediaAudioDetail"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginHorizontal="48dp"
-        android:layout_marginTop="32dp"
-        android:scaleType="centerCrop"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginVertical="24dp"
         android:src="@drawable/ic_svg_audio"
-        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintBottom_toTopOf="@+id/mtvTitleMediaAudioDetail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mbBackMediaAudioDetail"
         app:round="16dp"
-        app:roundPercent="0"
         tools:src="@drawable/ic_svg_audio" />
 
-    <!-- Song Title -->
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/mtvTitleMediaAudioDetail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginBottom="8dp"
         android:ellipsize="end"
         android:gravity="center"
         android:maxLines="2"
         android:textColor="#FFD700"
         android:textSize="24sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/mtvArtistMediaAudioDetail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ifvAlbumArtMediaAudioDetail"
         tools:text="Goodbye my love" />
 
-    <!-- Artist Name -->
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/mtvArtistMediaAudioDetail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginBottom="32dp"
         android:ellipsize="end"
         android:gravity="center"
         android:maxLines="1"
         android:textColor="@android:color/white"
         android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/sliderMediaAudioDetail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mtvTitleMediaAudioDetail"
         tools:text="Artist Name" />
 
-    <!-- Progress Slider -->
     <com.google.android.material.slider.Slider
         android:id="@+id/sliderMediaAudioDetail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="32dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/clTimeLabelsMediaAudioDetail"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="40dp"
+        app:layout_constraintBottom_toTopOf="@+id/mbPlayPauseMediaAudioDetail"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mtvArtistMediaAudioDetail" />
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <!-- Time Labels Container -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/clTimeLabelsMediaAudioDetail"
-        android:layout_width="0dp"
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/mtvCurrentProgressMediaAudioDetail"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="32dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/_00_00"
+        android:textColor="@android:color/white"
+        app:layout_constraintStart_toStartOf="@+id/sliderMediaAudioDetail"
+        app:layout_constraintTop_toBottomOf="@+id/sliderMediaAudioDetail" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/mtvTotalTimeMediaAudioDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/_00_00"
+        android:textColor="@android:color/white"
+        app:layout_constraintEnd_toEndOf="@+id/sliderMediaAudioDetail"
+        app:layout_constraintTop_toBottomOf="@+id/sliderMediaAudioDetail" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/mbPreviousMediaAudioDetail"
+        style="@style/Widget.Material3.Button.IconButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:icon="@drawable/ic_svg_media_previous"
+        app:iconSize="24dp"
+        app:iconTint="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/mbPlayPauseMediaAudioDetail"
+        app:layout_constraintEnd_toStartOf="@+id/mbRewindMediaAudioDetail"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sliderMediaAudioDetail">
+        app:layout_constraintTop_toTopOf="@+id/mbPlayPauseMediaAudioDetail" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/mtvCurrentProgressMediaAudioDetail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/_00_00"
-            android:textColor="@android:color/white"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/mbRewindMediaAudioDetail"
+        style="@style/Widget.Material3.Button.IconButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        app:icon="@drawable/ic_svg_media_rewind"
+        app:iconSize="32dp"
+        app:iconTint="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/mbPlayPauseMediaAudioDetail"
+        app:layout_constraintEnd_toStartOf="@+id/mbPlayPauseMediaAudioDetail"
+        app:layout_constraintTop_toTopOf="@+id/mbPlayPauseMediaAudioDetail" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/mtvTotalTimeMediaAudioDetail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/_00_00"
-            android:textColor="@android:color/white"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <!-- Playback Controls Container -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/clPlaybackControlsMediaAudioDetail"
-        android:layout_width="0dp"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/mbPlayPauseMediaAudioDetail"
+        style="@style/Widget.Material3.Button.IconButton"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="40dp"
+        app:icon="@drawable/ic_svg_play"
+        app:iconSize="64dp"
+        app:iconTint="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/clTimeLabelsMediaAudioDetail">
+        app:layout_constraintStart_toStartOf="parent" />
 
-        <!-- Previous Button -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/mbPreviousMediaAudioDetail"
-            style="@style/Widget.Material3.Button.IconButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@android:color/transparent"
-            app:icon="@drawable/ic_svg_media_previous"
-            app:iconSize="24dp"
-            app:iconTint="@android:color/white"
-            app:layout_constraintBottom_toBottomOf="@+id/mbPlayPauseMediaAudioDetail"
-            app:layout_constraintEnd_toStartOf="@+id/mbRewindMediaAudioDetail"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/mbPlayPauseMediaAudioDetail" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/mbForwardMediaAudioDetail"
+        style="@style/Widget.Material3.Button.IconButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:icon="@drawable/ic_svg_media_forward"
+        app:iconSize="32dp"
+        app:iconTint="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/mbPlayPauseMediaAudioDetail"
+        app:layout_constraintStart_toEndOf="@+id/mbPlayPauseMediaAudioDetail"
+        app:layout_constraintTop_toTopOf="@+id/mbPlayPauseMediaAudioDetail" />
 
-        <!-- Rewind Button -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/mbRewindMediaAudioDetail"
-            style="@style/Widget.Material3.Button.IconButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:backgroundTint="@android:color/transparent"
-            app:icon="@drawable/ic_svg_media_rewind"
-            app:iconSize="28dp"
-            app:iconTint="@android:color/white"
-            app:layout_constraintBottom_toBottomOf="@+id/mbPlayPauseMediaAudioDetail"
-            app:layout_constraintEnd_toStartOf="@+id/mbPlayPauseMediaAudioDetail"
-            app:layout_constraintTop_toTopOf="@+id/mbPlayPauseMediaAudioDetail" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/mbNextMediaAudioDetail"
+        style="@style/Widget.Material3.Button.IconButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        app:icon="@drawable/ic_svg_media_next"
+        app:iconSize="24dp"
+        app:iconTint="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/mbPlayPauseMediaAudioDetail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/mbForwardMediaAudioDetail"
+        app:layout_constraintTop_toTopOf="@+id/mbPlayPauseMediaAudioDetail" />
 
-        <!-- Play/Pause Button -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/mbPlayPauseMediaAudioDetail"
-            style="@style/Widget.Material3.Button.IconButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@android:color/transparent"
-            app:icon="@drawable/ic_svg_play"
-            app:iconSize="56dp"
-            app:iconTint="@android:color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <!-- Forward Button -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/mbForwardMediaAudioDetail"
-            style="@style/Widget.Material3.Button.IconButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:backgroundTint="@android:color/transparent"
-            app:icon="@drawable/ic_svg_media_forward"
-            app:iconSize="28dp"
-            app:iconTint="@android:color/white"
-            app:layout_constraintBottom_toBottomOf="@+id/mbPlayPauseMediaAudioDetail"
-            app:layout_constraintStart_toEndOf="@+id/mbPlayPauseMediaAudioDetail"
-            app:layout_constraintTop_toTopOf="@+id/mbPlayPauseMediaAudioDetail" />
-
-        <!-- Next Button -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/mbNextMediaAudioDetail"
-            style="@style/Widget.Material3.Button.IconButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@android:color/transparent"
-            app:icon="@drawable/ic_svg_media_next"
-            app:iconSize="24dp"
-            app:iconTint="@android:color/white"
-            app:layout_constraintBottom_toBottomOf="@+id/mbPlayPauseMediaAudioDetail"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/mbForwardMediaAudioDetail"
-            app:layout_constraintTop_toTopOf="@+id/mbPlayPauseMediaAudioDetail" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <!-- Loading Indicator -->
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/cpiLoadingMediaAudioDetail"
         android:layout_width="wrap_content"
