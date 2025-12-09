@@ -29,6 +29,8 @@ import com.hypersoft.baseproject.presentation.mediaAudioDetails.player.PlaybackS
 import com.hypersoft.baseproject.presentation.mediaAudioDetails.state.MediaAudioDetailState
 import com.hypersoft.baseproject.presentation.mediaAudioDetails.viewModel.MediaAudioDetailViewModel
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import com.hypersoft.baseproject.core.R as coreR
@@ -49,7 +51,9 @@ class MediaAudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(F
 
     private var controller: MediaController? = null
     private var future: ListenableFuture<MediaController>? = null
-    private var job: Job? = null
+    private var backgroundJob: Job? = null
+    private var positionUpdateJob: Job? = null
+    private var lastAudioId: Long? = null
 
     override fun onViewCreated() {
         binding.mbBackMediaAudioDetail.setOnClickListener { viewModel.handleIntent(MediaAudioDetailIntent.NavigateBack) }
@@ -84,6 +88,7 @@ class MediaAudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(F
             {
                 controller = future?.get()
                 controller?.addListener(playerListener)
+                startPositionUpdates()
 
                 // Request playlist load
                 viewModel.handleIntent(MediaAudioDetailIntent.LoadPlaylist(navArgs.audioUriPath))
@@ -127,14 +132,18 @@ class MediaAudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(F
         binding.mtvTitleMediaAudioDetail.text = state.title
         binding.mtvArtistMediaAudioDetail.text = state.artist
 
-        // Load album art from current audio
+        // Load album art only when audioId changes (optimization)
         val currentAudio = state.playlist.getOrNull(state.currentIndex)
-        binding.ifvAlbumArtMediaAudioDetail.loadAlbumArt(currentAudio?.id, placeholder = coreR.drawable.img_png_placeholder, error = coreR.drawable.img_png_placeholder)
+        val currentAudioId = currentAudio?.id
+        if (currentAudioId != lastAudioId) {
+            lastAudioId = currentAudioId
+            binding.ifvAlbumArtMediaAudioDetail.loadAlbumArt(currentAudioId, placeholder = coreR.drawable.img_png_placeholder, error = coreR.drawable.img_png_placeholder)
 
-        // Apply vibrant background color from album art
-        job?.cancel()
-        job = lifecycleScope.launch {
-            binding.vBackgroundColorMediaAudioDetail.applyGradientBackgroundFromAlbumArt(currentAudio?.id)
+            // Apply vibrant background color from album art
+            backgroundJob?.cancel()
+            backgroundJob = lifecycleScope.launch {
+                binding.vBackgroundColorMediaAudioDetail.applyGradientBackgroundFromAlbumArt(currentAudioId)
+            }
         }
 
         // Update slider only when duration is valid (> 0)
@@ -189,10 +198,39 @@ class MediaAudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(F
     }
 
     private fun disconnectController() {
+        stopPositionUpdates()
         controller?.removeListener(playerListener)
         future?.let { MediaController.releaseFuture(it) }
         controller = null
         future = null
+    }
+
+    private fun startPositionUpdates() {
+        stopPositionUpdates()
+        positionUpdateJob = lifecycleScope.launch {
+            while (isActive) {
+                controller?.let { ctrl ->
+                    if (ctrl.isPlaying && ctrl.duration != C.TIME_UNSET) {
+                        val snapshot = PlayerSnapshot(
+                            isPlaying = ctrl.isPlaying,
+                            isLoading = ctrl.playbackState == Player.STATE_BUFFERING,
+                            title = ctrl.mediaMetadata.title?.toString(),
+                            artist = ctrl.mediaMetadata.artist?.toString(),
+                            position = ctrl.currentPosition,
+                            duration = ctrl.duration,
+                            currentIndex = ctrl.currentMediaItemIndex
+                        )
+                        viewModel.handleIntent(MediaAudioDetailIntent.UpdatePlayerState(snapshot))
+                    }
+                }
+                delay(1000) // Update every second
+            }
+        }
+    }
+
+    private fun stopPositionUpdates() {
+        positionUpdateJob?.cancel()
+        positionUpdateJob = null
     }
 
     private val playerListener = object : Player.Listener {

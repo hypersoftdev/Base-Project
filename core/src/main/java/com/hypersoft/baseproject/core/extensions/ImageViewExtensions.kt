@@ -48,6 +48,11 @@ fun ImageView.loadImage(
     request.into(this)
 }
 
+/**
+ * Loads album art for the given audio ID in a thread-safe manner.
+ * MediaStore queries are performed on IO thread to avoid ANR.
+ * Uses view tags to manage coroutine lifecycle and prevent leaks.
+ */
 fun ImageView.loadAlbumArt(
     audioId: Long?,
     @DrawableRes placeholder: Int? = null,
@@ -137,38 +142,36 @@ suspend fun View.applyGradientBackgroundFromAlbumArt(
     val albumArtUri = ContentUris.withAppendedId("content://media/external/audio/albumart".toUri(), albumId)
 
     // 3) Load bitmap via Glide (lifecycle-aware)
-    withContext(Dispatchers.Main) {
-        Glide.with(context)
-            .asBitmap()
-            .load(albumArtUri)
-            .dontAnimate()
-            .dontTransform()
-            .placeholder(null)
-            .apply {
-                // force recalc per audioId
-                signature(ObjectKey("album-$audioId"))
+    Glide.with(context)
+        .asBitmap()
+        .load(albumArtUri)
+        .dontAnimate()
+        .dontTransform()
+        .placeholder(null)
+        .apply {
+            // force recalc per audioId
+            signature(ObjectKey("album-$audioId"))
+        }
+        .into(object : CustomTarget<Bitmap>() {
+            override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                // Generate palette asynchronously (generate() already runs on background thread)
+                Palette.from(resource).generate { palette ->
+                    val dominant = palette?.getDominantColor(defaultColor) ?: defaultColor
+                    val vibrant = palette?.getVibrantColor(dominant) ?: dominant
+                    val muted = palette?.getMutedColor(dominant) ?: dominant
+
+                    val c1 = ColorUtils.setAlphaComponent(ColorUtils.blendARGB(vibrant, Color.BLACK, blendRatio), alpha)
+                    val c2 = ColorUtils.setAlphaComponent(ColorUtils.blendARGB(muted, Color.BLACK, blendRatio), alpha)
+
+                    val gradient = GradientDrawable(GradientDrawable.Orientation.entries[gradientType], intArrayOf(c1, c2))
+
+                    gradient.cornerRadius = 0f
+                    background = gradient
+                }
             }
-            .into(object : CustomTarget<Bitmap>() {
-                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                    Palette.from(resource).generate { palette ->
 
-                        val dominant = palette?.getDominantColor(defaultColor) ?: defaultColor
-                        val vibrant = palette?.getVibrantColor(dominant) ?: dominant
-                        val muted = palette?.getMutedColor(dominant) ?: dominant
-
-                        val c1 = ColorUtils.setAlphaComponent(ColorUtils.blendARGB(vibrant, Color.BLACK, blendRatio), alpha)
-                        val c2 = ColorUtils.setAlphaComponent(ColorUtils.blendARGB(muted, Color.BLACK, blendRatio), alpha)
-
-                        val gradient = GradientDrawable(GradientDrawable.Orientation.entries[gradientType], intArrayOf(c1, c2))
-
-                        gradient.cornerRadius = 0f
-                        background = gradient
-                    }
-                }
-
-                override fun onLoadCleared(placeholder: Drawable?) {
-                    // no-op
-                }
-            })
-    }
+            override fun onLoadCleared(placeholder: Drawable?) {
+                // no-op
+            }
+        })
 }
