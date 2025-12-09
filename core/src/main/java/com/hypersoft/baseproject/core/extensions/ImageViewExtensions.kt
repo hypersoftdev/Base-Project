@@ -89,89 +89,131 @@ fun ImageView.loadAlbumArt(
 }
 
 /**
- * Applies background color extracted from album art using Palette API.
- * Extracts vibrant colors from the album art thumbnail and applies them as the view's background.
+ * Loads album art into an ImageView and applies a dynamic gradient background derived from
+ * the album artwork using Palette. If artwork is missing or load fails, a fallback color and/or
+ * placeholder/error drawable is used.
  *
- * @param audioId The audio file ID from MediaStore
- * @param defaultColor Default background color if album art is not found (default: BLACK)
- * @param blendRatio Ratio to blend extracted color with black for readability (0.0-1.0, default: 0.4)
- * @param alpha Alpha value for the background color (0-255, default: 230)
+ * Features:
+ * - Extracts dominant, vibrant, and muted colors from album art.
+ * - Blends extracted colors for smooth, readable gradients.
+ * - Updates both the ImageView and the background view.
+ * - Supports placeholder/error drawables.
+ * - Safe handling of missing album IDs and missing artwork.
+ *
+ * @param backgroundView The view on which the gradient background will be applied.
+ * @param audioId MediaStore audio ID used to query album art.
+ * @param defaultColor The fallback background color when no artwork exists.
+ * @param alpha Alpha value (0–255) for gradient colors.
+ * @param gradientType Orientation for the gradient (TOP_BOTTOM, LEFT_RIGHT, etc.).
+ * @param blendRatio How much to blend extracted colors with black (for contrast).
+ * @param placeholder Drawable to show while loading (optional).
+ * @param error Drawable to show if album art fails to load (optional).
  */
-suspend fun View.applyGradientBackgroundFromAlbumArt(
+suspend fun ImageView.loadAlbumArtWithGradientBackground(
+    backgroundView: View,
     audioId: Long?,
     defaultColor: Int = Color.BLACK,
     alpha: Int = 255,
-    gradientType: Int = GradientDrawable.Orientation.TOP_BOTTOM.ordinal,
-    blendRatio: Float = 0.35f
+    gradientType: GradientDrawable.Orientation = GradientDrawable.Orientation.TOP_BOTTOM,
+    blendRatio: Float = 0.35f,
+    @DrawableRes placeholder: Int? = null,
+    @DrawableRes error: Int? = null
 ) {
+    val ctx = context
+
+    // --- Early termination when audioId is null ---
     if (audioId == null) {
-        setBackgroundColor(defaultColor)
+        placeholder?.let { setImageResource(it) } ?: setImageDrawable(null)
+        backgroundView.setBackgroundColor(defaultColor)
         return
     }
 
-    val resolver = context.contentResolver
-
-    // 1) Query albumId from MediaStore (IO thread)
+    // --- Query album ID (IO thread) ---
+    val resolver = ctx.contentResolver
     val albumId = withContext(Dispatchers.IO) {
-        var id = 0L
-        val projection = arrayOf(MediaStore.Audio.Media.ALBUM_ID)
-        val selection = "${MediaStore.Audio.Media._ID} = ?"
-        val args = arrayOf(audioId.toString())
-
         resolver.query(
             MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-            projection,
-            selection,
-            args,
+            arrayOf(MediaStore.Audio.Media.ALBUM_ID),
+            "${MediaStore.Audio.Media._ID} = ?",
+            arrayOf(audioId.toString()),
             null
         )?.use { cursor ->
             if (cursor.moveToFirst()) {
-                val idx = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID)
-                id = cursor.getLong(idx)
-            }
-        }
-        id
+                cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID))
+            } else 0L
+        } ?: 0L
     }
 
+    // --- No album? fallback immediately ---
     if (albumId == 0L) {
-        setBackgroundColor(defaultColor)
+        placeholder?.let { setImageResource(it) } ?: setImageDrawable(null)
+        backgroundView.setBackgroundColor(defaultColor)
         return
     }
 
-    // 2) Build album art URI
-    val albumArtUri = ContentUris.withAppendedId("content://media/external/audio/albumart".toUri(), albumId)
+    // --- Build album art URI ---
+    val albumArtUri = ContentUris.withAppendedId(
+        "content://media/external/audio/albumart".toUri(),
+        albumId
+    )
 
-    // 3) Load bitmap via Glide (lifecycle-aware)
-    Glide.with(context)
+    // --- Load image & derive gradient using Glide ---
+    Glide.with(ctx)
         .asBitmap()
         .load(albumArtUri)
         .dontAnimate()
-        .dontTransform()
-        .placeholder(null)
+        .signature(ObjectKey("album-$albumId")) // force refresh per album
         .apply {
-            // force recalc per audioId
-            signature(ObjectKey("album-$audioId"))
+            placeholder?.let { placeholder(it) }
+            error?.let { error(it) }
         }
         .into(object : CustomTarget<Bitmap>() {
+
             override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                // Generate palette asynchronously (generate() already runs on background thread)
+                // Set album art in the ImageView
+                this@loadAlbumArtWithGradientBackground.setImageBitmap(resource)
+
+                // Extract palette asynchronously
                 Palette.from(resource).generate { palette ->
                     val dominant = palette?.getDominantColor(defaultColor) ?: defaultColor
                     val vibrant = palette?.getVibrantColor(dominant) ?: dominant
                     val muted = palette?.getMutedColor(dominant) ?: dominant
 
-                    val c1 = ColorUtils.setAlphaComponent(ColorUtils.blendARGB(vibrant, Color.BLACK, blendRatio), alpha)
-                    val c2 = ColorUtils.setAlphaComponent(ColorUtils.blendARGB(muted, Color.BLACK, blendRatio), alpha)
+                    // Blend for readability
+                    val c1 = ColorUtils.setAlphaComponent(
+                        ColorUtils.blendARGB(vibrant, Color.BLACK, blendRatio),
+                        alpha
+                    )
+                    val c2 = ColorUtils.setAlphaComponent(
+                        ColorUtils.blendARGB(muted, Color.BLACK, blendRatio),
+                        alpha
+                    )
 
-                    val gradient = GradientDrawable(GradientDrawable.Orientation.entries[gradientType], intArrayOf(c1, c2))
-
-                    gradient.cornerRadius = 0f
-                    background = gradient
+                    // Build gradient
+                    backgroundView.background = GradientDrawable(
+                        gradientType,
+                        intArrayOf(c1, c2)
+                    )
                 }
             }
 
-            override fun onLoadCleared(placeholder: Drawable?) {
-                // no-op
+            override fun onLoadFailed(errorDrawable: Drawable?) {
+                // Set error image if provided
+                if (error != null) {
+                    this@loadAlbumArtWithGradientBackground.setImageResource(error)
+                } else {
+                    this@loadAlbumArtWithGradientBackground.setImageDrawable(null)
+                }
+
+                // Apply fallback background
+                backgroundView.setBackgroundColor(defaultColor)
+            }
+
+            override fun onLoadCleared(placeholderDrawable: Drawable?) {
+                // Display placeholder when Glide clears request
+                if (placeholder != null) {
+                    this@loadAlbumArtWithGradientBackground.setImageResource(placeholder)
+                }
             }
         })
 }

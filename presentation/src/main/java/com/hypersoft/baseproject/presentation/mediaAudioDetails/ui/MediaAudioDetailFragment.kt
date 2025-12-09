@@ -14,9 +14,8 @@ import androidx.navigation.fragment.navArgs
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.common.util.concurrent.MoreExecutors
 import com.hypersoft.baseproject.core.base.fragment.BaseFragment
-import com.hypersoft.baseproject.core.extensions.applyGradientBackgroundFromAlbumArt
 import com.hypersoft.baseproject.core.extensions.collectWhenStarted
-import com.hypersoft.baseproject.core.extensions.loadAlbumArt
+import com.hypersoft.baseproject.core.extensions.loadAlbumArtWithGradientBackground
 import com.hypersoft.baseproject.core.extensions.popFrom
 import com.hypersoft.baseproject.core.extensions.showToast
 import com.hypersoft.baseproject.core.extensions.toTimeFormat
@@ -137,12 +136,15 @@ class MediaAudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(F
         val currentAudioId = currentAudio?.id
         if (currentAudioId != lastAudioId) {
             lastAudioId = currentAudioId
-            binding.ifvAlbumArtMediaAudioDetail.loadAlbumArt(currentAudioId, placeholder = coreR.drawable.img_png_placeholder, error = coreR.drawable.img_png_placeholder)
 
-            // Apply vibrant background color from album art
             backgroundJob?.cancel()
             backgroundJob = lifecycleScope.launch {
-                binding.vBackgroundColorMediaAudioDetail.applyGradientBackgroundFromAlbumArt(currentAudioId)
+                binding.ifvAlbumArtMediaAudioDetail.loadAlbumArtWithGradientBackground(
+                    backgroundView = binding.vBackgroundColorMediaAudioDetail,
+                    audioId = currentAudioId,
+                    placeholder = coreR.drawable.img_png_placeholder,
+                    error = coreR.drawable.img_png_placeholder
+                )
             }
         }
 
