@@ -1,21 +1,22 @@
 package com.hypersoft.baseproject.presentation.mediaAudioDetails.state
 
+import androidx.media3.common.Player
+import com.hypersoft.baseproject.domain.media.entities.AudioEntity
+
+/**
+ * UI state for audio playback screen.
+ * All state comes from MediaController player events and playlist data.
+ */
 data class MediaAudioDetailState(
-    val isLoading: Boolean = false,
+    val playlist: List<AudioEntity> = emptyList(),
+    val currentIndex: Int = 0,
     val isPlaying: Boolean = false,
+    val isLoading: Boolean = false,
     val title: String = "",
     val artist: String = "",
-    val currentProgress: Int = 0,
-    val duration: Int = 0,
-    val error: String? = null,
-    val queueSize: Int = 0,
-    val currentQueueIndex: Int = -1,
-    val isShuffleEnabled: Boolean = false,
-    val repeatMode: RepeatMode = RepeatMode.OFF
-) {
-    enum class RepeatMode {
-        OFF,
-        ONE,
-        ALL
-    }
-}
+    val currentPosition: Long = 0L,
+    val duration: Long = 0L,
+    val repeatMode: Int = Player.REPEAT_MODE_OFF,
+    val shuffleModeEnabled: Boolean = false,
+    val error: String? = null
+)

@@ -6,6 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".mediaAudioDetails.ui.MediaAudioDetailFragment">
 
+    <View
+        android:id="@+id/vBackgroundColorMediaAudioDetail"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/mbBackMediaAudioDetail"
         style="@style/Widget.Material3.Button.IconButton"
@@ -13,66 +23,120 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         app:icon="@drawable/ic_back"
+        app:iconTint="@android:color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.utils.widget.ImageFilterView
+        android:id="@+id/ifvAlbumArtMediaAudioDetail"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toTopOf="@+id/mtvTitleMediaAudioDetail"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mbBackMediaAudioDetail"
+        app:round="16dp"
+        tools:src="@drawable/img_png_placeholder" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/mtvTitleMediaAudioDetail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginBottom="8dp"
         android:ellipsize="end"
         android:gravity="center"
-        android:maxLines="2"
-        android:textAppearance="?attr/textAppearanceHeadlineSmall"
+        android:maxLines="1"
+        android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
+        android:textColor="#FFD700"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/mtvArtistMediaAudioDetail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mbBackMediaAudioDetail"
-        tools:text="Audio Title" />
+        tools:text="Goodbye my love" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/mtvArtistMediaAudioDetail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginBottom="8dp"
         android:ellipsize="end"
         android:gravity="center"
         android:maxLines="1"
-        android:textAppearance="?attr/textAppearanceBodyLarge"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@+id/mbRepeatMediaAudioDetail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mtvTitleMediaAudioDetail"
         tools:text="Artist Name" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/mbRepeatMediaAudioDetail"
+        style="@style/Widget.Material3.Button.IconButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        app:icon="@drawable/ic_svg_media_repeat_off"
+        app:iconSize="24dp"
+        app:iconTint="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@+id/sliderMediaAudioDetail"
+        app:layout_constraintEnd_toStartOf="@+id/mbShuffleMediaAudioDetail"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/mbShuffleMediaAudioDetail"
+        style="@style/Widget.Material3.Button.IconButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:icon="@drawable/ic_svg_media_shuffle_off"
+        app:iconSize="24dp"
+        app:iconTint="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/mbRepeatMediaAudioDetail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/mbRepeatMediaAudioDetail"
+        app:layout_constraintTop_toTopOf="@+id/mbRepeatMediaAudioDetail" />
 
     <com.google.android.material.slider.Slider
         android:id="@+id/sliderMediaAudioDetail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginBottom="56dp"
-        app:layout_constraintBottom_toTopOf="@+id/mbPlayPauseMediaAudioDetail"
+        android:value="0.5"
+        app:layout_constraintBottom_toTopOf="@+id/mtvCurrentProgressMediaAudioDetail"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:thumbColor="@android:color/white"
+        app:trackColor="@android:color/white" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/mtvCurrentProgressMediaAudioDetail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginBottom="8dp"
         android:text="@string/_00_00"
-        app:layout_constraintStart_toStartOf="@+id/sliderMediaAudioDetail"
-        app:layout_constraintTop_toBottomOf="@+id/sliderMediaAudioDetail" />
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@+id/mbPlayPauseMediaAudioDetail"
+        app:layout_constraintStart_toStartOf="@+id/sliderMediaAudioDetail" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/mtvTotalTimeMediaAudioDetail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="12dp"
         android:text="@string/_00_00"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/mtvCurrentProgressMediaAudioDetail"
         app:layout_constraintEnd_toEndOf="@+id/sliderMediaAudioDetail"
-        app:layout_constraintTop_toBottomOf="@+id/sliderMediaAudioDetail" />
+        app:layout_constraintTop_toTopOf="@+id/mtvCurrentProgressMediaAudioDetail" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/mbPreviousMediaAudioDetail"
@@ -82,6 +146,7 @@
         android:layout_marginStart="16dp"
         app:icon="@drawable/ic_svg_media_previous"
         app:iconSize="24dp"
+        app:iconTint="@android:color/white"
         app:layout_constraintBottom_toBottomOf="@+id/mbPlayPauseMediaAudioDetail"
         app:layout_constraintEnd_toStartOf="@+id/mbRewindMediaAudioDetail"
         app:layout_constraintStart_toStartOf="parent"
@@ -95,6 +160,7 @@
         android:layout_marginEnd="8dp"
         app:icon="@drawable/ic_svg_media_rewind"
         app:iconSize="32dp"
+        app:iconTint="@android:color/white"
         app:layout_constraintBottom_toBottomOf="@+id/mbPlayPauseMediaAudioDetail"
         app:layout_constraintEnd_toStartOf="@+id/mbPlayPauseMediaAudioDetail"
         app:layout_constraintTop_toTopOf="@+id/mbPlayPauseMediaAudioDetail" />
@@ -105,10 +171,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="24dp"
         app:icon="@drawable/ic_svg_play"
         app:iconSize="64dp"
-        app:iconTint="#4DB353"
+        app:iconTint="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -121,6 +187,7 @@
         android:layout_marginStart="8dp"
         app:icon="@drawable/ic_svg_media_forward"
         app:iconSize="32dp"
+        app:iconTint="@android:color/white"
         app:layout_constraintBottom_toBottomOf="@+id/mbPlayPauseMediaAudioDetail"
         app:layout_constraintStart_toEndOf="@+id/mbPlayPauseMediaAudioDetail"
         app:layout_constraintTop_toTopOf="@+id/mbPlayPauseMediaAudioDetail" />
@@ -133,6 +200,7 @@
         android:layout_marginEnd="16dp"
         app:icon="@drawable/ic_svg_media_next"
         app:iconSize="24dp"
+        app:iconTint="@android:color/white"
         app:layout_constraintBottom_toBottomOf="@+id/mbPlayPauseMediaAudioDetail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/mbForwardMediaAudioDetail"
@@ -144,6 +212,7 @@
         android:layout_height="wrap_content"
         android:indeterminate="true"
         android:visibility="gone"
+        app:indicatorColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

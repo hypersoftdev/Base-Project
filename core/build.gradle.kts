@@ -62,4 +62,7 @@ dependencies {
 
     // Glide
     implementation(libs.glide)
+
+    // Palette
+    implementation(libs.androidx.palette)
 }

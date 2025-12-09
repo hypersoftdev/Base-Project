@@ -1,14 +1,18 @@
 package com.hypersoft.baseproject.presentation.mediaAudioDetails.intent
 
+/**
+ * User intents for audio playback screen.
+ */
 sealed class MediaAudioDetailIntent {
-    data class LoadAudio(val audioUri: String, val queue: List<String> = emptyList()) : MediaAudioDetailIntent()
-
     object NavigateBack : MediaAudioDetailIntent()
-    object SkipToPrevious : MediaAudioDetailIntent()
-    object PlayPause : MediaAudioDetailIntent()
-    object SkipToNext : MediaAudioDetailIntent()
-
-    data class Rewind(val seconds: Int = 5) : MediaAudioDetailIntent()
-    data class Forward(val seconds: Int = 15) : MediaAudioDetailIntent()
-    data class SeekTo(val position: Int) : MediaAudioDetailIntent()
+    object TogglePlayPause : MediaAudioDetailIntent()
+    object SeekToNext : MediaAudioDetailIntent()
+    object SeekToPrevious : MediaAudioDetailIntent()
+    object Rewind : MediaAudioDetailIntent()
+    object Forward : MediaAudioDetailIntent()
+    object Repeat : MediaAudioDetailIntent()
+    object Shuffle : MediaAudioDetailIntent()
+    data class SeekTo(val positionMs: Long) : MediaAudioDetailIntent()
+    data class LoadPlaylist(val startAudioUri: String) : MediaAudioDetailIntent()
+    data class UpdatePlayerState(val snapshot: PlayerSnapshot) : MediaAudioDetailIntent()
 }
