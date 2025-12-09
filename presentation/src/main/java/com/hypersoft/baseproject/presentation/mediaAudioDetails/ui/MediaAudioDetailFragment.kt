@@ -14,6 +14,7 @@ import com.google.common.util.concurrent.ListenableFuture
 import com.google.common.util.concurrent.MoreExecutors
 import com.hypersoft.baseproject.core.base.fragment.BaseFragment
 import com.hypersoft.baseproject.core.extensions.collectWhenStarted
+import com.hypersoft.baseproject.core.extensions.loadAlbumArt
 import com.hypersoft.baseproject.core.extensions.popFrom
 import com.hypersoft.baseproject.core.extensions.showToast
 import com.hypersoft.baseproject.core.extensions.toTimeFormat
@@ -120,6 +121,10 @@ class MediaAudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(F
         // Render UI state
         binding.mtvTitleMediaAudioDetail.text = state.title
         binding.mtvArtistMediaAudioDetail.text = state.artist
+
+        // Load album art from current audio
+        val currentAudio = state.playlist.getOrNull(state.currentIndex)
+        binding.ifvAlbumArtMediaAudioDetail.loadAlbumArt(currentAudio?.id, placeholder = coreR.drawable.ic_svg_audio, error = coreR.drawable.ic_svg_audio)
 
         // Update slider only when duration is valid (> 0)
         if (state.duration > 0) {
