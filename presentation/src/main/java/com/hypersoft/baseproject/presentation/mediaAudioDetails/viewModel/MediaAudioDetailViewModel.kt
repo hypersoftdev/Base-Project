@@ -77,7 +77,9 @@ class MediaAudioDetailViewModel(private val getAudiosUseCase: GetAudiosUseCase) 
                 artist = snapshot.artist ?: it.artist,
                 currentPosition = snapshot.position,
                 duration = snapshot.duration,
-                currentIndex = snapshot.currentIndex
+                currentIndex = snapshot.currentIndex,
+                repeatMode = snapshot.repeatMode,
+                shuffleModeEnabled = snapshot.shuffleModeEnabled
             )
         }
     }

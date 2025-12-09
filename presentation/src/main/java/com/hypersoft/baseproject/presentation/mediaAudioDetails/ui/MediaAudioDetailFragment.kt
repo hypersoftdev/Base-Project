@@ -88,7 +88,23 @@ class MediaAudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(F
         future?.addListener(
             {
                 controller = future?.get()
-                controller?.addListener(playerListener)
+                controller?.let { ctrl ->
+                    ctrl.addListener(playerListener)
+
+                    // Capture initial state including repeat/shuffle
+                    val initialSnapshot = PlayerSnapshot(
+                        isPlaying = ctrl.isPlaying,
+                        isLoading = ctrl.playbackState == Player.STATE_BUFFERING,
+                        title = ctrl.mediaMetadata.title?.toString(),
+                        artist = ctrl.mediaMetadata.artist?.toString(),
+                        position = ctrl.currentPosition,
+                        duration = ctrl.duration,
+                        currentIndex = ctrl.currentMediaItemIndex,
+                        repeatMode = ctrl.repeatMode,
+                        shuffleModeEnabled = ctrl.shuffleModeEnabled
+                    )
+                    viewModel.handleIntent(MediaAudioDetailIntent.UpdatePlayerState(initialSnapshot))
+                }
                 startPositionUpdates()
 
                 // Request playlist load
@@ -165,6 +181,23 @@ class MediaAudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(F
             if (state.isPlaying) coreR.drawable.ic_svg_pause else coreR.drawable.ic_svg_play
         )
 
+        // Update repeat button icon based on repeat mode
+        binding.mbRepeatMediaAudioDetail.setIconResource(
+            when (state.repeatMode) {
+                Player.REPEAT_MODE_ONE -> coreR.drawable.ic_svg_media_repeat_one
+                Player.REPEAT_MODE_ALL -> coreR.drawable.ic_svg_media_repeat_on
+                else -> coreR.drawable.ic_svg_media_repeat_off
+            }
+        )
+
+        // Update shuffle button icon based on shuffle mode
+        binding.mbShuffleMediaAudioDetail.setIconResource(
+            when (state.shuffleModeEnabled) {
+                true -> coreR.drawable.ic_svg_media_shuffle_on
+                false -> coreR.drawable.ic_svg_media_shuffle_off
+            }
+        )
+
         binding.cpiLoadingMediaAudioDetail.isVisible = state.isLoading
     }
 
@@ -177,8 +210,20 @@ class MediaAudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(F
             is MediaAudioDetailEffect.SeekToPrevious -> controller?.seekToPreviousMediaItem()
             is MediaAudioDetailEffect.SeekTo -> controller?.seekTo(effect.positionMs)
             is MediaAudioDetailEffect.ShowError -> context?.showToast(effect.message)
-            is MediaAudioDetailEffect.Repeat -> // Todo Repeat
-            is MediaAudioDetailEffect.Shuffle -> // Todo Shuffle
+            is MediaAudioDetailEffect.Shuffle -> controller?.let { ctrl -> ctrl.shuffleModeEnabled = !ctrl.shuffleModeEnabled }
+            is MediaAudioDetailEffect.Repeat -> {
+                controller?.let { ctrl ->
+                    // Cycle through repeat modes: OFF -> ALL -> ONE -> OFF
+                    val nextRepeatMode = when (ctrl.repeatMode) {
+                        Player.REPEAT_MODE_OFF -> Player.REPEAT_MODE_ALL
+                        Player.REPEAT_MODE_ALL -> Player.REPEAT_MODE_ONE
+                        Player.REPEAT_MODE_ONE -> Player.REPEAT_MODE_OFF
+                        else -> Player.REPEAT_MODE_OFF
+                    }
+                    ctrl.repeatMode = nextRepeatMode
+                }
+            }
+
             is MediaAudioDetailEffect.Rewind -> {
                 controller?.let { ctrl ->
                     val newPosition = (ctrl.currentPosition - 5000).coerceAtLeast(0)
@@ -224,7 +269,9 @@ class MediaAudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(F
                             artist = ctrl.mediaMetadata.artist?.toString(),
                             position = ctrl.currentPosition,
                             duration = ctrl.duration,
-                            currentIndex = ctrl.currentMediaItemIndex
+                            currentIndex = ctrl.currentMediaItemIndex,
+                            repeatMode = ctrl.repeatMode,
+                            shuffleModeEnabled = ctrl.shuffleModeEnabled
                         )
                         viewModel.handleIntent(MediaAudioDetailIntent.UpdatePlayerState(snapshot))
                     }
@@ -240,6 +287,42 @@ class MediaAudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(F
     }
 
     private val playerListener = object : Player.Listener {
+        override fun onRepeatModeChanged(repeatMode: Int) {
+            // Update state when repeat mode changes
+            controller?.let { ctrl ->
+                val snapshot = PlayerSnapshot(
+                    isPlaying = ctrl.isPlaying,
+                    isLoading = ctrl.playbackState == Player.STATE_BUFFERING,
+                    title = ctrl.mediaMetadata.title?.toString(),
+                    artist = ctrl.mediaMetadata.artist?.toString(),
+                    position = ctrl.currentPosition,
+                    duration = ctrl.duration,
+                    currentIndex = ctrl.currentMediaItemIndex,
+                    repeatMode = ctrl.repeatMode,
+                    shuffleModeEnabled = ctrl.shuffleModeEnabled
+                )
+                viewModel.handleIntent(MediaAudioDetailIntent.UpdatePlayerState(snapshot))
+            }
+        }
+
+        override fun onShuffleModeEnabledChanged(shuffleModeEnabled: Boolean) {
+            // Update state when shuffle mode changes
+            controller?.let { ctrl ->
+                val snapshot = PlayerSnapshot(
+                    isPlaying = ctrl.isPlaying,
+                    isLoading = ctrl.playbackState == Player.STATE_BUFFERING,
+                    title = ctrl.mediaMetadata.title?.toString(),
+                    artist = ctrl.mediaMetadata.artist?.toString(),
+                    position = ctrl.currentPosition,
+                    duration = ctrl.duration,
+                    currentIndex = ctrl.currentMediaItemIndex,
+                    repeatMode = ctrl.repeatMode,
+                    shuffleModeEnabled = ctrl.shuffleModeEnabled
+                )
+                viewModel.handleIntent(MediaAudioDetailIntent.UpdatePlayerState(snapshot))
+            }
+        }
+
         override fun onEvents(player: Player, events: Player.Events) {
             val playerSnapshot = PlayerSnapshot(
                 isPlaying = player.isPlaying,
@@ -248,7 +331,9 @@ class MediaAudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(F
                 artist = player.mediaMetadata.artist?.toString(),
                 position = player.currentPosition,
                 duration = player.duration,
-                currentIndex = player.currentMediaItemIndex
+                currentIndex = player.currentMediaItemIndex,
+                repeatMode = player.repeatMode,
+                shuffleModeEnabled = player.shuffleModeEnabled
             )
 
             viewModel.handleIntent(MediaAudioDetailIntent.UpdatePlayerState(playerSnapshot))

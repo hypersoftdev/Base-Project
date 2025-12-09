@@ -7,5 +7,7 @@ data class PlayerSnapshot(
     val artist: String?,
     val position: Long,
     val duration: Long,
-    val currentIndex: Int
+    val currentIndex: Int,
+    val repeatMode: Int,
+    val shuffleModeEnabled: Boolean
 )

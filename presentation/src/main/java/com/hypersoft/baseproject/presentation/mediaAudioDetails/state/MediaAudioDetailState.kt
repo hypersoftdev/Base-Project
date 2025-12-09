@@ -1,5 +1,6 @@
 package com.hypersoft.baseproject.presentation.mediaAudioDetails.state
 
+import androidx.media3.common.Player
 import com.hypersoft.baseproject.domain.media.entities.AudioEntity
 
 /**
@@ -15,5 +16,7 @@ data class MediaAudioDetailState(
     val artist: String = "",
     val currentPosition: Long = 0L,
     val duration: Long = 0L,
+    val repeatMode: Int = Player.REPEAT_MODE_OFF,
+    val shuffleModeEnabled: Boolean = false,
     val error: String? = null
 )
