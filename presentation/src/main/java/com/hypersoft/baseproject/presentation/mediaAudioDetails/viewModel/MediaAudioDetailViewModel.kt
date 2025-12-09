@@ -54,6 +54,8 @@ class MediaAudioDetailViewModel(private val getAudiosUseCase: GetAudiosUseCase) 
             is MediaAudioDetailIntent.Rewind -> _effect.emit(MediaAudioDetailEffect.Rewind)
             is MediaAudioDetailIntent.Forward -> _effect.emit(MediaAudioDetailEffect.Forward)
             is MediaAudioDetailIntent.SeekTo -> _effect.emit(MediaAudioDetailEffect.SeekTo(intent.positionMs))
+            is MediaAudioDetailIntent.Repeat -> _effect.emit(MediaAudioDetailEffect.Repeat)
+            is MediaAudioDetailIntent.Shuffle -> _effect.emit(MediaAudioDetailEffect.Shuffle)
             is MediaAudioDetailIntent.UpdatePlayerState -> updateFromPlayer(intent.snapshot)
         }
     }

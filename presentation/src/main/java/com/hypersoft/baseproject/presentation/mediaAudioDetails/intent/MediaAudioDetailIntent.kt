@@ -10,6 +10,8 @@ sealed class MediaAudioDetailIntent {
     object SeekToPrevious : MediaAudioDetailIntent()
     object Rewind : MediaAudioDetailIntent()
     object Forward : MediaAudioDetailIntent()
+    object Repeat : MediaAudioDetailIntent()
+    object Shuffle : MediaAudioDetailIntent()
     data class SeekTo(val positionMs: Long) : MediaAudioDetailIntent()
     data class LoadPlaylist(val startAudioUri: String) : MediaAudioDetailIntent()
     data class UpdatePlayerState(val snapshot: PlayerSnapshot) : MediaAudioDetailIntent()

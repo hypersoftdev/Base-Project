@@ -61,6 +61,8 @@ class MediaAudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(F
         binding.mbNextMediaAudioDetail.setOnClickListener { viewModel.handleIntent(MediaAudioDetailIntent.SeekToNext) }
         binding.mbRewindMediaAudioDetail.setOnClickListener { viewModel.handleIntent(MediaAudioDetailIntent.Rewind) }
         binding.mbForwardMediaAudioDetail.setOnClickListener { viewModel.handleIntent(MediaAudioDetailIntent.Forward) }
+        binding.mbRepeatMediaAudioDetail.setOnClickListener { viewModel.handleIntent(MediaAudioDetailIntent.Repeat) }
+        binding.mbShuffleMediaAudioDetail.setOnClickListener { viewModel.handleIntent(MediaAudioDetailIntent.Shuffle) }
         binding.sliderMediaAudioDetail.addOnChangeListener { _, value, fromUser ->
             if (fromUser) {
                 viewModel.handleIntent(MediaAudioDetailIntent.SeekTo(value.toLong()))
@@ -175,6 +177,8 @@ class MediaAudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(F
             is MediaAudioDetailEffect.SeekToPrevious -> controller?.seekToPreviousMediaItem()
             is MediaAudioDetailEffect.SeekTo -> controller?.seekTo(effect.positionMs)
             is MediaAudioDetailEffect.ShowError -> context?.showToast(effect.message)
+            is MediaAudioDetailEffect.Repeat -> // Todo Repeat
+            is MediaAudioDetailEffect.Shuffle -> // Todo Shuffle
             is MediaAudioDetailEffect.Rewind -> {
                 controller?.let { ctrl ->
                     val newPosition = (ctrl.currentPosition - 5000).coerceAtLeast(0)

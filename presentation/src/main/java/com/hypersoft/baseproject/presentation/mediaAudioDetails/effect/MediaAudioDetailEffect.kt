@@ -12,6 +12,8 @@ sealed class MediaAudioDetailEffect {
     object SeekToPrevious : MediaAudioDetailEffect()
     object Rewind : MediaAudioDetailEffect()
     object Forward : MediaAudioDetailEffect()
+    object Repeat : MediaAudioDetailEffect()
+    object Shuffle : MediaAudioDetailEffect()
     data class SeekTo(val positionMs: Long) : MediaAudioDetailEffect()
     data class ShowError(val message: String) : MediaAudioDetailEffect()
 }
