@@ -88,7 +88,7 @@ androidx-media3-common = { group = "androidx.media3", name = "media3-common", ve
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 
 # Palette
-androidx-palette = { group = "androidx.palette", name = "palette", version.ref = "palette" }
+androidx-palette = { group = "androidx.palette", name = "palette-ktx", version.ref = "palette" }
 
 # Lottie Animations
 lottie = { group = "com.airbnb.android", name = "lottie", version.ref = "lottie" }
