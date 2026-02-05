@@ -4,6 +4,5 @@ import com.hypersoft.baseproject.domain.media.entities.ImageEntity
 
 data class ImagesTabState(
     val isLoading: Boolean = false,
-    val images: List<ImageEntity> = emptyList(),
-    val error: String? = null
+    val images: List<ImageEntity> = emptyList()
 )

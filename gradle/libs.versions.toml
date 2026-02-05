@@ -1,14 +1,14 @@
 [versions]
 # -------------- Plugins -------------- #
-agp = "8.13.1"
-kotlin = "2.2.21"
-navigationSafeArgsGradlePlugin = "2.9.6"
+agp = "9.0.0"
+kotlin = "2.3.0"
+navigationSafeArgsGradlePlugin = "2.9.7"
 
 # -------------- Dependencies -------------- #
 coreKtx = "1.17.0"
 appcompat = "1.7.1"
 material = "1.13.0"
-activity = "1.12.0"
+activity = "1.12.3"
 constraintlayout = "2.2.1"
 
 # Splash Screen Api
@@ -18,21 +18,21 @@ coreSplashscreen = "1.2.0"
 fragmentKtx = "1.8.9"
 
 # Navigational Components
-navigationFragmentKtx = "2.9.6"
-navigationUiKtx = "2.9.6"
+navigationFragmentKtx = "2.9.7"
+navigationUiKtx = "2.9.7"
 
 # Lifecycle
 lifecycleRuntimeKtx = "2.10.0"
 
 # Firebase
-firebaseCrashlyticsVersion = "20.0.3"
+firebaseCrashlyticsVersion = "20.0.4"
 firebaseAnalyticsVersion = "23.0.0"
 
 # Dependency Injection -> Koin
 koinAndroid = "4.1.1"
 
 # Media3 (ExoPlayer)
-media3Version = "1.8.0"
+media3Version = "1.9.1"
 
 # Glide
 glide = "5.0.5"
@@ -46,7 +46,6 @@ lottie = "6.7.1"
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 navigation-safe-args = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigationSafeArgsGradlePlugin" }
 

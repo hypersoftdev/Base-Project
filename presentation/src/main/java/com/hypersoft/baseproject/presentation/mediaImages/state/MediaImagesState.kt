@@ -6,6 +6,5 @@ import com.hypersoft.baseproject.presentation.mediaImages.enums.MediaImagesPermi
 data class MediaImagesState(
     val isLoading: Boolean = false,
     val folders: List<ImageFolderEntity> = emptyList(),
-    val permission: MediaImagesPermissionLevel = MediaImagesPermissionLevel.Idle,
-    val error: String? = null
+    val permission: MediaImagesPermissionLevel = MediaImagesPermissionLevel.Idle
 )

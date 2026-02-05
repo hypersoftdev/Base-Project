@@ -1,6 +1,6 @@
 package com.hypersoft.baseproject.presentation.settings.ui
 
-import com.hypersoft.baseproject.core.base.fragment.BaseFragment
+import com.hypersoft.baseproject.core.extensions.collectWhenCreated
 import com.hypersoft.baseproject.core.extensions.collectWhenStarted
 import com.hypersoft.baseproject.core.extensions.openEmailApp
 import com.hypersoft.baseproject.core.extensions.openPlayStoreApp
@@ -8,6 +8,7 @@ import com.hypersoft.baseproject.core.extensions.openWebUrl
 import com.hypersoft.baseproject.core.extensions.shareApp
 import com.hypersoft.baseproject.core.extensions.showToast
 import com.hypersoft.baseproject.presentation.R
+import com.hypersoft.baseproject.presentation.base.fragment.BaseFragment
 import com.hypersoft.baseproject.presentation.databinding.FragmentSettingsBinding
 import com.hypersoft.baseproject.presentation.settings.effect.SettingsEffect
 import com.hypersoft.baseproject.presentation.settings.intent.SettingsIntent
@@ -21,8 +22,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
     private val viewModel: SettingsViewModel by viewModel()
 
     override fun onViewCreated() {
-        viewModel.handleIntent(SettingsIntent.LoadVersionName(diComponent.appInfoProvider.versionName))
-
         binding.mtvAppLanguageSettings.setOnClickListener { viewModel.handleIntent(SettingsIntent.LanguageClicked) }
         binding.mtvFeedbackSettings.setOnClickListener { viewModel.handleIntent(SettingsIntent.FeedbackClicked) }
         binding.mtvRateUsSettings.setOnClickListener { viewModel.handleIntent(SettingsIntent.RateUsClicked) }
@@ -31,29 +30,13 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
     }
 
     override fun initObservers() {
-        observeState()
-        observeEffect()
-    }
-
-    private fun observeState() {
-        collectWhenStarted(viewModel.state) { state ->
-            renderState(state)
-        }
-    }
-
-    private fun observeEffect() {
-        collectWhenStarted(viewModel.effect) { effect ->
-            handleEffect(effect)
-        }
+        collectWhenStarted(viewModel.state) { renderState(it) }
+        collectWhenCreated(viewModel.effect) { handleEffect(it) }
     }
 
     private fun renderState(state: SettingsState) {
         val text = getString(coreR.string.version_s, state.versionName)
         binding.mtvVersionSettings.text = text
-
-        state.error?.let {
-            // Show Error UI (if any)
-        }
     }
 
     private fun handleEffect(effect: SettingsEffect) {

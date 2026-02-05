@@ -1,9 +1,10 @@
 package com.hypersoft.baseproject.presentation.premium.ui
 
-import com.hypersoft.baseproject.core.base.fragment.BaseFragment
+import com.hypersoft.baseproject.core.extensions.collectWhenCreated
 import com.hypersoft.baseproject.core.extensions.collectWhenStarted
 import com.hypersoft.baseproject.core.extensions.popFrom
 import com.hypersoft.baseproject.presentation.R
+import com.hypersoft.baseproject.presentation.base.fragment.BaseFragment
 import com.hypersoft.baseproject.presentation.databinding.FragmentPremiumBinding
 import com.hypersoft.baseproject.presentation.premium.effect.PremiumEffect
 import com.hypersoft.baseproject.presentation.premium.intent.PremiumIntent
@@ -20,20 +21,8 @@ class PremiumFragment : BaseFragment<FragmentPremiumBinding>(FragmentPremiumBind
     }
 
     override fun initObservers() {
-        observeState()
-        observeEffect()
-    }
-
-    private fun observeState() {
-        collectWhenStarted(viewModel.state) { state ->
-            renderState(state)
-        }
-    }
-
-    private fun observeEffect() {
-        collectWhenStarted(viewModel.effect) { effect ->
-            handleEffect(effect)
-        }
+        collectWhenStarted(viewModel.state) { renderState(it) }
+        collectWhenCreated(viewModel.effect) { handleEffect(it) }
     }
 
     private fun renderState(state: PremiumState) {

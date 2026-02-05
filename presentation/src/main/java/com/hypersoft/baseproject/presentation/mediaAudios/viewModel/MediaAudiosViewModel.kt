@@ -65,18 +65,18 @@ class MediaAudiosViewModel(
     private fun loadAudios() {
         loadJob?.cancel()
         loadJob = viewModelScope.launch(coroutineExceptionHandler) {
-            _state.update { it.copy(isLoading = true, error = null) }
+            _state.update { it.copy(isLoading = true) }
 
             val audios = getAudiosUseCase()
             _state.update {
-                it.copy(isLoading = false, audios = audios, error = null)
+                it.copy(isLoading = false, audios = audios)
             }
         }
     }
 
     private suspend fun handleError(exception: Throwable) {
         val errorMessage = exception.message ?: "An unexpected error occurred"
-        _state.update { it.copy(isLoading = false, error = errorMessage) }
+        _state.update { it.copy(isLoading = false) }
         _effect.emit(MediaAudiosEffect.ShowError(errorMessage))
     }
 

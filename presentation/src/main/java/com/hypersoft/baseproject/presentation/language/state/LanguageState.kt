@@ -5,6 +5,5 @@ import com.hypersoft.baseproject.data.dataSources.inAppMemory.languages.entities
 data class LanguageState(
     val isLoading: Boolean = false,
     val languages: List<Language> = emptyList(),
-    val selectedLanguageCode: String? = null,
-    val error: String? = null
+    val selectedLanguageCode: String? = null
 )

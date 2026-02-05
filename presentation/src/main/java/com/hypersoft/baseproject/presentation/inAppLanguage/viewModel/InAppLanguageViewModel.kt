@@ -95,7 +95,7 @@ class InAppLanguageViewModel(
 
     private suspend fun handleError(exception: Throwable) {
         val errorMessage = exception.message ?: "An unexpected error occurred"
-        _state.update { it.copy(isLoading = false, error = errorMessage) }
+        _state.update { it.copy(isLoading = false) }
         _effect.emit(InAppLanguageEffect.ShowError(errorMessage))
     }
 }

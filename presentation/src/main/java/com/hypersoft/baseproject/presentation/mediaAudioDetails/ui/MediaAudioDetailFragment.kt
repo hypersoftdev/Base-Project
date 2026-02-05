@@ -14,13 +14,14 @@ import androidx.media3.session.SessionToken
 import androidx.navigation.fragment.navArgs
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.common.util.concurrent.MoreExecutors
-import com.hypersoft.baseproject.core.base.fragment.BaseFragment
+import com.hypersoft.baseproject.core.extensions.collectWhenCreated
 import com.hypersoft.baseproject.core.extensions.collectWhenStarted
 import com.hypersoft.baseproject.core.extensions.loadAlbumArtWithGradientBackground
 import com.hypersoft.baseproject.core.extensions.popFrom
 import com.hypersoft.baseproject.core.extensions.showToast
 import com.hypersoft.baseproject.core.extensions.toTimeFormat
 import com.hypersoft.baseproject.presentation.R
+import com.hypersoft.baseproject.presentation.base.fragment.BaseFragment
 import com.hypersoft.baseproject.presentation.databinding.FragmentMediaAudioDetailBinding
 import com.hypersoft.baseproject.presentation.mediaAudioDetails.effect.MediaAudioDetailEffect
 import com.hypersoft.baseproject.presentation.mediaAudioDetails.intent.MediaAudioDetailIntent
@@ -76,11 +77,6 @@ class MediaAudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(F
         connectController()
     }
 
-    override fun initObservers() {
-        observeState()
-        observeEffect()
-    }
-
     private fun connectController() {
         val ctx = context ?: return
         val token = SessionToken(ctx, ComponentName(ctx, PlaybackService::class.java))
@@ -115,15 +111,12 @@ class MediaAudioDetailFragment : BaseFragment<FragmentMediaAudioDetailBinding>(F
         )
     }
 
-    private fun observeState() {
-        collectWhenStarted(viewModel.state) { state -> render(state) }
+    override fun initObservers() {
+        collectWhenStarted(viewModel.state) { renderState(it) }
+        collectWhenCreated(viewModel.effect) { handleEffect(it) }
     }
 
-    private fun observeEffect() {
-        collectWhenStarted(viewModel.effect) { effect -> handleEffect(effect) }
-    }
-
-    private fun render(state: MediaAudioDetailState) {
+    private fun renderState(state: MediaAudioDetailState) {
         // Setup playlist when ready
         controller?.let { controller ->
             if (state.playlist.isNotEmpty() && controller.mediaItemCount == 0) {

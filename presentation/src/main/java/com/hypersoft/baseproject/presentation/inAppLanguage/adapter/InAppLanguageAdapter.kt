@@ -21,7 +21,7 @@ class InAppLanguageAdapter : ListAdapter<Language, InAppLanguageAdapter.CustomVi
         holder.bindViews(getItem(position))
     }
 
-    inner class CustomViewHolder(private val binding: ItemInAppLanguageBinding) : RecyclerView.ViewHolder(binding.root) {
+    class CustomViewHolder(private val binding: ItemInAppLanguageBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bindViews(currentItem: Language) {
             binding.apply {
                 // Fill views

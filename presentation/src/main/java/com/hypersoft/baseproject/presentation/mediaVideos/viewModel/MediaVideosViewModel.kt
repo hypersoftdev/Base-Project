@@ -69,11 +69,11 @@ class MediaVideosViewModel(
     private fun loadVideos() {
         loadJob?.cancel()
         loadJob = viewModelScope.launch(coroutineExceptionHandler) {
-            _state.update { it.copy(isLoading = true, error = null) }
+            _state.update { it.copy(isLoading = true) }
 
             val videos = getVideosUseCase()
             _state.update {
-                it.copy(isLoading = false, videos = videos, error = null)
+                it.copy(isLoading = false, videos = videos)
             }
         }
     }
@@ -92,7 +92,7 @@ class MediaVideosViewModel(
 
     private suspend fun handleError(exception: Throwable) {
         val errorMessage = exception.message ?: "An unexpected error occurred"
-        _state.update { it.copy(isLoading = false, error = errorMessage) }
+        _state.update { it.copy(isLoading = false) }
         _effect.emit(MediaVideosEffect.ShowError(errorMessage))
     }
 

@@ -2,7 +2,7 @@ package com.hypersoft.baseproject.presentation.mediaImages.ui
 
 import androidx.core.view.isVisible
 import com.google.android.material.tabs.TabLayoutMediator
-import com.hypersoft.baseproject.core.base.fragment.BaseFragment
+import com.hypersoft.baseproject.core.extensions.collectWhenCreated
 import com.hypersoft.baseproject.core.extensions.collectWhenStarted
 import com.hypersoft.baseproject.core.extensions.navigateTo
 import com.hypersoft.baseproject.core.extensions.popFrom
@@ -11,6 +11,7 @@ import com.hypersoft.baseproject.core.permission.PermissionManager
 import com.hypersoft.baseproject.core.permission.enums.MediaPermission
 import com.hypersoft.baseproject.domain.media.entities.ImageFolderEntity
 import com.hypersoft.baseproject.presentation.R
+import com.hypersoft.baseproject.presentation.base.fragment.BaseFragment
 import com.hypersoft.baseproject.presentation.databinding.FragmentMediaImagesBinding
 import com.hypersoft.baseproject.presentation.mediaImages.adapter.MediaImagesPagerAdapter
 import com.hypersoft.baseproject.presentation.mediaImages.effect.MediaImagesEffect
@@ -50,20 +51,8 @@ class MediaImagesFragment : BaseFragment<FragmentMediaImagesBinding>(FragmentMed
     }
 
     override fun initObservers() {
-        observeState()
-        observeEffects()
-    }
-
-    private fun observeState() {
-        collectWhenStarted(viewModel.state) { state ->
-            renderState(state)
-        }
-    }
-
-    private fun observeEffects() {
-        collectWhenStarted(viewModel.effect) { effect ->
-            handleEffect(effect)
-        }
+        collectWhenStarted(viewModel.state) { renderState(it) }
+        collectWhenCreated(viewModel.effect) { handleEffect(it) }
     }
 
     private fun renderState(state: MediaImagesState) {

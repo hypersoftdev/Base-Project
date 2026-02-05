@@ -11,9 +11,7 @@ import com.hypersoft.baseproject.core.extensions.toTimeFormat
 import com.hypersoft.baseproject.domain.media.entities.AudioEntity
 import com.hypersoft.baseproject.presentation.databinding.ItemMediaAudioBinding
 
-class MediaAudiosAdapter(
-    private val onAudioClick: (String) -> Unit
-) : ListAdapter<AudioEntity, MediaAudiosAdapter.AudioViewHolder>(AudioDiffCallback()) {
+class MediaAudiosAdapter(private val onAudioClick: (String) -> Unit) : ListAdapter<AudioEntity, MediaAudiosAdapter.AudioViewHolder>(AudioDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AudioViewHolder {
         val binding = ItemMediaAudioBinding.inflate(LayoutInflater.from(parent.context), parent, false)

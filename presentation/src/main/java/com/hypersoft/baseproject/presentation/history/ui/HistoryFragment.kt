@@ -1,9 +1,10 @@
 package com.hypersoft.baseproject.presentation.history.ui
 
 import androidx.core.view.isVisible
-import com.hypersoft.baseproject.core.base.fragment.BaseFragment
+import com.hypersoft.baseproject.core.extensions.collectWhenCreated
 import com.hypersoft.baseproject.core.extensions.collectWhenStarted
 import com.hypersoft.baseproject.core.extensions.showToast
+import com.hypersoft.baseproject.presentation.base.fragment.BaseFragment
 import com.hypersoft.baseproject.presentation.databinding.FragmentHistoryBinding
 import com.hypersoft.baseproject.presentation.history.adapter.HistoryAdapter
 import com.hypersoft.baseproject.presentation.history.effect.HistoryEffect
@@ -25,25 +26,12 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(FragmentHistoryBind
     }
 
     override fun initObservers() {
-        observeState()
-        observeEffect()
-    }
-
-    private fun observeState() {
-        collectWhenStarted(viewModel.state) { state ->
-            renderState(state)
-        }
-    }
-
-    private fun observeEffect() {
-        collectWhenStarted(viewModel.effect) { effect ->
-            handleEffect(effect)
-        }
+        collectWhenStarted(viewModel.state) { renderState(it) }
+        collectWhenCreated(viewModel.effect) { handleEffect(it) }
     }
 
     private fun renderState(state: HistoryState) {
         binding.cpiLoadingHistory.isVisible = state.isLoading
-
         adapter.submitList(state.histories)
     }
 

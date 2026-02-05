@@ -6,7 +6,12 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.hypersoft.baseproject.core.firebase.FirebaseUtils.recordException
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 
 
 /* ---------------------------------------------- BackPress ---------------------------------------------- */
@@ -17,6 +22,24 @@ fun AppCompatActivity.onBackPressedDispatcher(callback: () -> Unit) {
             callback.invoke()
         }
     })
+}
+
+/* ---------------------------------------------- Collectors ---------------------------------------------- */
+
+inline fun AppCompatActivity.repeatWhen(lifecycleState: Lifecycle.State = Lifecycle.State.STARTED, crossinline block: suspend () -> Unit) {
+    lifecycleScope.launch {
+        lifecycle.repeatOnLifecycle(lifecycleState) {
+            block()
+        }
+    }
+}
+
+inline fun <T> AppCompatActivity.collectWhenCreated(flow: Flow<T>, crossinline block: suspend (T) -> Unit) {
+    repeatWhen(lifecycleState = Lifecycle.State.CREATED) { flow.collect { block(it) } }
+}
+
+inline fun <T> AppCompatActivity.collectWhenStarted(flow: Flow<T>, crossinline block: suspend (T) -> Unit) {
+    repeatWhen(lifecycleState = Lifecycle.State.STARTED) { flow.collect { block(it) } }
 }
 
 /* ---------------------------------------------- Keyboards ---------------------------------------------- */

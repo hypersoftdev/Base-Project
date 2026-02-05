@@ -1,6 +1,5 @@
 package com.hypersoft.baseproject.presentation.settings.state
 
 data class SettingsState(
-    val versionName: String? = null,
-    val error: String? = null
+    val versionName: String? = null
 )

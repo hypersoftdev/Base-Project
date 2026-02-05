@@ -1,7 +1,7 @@
 package com.hypersoft.baseproject.presentation.mediaVideos.ui
 
 import androidx.core.view.isVisible
-import com.hypersoft.baseproject.core.base.fragment.BaseFragment
+import com.hypersoft.baseproject.core.extensions.collectWhenCreated
 import com.hypersoft.baseproject.core.extensions.collectWhenStarted
 import com.hypersoft.baseproject.core.extensions.navigateTo
 import com.hypersoft.baseproject.core.extensions.popFrom
@@ -9,6 +9,7 @@ import com.hypersoft.baseproject.core.extensions.showToast
 import com.hypersoft.baseproject.core.permission.PermissionManager
 import com.hypersoft.baseproject.core.permission.enums.MediaPermission
 import com.hypersoft.baseproject.presentation.R
+import com.hypersoft.baseproject.presentation.base.fragment.BaseFragment
 import com.hypersoft.baseproject.presentation.databinding.FragmentMediaVideosBinding
 import com.hypersoft.baseproject.presentation.mediaVideos.adapter.MediaVideosAdapter
 import com.hypersoft.baseproject.presentation.mediaVideos.effect.MediaVideosEffect
@@ -56,20 +57,8 @@ class MediaVideosFragment : BaseFragment<FragmentMediaVideosBinding>(FragmentMed
     }
 
     override fun initObservers() {
-        observeState()
-        observeEffects()
-    }
-
-    private fun observeState() {
-        collectWhenStarted(viewModel.state) { state ->
-            renderState(state)
-        }
-    }
-
-    private fun observeEffects() {
-        collectWhenStarted(viewModel.effect) { effect ->
-            handleEffect(effect)
-        }
+        collectWhenStarted(viewModel.state) { renderState(it) }
+        collectWhenCreated(viewModel.effect) { handleEffect(it) }
     }
 
     private fun renderState(state: MediaVideosState) {
@@ -85,7 +74,6 @@ class MediaVideosFragment : BaseFragment<FragmentMediaVideosBinding>(FragmentMed
 
         binding.cpiLoadingMediaVideos.isVisible = state.isLoading
         adapter.submitList(state.videos)
-        state.error?.let {}
     }
 
     private fun handleEffect(effect: MediaVideosEffect) {

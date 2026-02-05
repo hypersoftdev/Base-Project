@@ -11,7 +11,8 @@ import com.hypersoft.baseproject.presentation.databinding.ItemHistoryBinding
 class HistoryAdapter : ListAdapter<History, HistoryAdapter.HistoryViewHolder>(HistoryDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {
-        val binding = ItemHistoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val binding = ItemHistoryBinding.inflate(layoutInflater, parent, false)
         return HistoryViewHolder(binding)
     }
 
@@ -19,10 +20,7 @@ class HistoryAdapter : ListAdapter<History, HistoryAdapter.HistoryViewHolder>(Hi
         holder.bind(getItem(position))
     }
 
-    class HistoryViewHolder(
-        private val binding: ItemHistoryBinding
-    ) : RecyclerView.ViewHolder(binding.root) {
-
+    class HistoryViewHolder(private val binding: ItemHistoryBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(history: History) {
             binding.root.text = history.title
         }
@@ -33,4 +31,3 @@ class HistoryAdapter : ListAdapter<History, HistoryAdapter.HistoryViewHolder>(Hi
         override fun areContentsTheSame(oldItem: History, newItem: History): Boolean = oldItem == newItem
     }
 }
-

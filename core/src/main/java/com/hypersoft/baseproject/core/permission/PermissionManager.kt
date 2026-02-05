@@ -147,6 +147,85 @@ class PermissionManager(private val fragment: Fragment) {
         }
     }
 
+    fun requestFullPermission(type: MediaPermission, callback: (PermissionResult) -> Unit) {
+        try {
+            if (!isFragmentValid()) {
+                safeCallback(callback, PermissionResult.Denied)
+                return
+            }
+
+            fragment.launchWhenStarted {
+                try {
+                    val perms = permissionStringsFor(type)
+
+                    // Check if already granted (full or limited)
+                    val permissionStatus = checkPermissionStatus(type, perms)
+                    when (permissionStatus) {
+                        PermissionResult.GrantedFull -> {
+                            safeCallback(callback, PermissionResult.GrantedFull)
+                            return@launchWhenStarted
+                        }
+
+                        else -> { /* Continue to request flow */
+                        }
+                    }
+
+                    val requestCount = getRequestCount(type)
+                    val showRationale = try {
+                        perms.any {
+                            isFragmentValid() && ActivityCompat.shouldShowRequestPermissionRationale(fragment.requireActivity(), it)
+                        }
+                    } catch (e: Exception) {
+                        Log.e(TAG, "Error checking rationale", e)
+                        false
+                    }
+
+                    when {
+                        // First time → ask system directly (Android built-in dialog)
+                        requestCount == 0 && !showRationale -> {
+                            incrementRequestCount(type)
+                            markAsked(type)
+                            askSystem(perms, type, callback)
+                        }
+
+                        // Second time → show rationale dialog (Material dialog explaining why)
+                        requestCount == 1 || showRationale -> {
+                            incrementRequestCount(type)
+                            showRationaleDialog(type) { ok ->
+                                if (ok) {
+                                    askSystem(perms, type, callback)
+                                } else {
+                                    // User cancelled rationale dialog → denied
+                                    safeCallback(callback, PermissionResult.Denied)
+                                }
+                            }
+                        }
+
+                        // Third time → no rationale, no built-in popup → show settings dialog
+                        else -> {
+                            incrementRequestCount(type)
+                            showSettingsDialog { open ->
+                                if (open) {
+                                    currentRequest = PermissionRequest(type, callback)
+                                    openSettings()
+                                } else {
+                                    // User cancelled settings dialog → denied
+                                    safeCallback(callback, PermissionResult.Denied)
+                                }
+                            }
+                        }
+                    }
+                } catch (e: Exception) {
+                    Log.e(TAG, "Error in requestPermission", e)
+                    safeCallback(callback, PermissionResult.Denied)
+                }
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Error starting requestPermission", e)
+            safeCallback(callback, PermissionResult.Denied)
+        }
+    }
+
     /**
      * Suspend version of requestPermission for use in coroutines.
      */
@@ -406,7 +485,7 @@ class PermissionManager(private val fragment: Fragment) {
             MediaPermission.AUDIOS -> "We need access to your audio files to play and manage your music collection. This allows you to browse and enjoy all your audio files."
         }
 
-        MaterialAlertDialogBuilder(ctx)
+        val dialog = MaterialAlertDialogBuilder(ctx)
             .setTitle("Permission Required")
             .setMessage(msg)
             .setPositiveButton("Allow") { d, _ ->
@@ -418,7 +497,13 @@ class PermissionManager(private val fragment: Fragment) {
                 onResult(false)
             }
             .setCancelable(false)
-            .show()
+            .create()
+
+        dialog.setOnShowListener {
+            dialog.findViewById<android.widget.TextView>(android.R.id.message)?.setTextColor(android.graphics.Color.WHITE)
+            dialog.findViewById<android.widget.TextView>(androidx.appcompat.R.id.alertTitle)?.setTextColor(android.graphics.Color.WHITE)
+        }
+        dialog.show()
     }
 
     private fun showSettingsDialog(onResult: (Boolean) -> Unit) {
@@ -433,7 +518,7 @@ class PermissionManager(private val fragment: Fragment) {
             return
         }
 
-        MaterialAlertDialogBuilder(ctx)
+        val dialog = MaterialAlertDialogBuilder(ctx)
             .setTitle("Permission Needed")
             .setMessage("You've denied permission multiple times. Please grant permission from App Settings to continue using this feature.")
             .setPositiveButton("Open Settings") { d, _ ->
@@ -445,7 +530,13 @@ class PermissionManager(private val fragment: Fragment) {
                 onResult(false)
             }
             .setCancelable(false)
-            .show()
+            .create()
+
+        dialog.setOnShowListener {
+            dialog.findViewById<android.widget.TextView>(android.R.id.message)?.setTextColor(android.graphics.Color.WHITE)
+            dialog.findViewById<android.widget.TextView>(androidx.appcompat.R.id.alertTitle)?.setTextColor(android.graphics.Color.WHITE)
+        }
+        dialog.show()
     }
 
     private fun openSettings() {

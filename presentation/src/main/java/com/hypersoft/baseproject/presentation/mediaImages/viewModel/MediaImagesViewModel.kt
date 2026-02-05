@@ -70,11 +70,11 @@ class MediaImagesViewModel(
     private fun loadFolders() {
         loadJob?.cancel()
         loadJob = viewModelScope.launch(coroutineExceptionHandler) {
-            _state.update { it.copy(isLoading = true, error = null) }
+            _state.update { it.copy(isLoading = true) }
 
             val folders = getImageFoldersUseCase()
             _state.update {
-                it.copy(isLoading = false, folders = folders, error = null)
+                it.copy(isLoading = false, folders = folders)
             }
         }
     }
@@ -93,7 +93,7 @@ class MediaImagesViewModel(
 
     private suspend fun handleError(exception: Throwable) {
         val errorMessage = exception.message ?: "An unexpected error occurred"
-        _state.update { it.copy(isLoading = false, error = errorMessage) }
+        _state.update { it.copy(isLoading = false) }
         _effect.emit(MediaImagesEffect.ShowError(errorMessage))
     }
 

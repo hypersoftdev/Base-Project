@@ -1,6 +1,6 @@
 package com.hypersoft.baseproject.presentation.media.ui
 
-import com.hypersoft.baseproject.core.base.fragment.BaseFragment
+import com.hypersoft.baseproject.core.extensions.collectWhenCreated
 import com.hypersoft.baseproject.core.extensions.collectWhenStarted
 import com.hypersoft.baseproject.core.extensions.navigateTo
 import com.hypersoft.baseproject.core.extensions.popFrom
@@ -9,6 +9,7 @@ import com.hypersoft.baseproject.core.permission.PermissionManager
 import com.hypersoft.baseproject.core.permission.enums.MediaPermission
 import com.hypersoft.baseproject.core.permission.result.PermissionResult
 import com.hypersoft.baseproject.presentation.R
+import com.hypersoft.baseproject.presentation.base.fragment.BaseFragment
 import com.hypersoft.baseproject.presentation.databinding.FragmentMediaBinding
 import com.hypersoft.baseproject.presentation.media.effect.MediaEffect
 import com.hypersoft.baseproject.presentation.media.intent.MediaIntent
@@ -31,20 +32,8 @@ class MediaFragment : BaseFragment<FragmentMediaBinding>(FragmentMediaBinding::i
     }
 
     override fun initObservers() {
-        observeState()
-        observeEffect()
-    }
-
-    private fun observeState() {
-        collectWhenStarted(viewModel.state) { state ->
-            renderState(state)
-        }
-    }
-
-    private fun observeEffect() {
-        collectWhenStarted(viewModel.effect) { effect ->
-            handleEffect(effect)
-        }
+        collectWhenStarted(viewModel.state) { renderState(it) }
+        collectWhenCreated(viewModel.effect) { handleEffect(it) }
     }
 
     private fun renderState(state: MediaState) {

@@ -4,6 +4,5 @@ import com.hypersoft.baseproject.domain.media.entities.AudioEntity
 
 data class MediaAudiosState(
     val isLoading: Boolean = false,
-    val audios: List<AudioEntity> = emptyList(),
-    val error: String? = null
+    val audios: List<AudioEntity> = emptyList()
 )

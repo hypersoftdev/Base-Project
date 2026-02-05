@@ -11,9 +11,7 @@ import com.hypersoft.baseproject.core.extensions.toTimeFormat
 import com.hypersoft.baseproject.domain.media.entities.VideoEntity
 import com.hypersoft.baseproject.presentation.databinding.ItemMediaVideoBinding
 
-class MediaVideosAdapter(
-    private val onVideoClick: (String) -> Unit
-) : ListAdapter<VideoEntity, MediaVideosAdapter.VideoViewHolder>(VideoDiffCallback()) {
+class MediaVideosAdapter(private val onVideoClick: (String) -> Unit) : ListAdapter<VideoEntity, MediaVideosAdapter.VideoViewHolder>(VideoDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoViewHolder {
         val binding = ItemMediaVideoBinding.inflate(LayoutInflater.from(parent.context), parent, false)

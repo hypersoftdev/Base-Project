@@ -41,14 +41,7 @@ class MediaAudioDetailViewModel(private val getAudiosUseCase: GetAudiosUseCase) 
     fun handleIntent(intent: MediaAudioDetailIntent) = viewModelScope.launch(coroutineExceptionHandler) {
         when (intent) {
             is MediaAudioDetailIntent.NavigateBack -> _effect.emit(MediaAudioDetailEffect.NavigateBack)
-            is MediaAudioDetailIntent.TogglePlayPause -> {
-                _effect.emit(MediaAudioDetailEffect.AnimatePlayPauseButton)
-                when (_state.value.isPlaying) {
-                    true -> _effect.emit(MediaAudioDetailEffect.Pause)
-                    false -> _effect.emit(MediaAudioDetailEffect.Play)
-                }
-            }
-
+            is MediaAudioDetailIntent.TogglePlayPause -> onTogglePlayPause()
             is MediaAudioDetailIntent.LoadPlaylist -> loadPlaylist(intent.startAudioUri)
             is MediaAudioDetailIntent.SeekToNext -> _effect.emit(MediaAudioDetailEffect.SeekToNext)
             is MediaAudioDetailIntent.SeekToPrevious -> _effect.emit(MediaAudioDetailEffect.SeekToPrevious)
@@ -58,6 +51,14 @@ class MediaAudioDetailViewModel(private val getAudiosUseCase: GetAudiosUseCase) 
             is MediaAudioDetailIntent.Repeat -> _effect.emit(MediaAudioDetailEffect.Repeat)
             is MediaAudioDetailIntent.Shuffle -> _effect.emit(MediaAudioDetailEffect.Shuffle)
             is MediaAudioDetailIntent.UpdatePlayerState -> updateFromPlayer(intent.snapshot)
+        }
+    }
+
+    private suspend fun onTogglePlayPause() {
+        _effect.emit(MediaAudioDetailEffect.AnimatePlayPauseButton)
+        when (_state.value.isPlaying) {
+            true -> _effect.emit(MediaAudioDetailEffect.Pause)
+            false -> _effect.emit(MediaAudioDetailEffect.Play)
         }
     }
 

@@ -26,8 +26,8 @@ abstract class ParentFragment<T : ViewBinding>(val bindingFactory: (LayoutInflat
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         onViewCreated(savedInstanceState)
-        onViewCreated()
         initObservers()
+        onViewCreated()
     }
 
     /**

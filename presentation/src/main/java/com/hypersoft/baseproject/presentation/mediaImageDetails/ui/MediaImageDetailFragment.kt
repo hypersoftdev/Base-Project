@@ -1,11 +1,12 @@
 package com.hypersoft.baseproject.presentation.mediaImageDetails.ui
 
 import androidx.navigation.fragment.navArgs
-import com.hypersoft.baseproject.core.base.fragment.BaseFragment
+import com.hypersoft.baseproject.core.extensions.collectWhenCreated
 import com.hypersoft.baseproject.core.extensions.collectWhenStarted
 import com.hypersoft.baseproject.core.extensions.loadImage
 import com.hypersoft.baseproject.core.extensions.popFrom
 import com.hypersoft.baseproject.presentation.R
+import com.hypersoft.baseproject.presentation.base.fragment.BaseFragment
 import com.hypersoft.baseproject.presentation.databinding.FragmentMediaImageDetailBinding
 import com.hypersoft.baseproject.presentation.mediaImageDetails.effect.MediaImageDetailEffect
 import com.hypersoft.baseproject.presentation.mediaImageDetails.intent.MediaImageDetailIntent
@@ -25,20 +26,8 @@ class MediaImageDetailFragment : BaseFragment<FragmentMediaImageDetailBinding>(F
     }
 
     override fun initObservers() {
-        observeState()
-        observeEffects()
-    }
-
-    private fun observeState() {
-        collectWhenStarted(viewModel.state) { state ->
-            renderState(state)
-        }
-    }
-
-    private fun observeEffects() {
-        collectWhenStarted(viewModel.effect) { effect ->
-            handleEffect(effect)
-        }
+        collectWhenStarted(viewModel.state) { renderState(it) }
+        collectWhenCreated(viewModel.effect) { handleEffect(it) }
     }
 
     private fun renderState(state: MediaImageDetailState) {

@@ -2,10 +2,10 @@ package com.hypersoft.baseproject.presentation.mediaImagesTab.ui
 
 import android.os.Bundle
 import androidx.core.view.isVisible
-import androidx.recyclerview.widget.GridLayoutManager
-import com.hypersoft.baseproject.core.base.fragment.BaseFragment
+import com.hypersoft.baseproject.core.extensions.collectWhenCreated
 import com.hypersoft.baseproject.core.extensions.collectWhenStarted
 import com.hypersoft.baseproject.core.extensions.showToast
+import com.hypersoft.baseproject.presentation.base.fragment.BaseFragment
 import com.hypersoft.baseproject.presentation.databinding.FragmentImagesTabBinding
 import com.hypersoft.baseproject.presentation.mediaImagesTab.adapter.MediaImagesAdapter
 import com.hypersoft.baseproject.presentation.mediaImagesTab.effect.ImagesTabEffect
@@ -35,35 +35,18 @@ class ImagesTabFragment : BaseFragment<FragmentImagesTabBinding>(FragmentImagesT
     }
 
     override fun initObservers() {
-        observeState()
-        observeEffects()
-    }
-
-    private fun observeState() {
-        collectWhenStarted(viewModel.state) { state ->
-            renderState(state)
-        }
-    }
-
-    private fun observeEffects() {
-        collectWhenStarted(viewModel.effect) { effect ->
-            handleEffect(effect)
-        }
+        collectWhenStarted(viewModel.state) { renderState(it) }
+        collectWhenCreated(viewModel.effect) { handleEffect(it) }
     }
 
     private fun renderState(state: ImagesTabState) {
         binding.cpiLoadingImagesTab.isVisible = state.isLoading
-
         adapter.submitList(state.images)
     }
 
     private fun handleEffect(effect: ImagesTabEffect) {
         when (effect) {
-            is ImagesTabEffect.NavigateToDetail -> {
-                // Navigation will be handled by parent fragment
-                (parentFragment as? OnImageClickListener)?.onImageClick(effect.imageUri)
-            }
-
+            is ImagesTabEffect.NavigateToDetail -> (parentFragment as? OnImageClickListener)?.onImageClick(effect.imageUri)
             is ImagesTabEffect.ShowError -> context?.showToast(effect.message)
         }
     }

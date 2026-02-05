@@ -16,9 +16,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class HistoryViewModel(
-    private val repository: HistoryRepository
-) : ViewModel() {
+class HistoryViewModel(private val repository: HistoryRepository) : ViewModel() {
 
     private val _state = MutableStateFlow(HistoryState())
     val state: StateFlow<HistoryState> = _state.asStateFlow()
@@ -50,7 +48,7 @@ class HistoryViewModel(
 
     private suspend fun handleError(exception: Throwable) {
         val errorMessage = exception.message ?: "An unexpected error occurred"
-        _state.update { it.copy(isLoading = false, error = errorMessage) }
+        _state.update { it.copy(isLoading = false) }
         _effect.emit(HistoryEffect.ShowError(errorMessage))
     }
 }

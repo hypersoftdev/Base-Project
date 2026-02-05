@@ -2,9 +2,9 @@ package com.hypersoft.baseproject.presentation.main
 
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import com.hypersoft.baseproject.core.base.activity.BaseActivity
 import com.hypersoft.baseproject.core.extensions.onBackPressedDispatcher
 import com.hypersoft.baseproject.presentation.R
+import com.hypersoft.baseproject.presentation.base.activity.BaseActivity
 import com.hypersoft.baseproject.presentation.databinding.ActivityMainBinding
 
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
@@ -51,5 +51,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 includeBottomPadding = true
             }
         }
+    }
+
+    override fun onDestroy() {
+        navController.removeOnDestinationChangedListener(destinationChangeListener)
+        super.onDestroy()
     }
 }

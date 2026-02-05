@@ -4,6 +4,5 @@ import com.hypersoft.baseproject.data.dataSources.inAppMemory.history.entities.H
 
 data class HistoryState(
     val isLoading: Boolean = false,
-    val histories: List<History> = emptyList(),
-    val error: String? = null
+    val histories: List<History> = emptyList()
 )

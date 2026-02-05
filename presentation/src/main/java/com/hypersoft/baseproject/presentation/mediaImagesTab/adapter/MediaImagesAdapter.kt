@@ -10,9 +10,7 @@ import com.hypersoft.baseproject.core.extensions.loadImage
 import com.hypersoft.baseproject.domain.media.entities.ImageEntity
 import com.hypersoft.baseproject.presentation.databinding.ItemMediaImageBinding
 
-class MediaImagesAdapter(
-    private val onImageClick: (String) -> Unit
-) : ListAdapter<ImageEntity, MediaImagesAdapter.ImageViewHolder>(ImageDiffCallback()) {
+class MediaImagesAdapter(private val onImageClick: (String) -> Unit) : ListAdapter<ImageEntity, MediaImagesAdapter.ImageViewHolder>(ImageDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
         val binding = ItemMediaImageBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -25,7 +23,7 @@ class MediaImagesAdapter(
 
     class ImageViewHolder(private val binding: ItemMediaImageBinding, private val onImageClick: (String) -> Unit) : RecyclerView.ViewHolder(binding.root) {
         fun bind(image: ImageEntity) {
-            binding.ifvThumbnailItemMediaImage.loadImage(image.uri.toString())
+            binding.ifvThumbnailItemMediaImage.loadImage(image.uri)
             binding.root.setOnClickListener { onImageClick(image.uri.toString()) }
         }
     }

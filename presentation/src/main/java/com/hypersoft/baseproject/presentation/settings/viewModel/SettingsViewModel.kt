@@ -2,6 +2,7 @@ package com.hypersoft.baseproject.presentation.settings.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.hypersoft.baseproject.core.info.AppInfoProvider
 import com.hypersoft.baseproject.presentation.settings.effect.SettingsEffect
 import com.hypersoft.baseproject.presentation.settings.intent.SettingsIntent
 import com.hypersoft.baseproject.presentation.settings.state.SettingsState
@@ -15,7 +16,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class SettingsViewModel : ViewModel() {
+class SettingsViewModel(private val appInfoProvider: AppInfoProvider) : ViewModel() {
 
     private val _state = MutableStateFlow(SettingsState())
     val state: StateFlow<SettingsState> = _state.asStateFlow()
@@ -29,11 +30,13 @@ class SettingsViewModel : ViewModel() {
         }
     }
 
-    fun handleIntent(intent: SettingsIntent) = viewModelScope.launch(coroutineExceptionHandler) {
-        _state.update { it.copy(error = null) }
+    init {
+        handleIntent(SettingsIntent.LoadVersionName)
+    }
 
+    fun handleIntent(intent: SettingsIntent) = viewModelScope.launch(coroutineExceptionHandler) {
         when (intent) {
-            is SettingsIntent.LoadVersionName -> loadVersionName(intent.versionName)
+            is SettingsIntent.LoadVersionName -> loadVersionName()
             is SettingsIntent.LanguageClicked -> _effect.emit(SettingsEffect.NavigateToLanguage)
             is SettingsIntent.FeedbackClicked -> _effect.emit(SettingsEffect.GiveFeedback)
             is SettingsIntent.RateUsClicked -> _effect.emit(SettingsEffect.ShowRateUsDialog)
@@ -42,14 +45,12 @@ class SettingsViewModel : ViewModel() {
         }
     }
 
-    private fun loadVersionName(versionName: String) {
-        _state.update { it.copy(versionName = versionName) }
+    private fun loadVersionName() {
+        _state.update { it.copy(versionName = appInfoProvider.versionName) }
     }
 
     private suspend fun handleError(exception: Throwable) {
         val errorMessage = exception.message ?: "An unexpected error occurred"
-
-        _state.update { it.copy(error = errorMessage) }
         _effect.emit(SettingsEffect.ShowError(errorMessage))
     }
 }

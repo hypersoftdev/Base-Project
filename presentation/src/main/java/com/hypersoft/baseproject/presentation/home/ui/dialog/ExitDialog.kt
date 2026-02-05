@@ -1,6 +1,6 @@
 package com.hypersoft.baseproject.presentation.home.ui.dialog
 
-import com.hypersoft.baseproject.core.base.dialog.BaseDialog
+import com.hypersoft.baseproject.presentation.base.dialog.BaseDialog
 import com.hypersoft.baseproject.presentation.databinding.DialogExitBinding
 
 class ExitDialog : BaseDialog<DialogExitBinding>(DialogExitBinding::inflate) {

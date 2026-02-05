@@ -1,13 +1,12 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.jetbrains.kotlin.android)
 }
 
 android {
     namespace = "com.hypersoft.baseproject"
-    compileSdk = 36
+    compileSdk {
+        version = release(36)
+    }
 
     defaultConfig {
         applicationId = "com.hypersoft.baseproject"
@@ -15,6 +14,10 @@ android {
         targetSdk = 36
         versionCode = 3
         versionName = "3.0.0-MVI"
+    }
+
+    base {
+        archivesName = "Base-Project-v${defaultConfig.versionCode}(${defaultConfig.versionName})"
     }
 
     // Use the "release" signing configuration for the release build
@@ -45,11 +48,6 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlin {
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_17)
-        }
     }
     buildFeatures {
         viewBinding = true

@@ -22,6 +22,24 @@ fun Fragment.onBackPressedDispatcher(callback: () -> Unit) {
     })
 }
 
+/* ---------------------------------------------- Collectors ---------------------------------------------- */
+
+inline fun Fragment.repeatWhen(lifecycleState: Lifecycle.State = Lifecycle.State.STARTED, crossinline block: suspend () -> Unit) {
+    viewLifecycleOwner.lifecycleScope.launch {
+        viewLifecycleOwner.lifecycle.repeatOnLifecycle(lifecycleState) {
+            block()
+        }
+    }
+}
+
+inline fun <T> Fragment.collectWhenCreated(flow: Flow<T>, crossinline block: suspend (T) -> Unit) {
+    repeatWhen(lifecycleState = Lifecycle.State.CREATED) { flow.collect { block(it) } }
+}
+
+inline fun <T> Fragment.collectWhenStarted(flow: Flow<T>, crossinline block: suspend (T) -> Unit) {
+    repeatWhen(lifecycleState = Lifecycle.State.STARTED) { flow.collect { block(it) } }
+}
+
 /* ----------------------------------------- Navigation's -----------------------------------------*/
 
 /**

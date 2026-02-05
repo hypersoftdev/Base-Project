@@ -1,11 +1,12 @@
 package com.hypersoft.baseproject.presentation.mediaAudios.ui
 
 import androidx.core.view.isVisible
-import com.hypersoft.baseproject.core.base.fragment.BaseFragment
+import com.hypersoft.baseproject.core.extensions.collectWhenCreated
 import com.hypersoft.baseproject.core.extensions.collectWhenStarted
 import com.hypersoft.baseproject.core.extensions.navigateTo
 import com.hypersoft.baseproject.core.extensions.showToast
 import com.hypersoft.baseproject.presentation.R
+import com.hypersoft.baseproject.presentation.base.fragment.BaseFragment
 import com.hypersoft.baseproject.presentation.databinding.FragmentMediaAudiosBinding
 import com.hypersoft.baseproject.presentation.mediaAudios.adapter.MediaAudiosAdapter
 import com.hypersoft.baseproject.presentation.mediaAudios.effect.MediaAudiosEffect
@@ -35,30 +36,13 @@ class MediaAudiosFragment : BaseFragment<FragmentMediaAudiosBinding>(FragmentMed
     }
 
     override fun initObservers() {
-        observeState()
-        observeEffects()
-    }
-
-    private fun observeState() {
-        collectWhenStarted(viewModel.state) { state ->
-            renderState(state)
-        }
-    }
-
-    private fun observeEffects() {
-        collectWhenStarted(viewModel.effect) { effect ->
-            handleEffect(effect)
-        }
+        collectWhenStarted(viewModel.state) { renderState(it) }
+        collectWhenCreated(viewModel.effect) { handleEffect(it) }
     }
 
     private fun renderState(state: MediaAudiosState) {
         binding.cpiLoadingMediaAudios.isVisible = state.isLoading
-
         adapter.submitList(state.audios)
-
-        state.error?.let {
-            // Error is handled via effect
-        }
     }
 
     private fun handleEffect(effect: MediaAudiosEffect) {

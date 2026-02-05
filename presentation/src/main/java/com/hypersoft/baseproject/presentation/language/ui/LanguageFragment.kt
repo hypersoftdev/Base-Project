@@ -1,11 +1,12 @@
 package com.hypersoft.baseproject.presentation.language.ui
 
 import androidx.core.view.isVisible
-import com.hypersoft.baseproject.core.base.fragment.BaseFragment
+import com.hypersoft.baseproject.core.extensions.collectWhenCreated
 import com.hypersoft.baseproject.core.extensions.collectWhenStarted
 import com.hypersoft.baseproject.core.extensions.navigateTo
 import com.hypersoft.baseproject.core.extensions.showToast
 import com.hypersoft.baseproject.presentation.R
+import com.hypersoft.baseproject.presentation.base.fragment.BaseFragment
 import com.hypersoft.baseproject.presentation.databinding.FragmentLanguageBinding
 import com.hypersoft.baseproject.presentation.language.adapter.LanguageAdapter
 import com.hypersoft.baseproject.presentation.language.effect.LanguageEffect
@@ -30,30 +31,13 @@ class LanguageFragment : BaseFragment<FragmentLanguageBinding>(FragmentLanguageB
     }
 
     override fun initObservers() {
-        observeState()
-        observeEffect()
-    }
-
-    private fun observeState() {
-        collectWhenStarted(viewModel.state) { state ->
-            renderState(state)
-        }
-    }
-
-    private fun observeEffect() {
-        collectWhenStarted(viewModel.effect) { effect ->
-            handleEffect(effect)
-        }
+        collectWhenStarted(viewModel.state) { renderState(it) }
+        collectWhenCreated(viewModel.effect) { handleEffect(it) }
     }
 
     private fun renderState(state: LanguageState) {
         binding.cpiLoadingLanguage.isVisible = state.isLoading
-
         adapter.submitList(state.languages)
-
-        state.error?.let {
-            // Show Error UI (if any)
-        }
     }
 
     private fun handleEffect(effect: LanguageEffect) {

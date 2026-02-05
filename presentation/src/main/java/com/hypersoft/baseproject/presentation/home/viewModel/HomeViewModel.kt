@@ -23,18 +23,9 @@ class HomeViewModel : ViewModel() {
 
     fun handleIntent(intent: HomeIntent) = viewModelScope.launch {
         when (intent) {
-            is HomeIntent.BackPressed -> {
-                _effect.emit(HomeEffect.ShowExitDialog)
-            }
-            is HomeIntent.DrawerClicked -> {
-                _effect.emit(HomeEffect.NavigateToDrawer)
-            }
-            is HomeIntent.PremiumClicked -> {
-                _effect.emit(HomeEffect.NavigateToPremium)
-            }
-            is HomeIntent.MediaClicked -> {
-                _effect.emit(HomeEffect.NavigateToMedia)
-            }
+            is HomeIntent.DrawerClicked -> _effect.emit(HomeEffect.NavigateToDrawer)
+            is HomeIntent.PremiumClicked -> _effect.emit(HomeEffect.NavigateToPremium)
+            is HomeIntent.MediaClicked -> _effect.emit(HomeEffect.NavigateToMedia)
         }
     }
 }

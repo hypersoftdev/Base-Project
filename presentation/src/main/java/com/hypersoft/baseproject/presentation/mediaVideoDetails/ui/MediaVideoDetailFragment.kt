@@ -2,12 +2,13 @@ package com.hypersoft.baseproject.presentation.mediaVideoDetails.ui
 
 import androidx.core.net.toUri
 import androidx.navigation.fragment.navArgs
-import com.hypersoft.baseproject.core.base.fragment.BaseFragment
+import com.hypersoft.baseproject.core.extensions.collectWhenCreated
 import com.hypersoft.baseproject.core.extensions.collectWhenStarted
 import com.hypersoft.baseproject.core.extensions.popFrom
 import com.hypersoft.baseproject.core.extensions.showToast
 import com.hypersoft.baseproject.core.extensions.toTimeFormat
 import com.hypersoft.baseproject.presentation.R
+import com.hypersoft.baseproject.presentation.base.fragment.BaseFragment
 import com.hypersoft.baseproject.presentation.databinding.FragmentMediaVideoDetailBinding
 import com.hypersoft.baseproject.presentation.mediaVideoDetails.effect.MediaVideoDetailEffect
 import com.hypersoft.baseproject.presentation.mediaVideoDetails.intent.MediaVideoDetailIntent
@@ -36,12 +37,7 @@ class MediaVideoDetailFragment : BaseFragment<FragmentMediaVideoDetailBinding>(F
     }
 
     private fun setupVideoView() {
-        binding.vvVideoMediaVideoDetail.setOnPreparedListener { mp ->
-            // VideoView's MediaPlayer is ready
-        }
-        binding.vvVideoMediaVideoDetail.setOnCompletionListener {
-            viewModel.handleIntent(MediaVideoDetailIntent.PlayPause)
-        }
+        binding.vvVideoMediaVideoDetail.setOnCompletionListener { viewModel.handleIntent(MediaVideoDetailIntent.PlayPause) }
         binding.vvVideoMediaVideoDetail.setOnErrorListener { _, what, extra ->
             context?.showToast("Video playback error: $what")
             true
@@ -53,20 +49,8 @@ class MediaVideoDetailFragment : BaseFragment<FragmentMediaVideoDetailBinding>(F
     }
 
     override fun initObservers() {
-        observeState()
-        observeEffects()
-    }
-
-    private fun observeState() {
-        collectWhenStarted(viewModel.state) { state ->
-            renderState(state)
-        }
-    }
-
-    private fun observeEffects() {
-        collectWhenStarted(viewModel.effect) { effect ->
-            handleEffect(effect)
-        }
+        collectWhenStarted(viewModel.state) { renderState(it) }
+        collectWhenCreated(viewModel.effect) { handleEffect(it) }
     }
 
     private fun renderState(state: MediaVideoDetailState) {
